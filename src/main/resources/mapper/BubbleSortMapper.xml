@@ -5,7 +5,9 @@
     <select id="findNextStep" resultType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
         SELECT *
         FROM bubble_sort
-        WHERE practice_id = #{practiceId} AND process_num = #{processNum}
+        WHERE practice_id = #{practiceId} AND process_num > #{processNum}
+        ORDER BY process_num ASC
+            LIMIT 1;
     </select>
     <select id="findCurrList" resultType="string">
         SELECT curr_list

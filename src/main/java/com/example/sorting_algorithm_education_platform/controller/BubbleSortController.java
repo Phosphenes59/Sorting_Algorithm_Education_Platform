@@ -28,7 +28,7 @@ public class BubbleSortController {
     public ResponseEntity<Res<BubbleSort>> findNextStep(@RequestHeader("token") String token,
                                                         @RequestParam(value = "practiceId") Integer practiceId,
                                                         @RequestParam(value = "processNum") Integer processNum){
-        BubbleSort bubbleSort = bubbleSortMapper.findNextStep(practiceId, processNum + 1);
+        BubbleSort bubbleSort = bubbleSortMapper.findNextStep(practiceId, processNum);
         return getResResponseEntity(bubbleSort);
     }
 
