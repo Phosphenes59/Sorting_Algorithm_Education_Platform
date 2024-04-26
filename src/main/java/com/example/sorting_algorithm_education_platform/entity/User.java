@@ -1,6 +1,7 @@
 package com.example.sorting_algorithm_education_platform.entity;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,8 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @TableId
+    private Integer id;
 
     private String userName;
 

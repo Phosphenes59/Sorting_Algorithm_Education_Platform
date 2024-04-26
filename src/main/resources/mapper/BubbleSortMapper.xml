@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper">
+
+    <select id="findNextStep" resultType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
+        SELECT *
+        FROM bubble_sort
+        WHERE practice_id = #{practiceId} AND process_num = #{processNum}
+    </select>
+    <select id="findCurrList" resultType="string">
+        SELECT curr_list
+        FROM bubble_sort
+        WHERE practice_id = #{practiceId} AND process_num = #{processNum}
+    </select>
+    <select id="findSolution" resultType="string">
+        SELECT curr_list
+        FROM bubble_sort
+        WHERE practice_id = #{practiceId} AND process_num = (
+            SELECT MAX(process_num) FROM bubble_sort WHERE practice_id = #{practiceId}
+        )
+    </select>
+</mapper>

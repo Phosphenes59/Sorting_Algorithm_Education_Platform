@@ -1,5 +1,6 @@
 package com.example.sorting_algorithm_education_platform.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ import javax.persistence.*;
 public class BubbleSort {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bubbleID;
+    @TableId
+    private Integer bubbleId;
     // 本次操作是否是交换
     private int exchange;
     // 交换的位置1
@@ -28,7 +30,7 @@ public class BubbleSort {
     // 步骤序号(为0时代表原题)
     private int processNum;
     // 出题人
-    private int userID;
+    private int userId;
     // 冒泡轮数
     private int turn;
 }
