@@ -12,4 +12,5 @@ public interface BubbleSortMapper extends BaseMapper<BubbleSort> {
     BubbleSort findNextStep(Integer practiceId, Integer processNum);
     String findCurrList(Integer practiceId, Integer processNum);
     String findSolution(Integer practiceId);
+    void insertSort(BubbleSort bubbleSort);
 }

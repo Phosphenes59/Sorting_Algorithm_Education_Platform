@@ -47,6 +47,28 @@ public class BubbleSortController {
         return getResResponseEntity(solution);
     }
 
+    @PostMapping("/addSort")
+    public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
+                                               @RequestParam(value = "sortList") List sortList,
+                                               @RequestParam(value = "practiceId") Integer practiceId,
+                                               @RequestParam(value = "userId") Integer userId) {
+        try {
+            
+            BubbleSort bubbleSort = new BubbleSort();
+            bubbleSort.setCurrList(sortList);
+            bubbleSort.setPracticeId(practiceId);
+            bubbleSort.setProcessNum(0);
+            bubbleSort.setUserId(userId);
+
+            // 将排序算法信息插入数据库
+            bubbleSortMapper.insertSort(bubbleSort);
+
+            return ResponseEntity.ok(new Res<>(1, "添加成功"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " + e.getMessage()));
+        }                                        
+    }
+
     private ResponseEntity<Res<BubbleSort>> getResResponseEntity(BubbleSort bubbleSort) {
         Res<BubbleSort> result;
         if (bubbleSort == null) {

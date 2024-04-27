@@ -21,4 +21,11 @@
             SELECT MAX(process_num) FROM bubble_sort WHERE practice_id = #{practiceId}
         )
     </select>
+    <insert id="insertSort" parameterType="com.example.BubbleSort">
+        INSERT INTO bubble_sort (
+            bubble_id, exchange, pre_pos, post_pos, curr_list, practice_id, process_num, user_id, turn
+        ) VALUES (
+            #{bubbleId}, #{exchange}, #{prePos}, #{postPos}, #{currList}, #{practiceId}, #{processNum}, #{userId}, #{turn}
+        )
+    </insert>
 </mapper>
