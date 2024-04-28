@@ -33,4 +33,78 @@ public class BubbleSort {
     private int userId;
     // 冒泡轮数
     private int turn;
+
+    // getters and setters
+
+    public Integer getBubbleId() {
+        return bubbleId;
+    }
+
+    public void setBubbleId(Integer bubbleId) {
+        this.bubbleId = bubbleId;
+    }
+
+    public int getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(int exchange) {
+        this.exchange = exchange;
+    }
+
+    public Integer getPrePos() {
+        return prePos;
+    }
+
+    public void setPrePos(Integer prePos) {
+        this.prePos = prePos;
+    }
+
+    public Integer getPostPos() {
+        return postPos;
+    }
+
+    public void setPostPos(Integer postPos) {
+        this.postPos = postPos;
+    }
+
+    public String getCurrList() {
+        return currList;
+    }
+
+    public void setCurrList(String currList) {
+        this.currList = currList;
+    }
+
+    public int getPracticeId() {
+        return practiceId;
+    }
+
+    public void setPracticeId(int practiceId) {
+        this.practiceId = practiceId;
+    }
+
+    public int getProcessNum() {
+        return processNum;
+    }
+
+    public void setProcessNum(int processNum) {
+        this.processNum = processNum;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 }

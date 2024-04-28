@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -170,5 +172,11 @@ public class BubbleSortControllerTest {
         assertEquals(mockBubbleSort.getCurrList(), response.getBody().getData());
 
         verify(bubbleSortMapper, times(1)).findSolution(3);
+    }
+
+    public void testAddSort() {
+        List<Integer> inputList = List.of(5, 2, 8, 1, 4);
+        int practiceId = 123;
+        int userId = 456;
     }
 }

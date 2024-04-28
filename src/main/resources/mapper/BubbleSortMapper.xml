@@ -21,11 +21,15 @@
             SELECT MAX(process_num) FROM bubble_sort WHERE practice_id = #{practiceId}
         )
     </select>
-    <insert id="insertSort" parameterType="com.example.BubbleSort">
+    <insert id="insertSort" parameterType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
         INSERT INTO bubble_sort (
             bubble_id, exchange, pre_pos, post_pos, curr_list, practice_id, process_num, user_id, turn
         ) VALUES (
             #{bubbleId}, #{exchange}, #{prePos}, #{postPos}, #{currList}, #{practiceId}, #{processNum}, #{userId}, #{turn}
         )
     </insert>
+    <delete id="deleteSort" parameterType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
+        DELETE FROM bubble_sort
+        WHERE userId = #{userId} AND practiceId = #{practiceId}
+    </delete>
 </mapper>
