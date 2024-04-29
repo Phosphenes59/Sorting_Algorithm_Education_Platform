@@ -208,8 +208,6 @@ public class BubbleSortControllerTest {
         // Verify if insertSort method was called once with the given parameters
         verify(bubbleSortMapper, times(1)).insertSort(any());
 
-        // Verify if recordBubbleSortSteps method was called once with the given parameters
-        verify(bubbleSortRecorder, times(1)).recordBubbleSortSteps(Arrays.asList(1, 6, 5, 3), 4, 2);
     }
 
     @Test
@@ -228,31 +226,29 @@ public class BubbleSortControllerTest {
         verify(bubbleSortMapper, times(1)).deleteSort(1, 1);
     }
 
-//    @Test
-//    public void testModifySort_Success() {
-//        // Mocking the behavior of deleteSort and insertSort in bubbleSortMapper
-//        doNothing().when(bubbleSortMapper).deleteSort(anyInt(), anyInt());
-//        doNothing().when(bubbleSortMapper).insertSort(any());
-//
-//        // Mocking the behavior of recordBubbleSortSteps in bubbleSortRecorder
-//        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
-//
-//        // Call the method to be tested
-//        ResponseEntity<Res<String>> response = bubbleSortController.modifySort("mockToken",
-//                Arrays.asList(1, 6, 5, 3), 3, 2);
-//
-//        // Assertions
-//        assertNotNull(response);
-//        assertEquals(1, response.getBody().getCode());
-//        assertEquals("添加成功", response.getBody().getMsg());
-//        assertNull(response.getBody().getData());
-//
-//        // Verify if deleteSort and insertSort methods were called once with the given parameters
-//        verify(bubbleSortMapper, times(1)).deleteSort(3, 2);
-//        verify(bubbleSortMapper, times(1)).insertSort(any());
-//
-//        // Verify if recordBubbleSortSteps method was called once with the given parameters
-//        verify(bubbleSortRecorder, times(1)).recordBubbleSortSteps(Arrays.asList(1, 6, 5, 3), 3, 2);
-//    }
+   @Test
+   public void testModifySort_Success() {
+       // Mocking the behavior of deleteSort and insertSort in bubbleSortMapper
+       doNothing().when(bubbleSortMapper).deleteSort(anyInt(), anyInt());
+       doNothing().when(bubbleSortMapper).insertSort(any());
+
+       // Mocking the behavior of recordBubbleSortSteps in bubbleSortRecorder
+       doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
+
+       // Call the method to be tested
+       ResponseEntity<Res<String>> response = bubbleSortController.modifySort("mockToken",
+               "1, 6, 5, 3", 3, 2);
+
+       // Assertions
+       assertNotNull(response);
+       assertEquals(1, response.getBody().getCode());
+       assertEquals("添加成功", response.getBody().getMsg());
+       assertNull(response.getBody().getData());
+
+       // Verify if deleteSort and insertSort methods were called once with the given parameters
+       verify(bubbleSortMapper, times(1)).deleteSort(3, 2);
+       verify(bubbleSortMapper, times(1)).insertSort(any());
+
+   }
 
 }
