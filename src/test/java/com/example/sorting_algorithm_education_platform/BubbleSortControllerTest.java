@@ -3,6 +3,7 @@ package com.example.sorting_algorithm_education_platform;
 import com.example.sorting_algorithm_education_platform.controller.BubbleSortController;
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.util.BubbleSortRecorder;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,19 +11,34 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
+import java.util.Arrays;
 import java.util.List;
+import static org.mockito.Mockito.*;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@WebMvcTest(SortingAlgorithmEducationPlatformApplication.class)
 public class BubbleSortControllerTest {
 
+    @Autowired
+    private MockMvc mockMvc;
     @Mock
     private BubbleSortMapper bubbleSortMapper;
 
     @InjectMocks
     private BubbleSortController bubbleSortController;
+
+    @Mock
+    private BubbleSortRecorder bubbleSortRecorder;
+
 
     @BeforeEach
     public void setup() {
@@ -174,9 +190,69 @@ public class BubbleSortControllerTest {
         verify(bubbleSortMapper, times(1)).findSolution(3);
     }
 
-    public void testAddSort() {
-        List<Integer> inputList = List.of(5, 2, 8, 1, 4);
-        int practiceId = 123;
-        int userId = 456;
+    @Test
+    public void testAddSort_Success() {
+        doNothing().when(bubbleSortMapper).insertSort(any());
+
+        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
+
+        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken",
+                "1, 6, 5, 3", 4, 2);
+
+        // Assertions
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getCode());
+        assertEquals("添加成功", response.getBody().getMsg());
+        assertNull(response.getBody().getData());
+
+        // Verify if insertSort method was called once with the given parameters
+        verify(bubbleSortMapper, times(1)).insertSort(any());
+
+        // Verify if recordBubbleSortSteps method was called once with the given parameters
+        verify(bubbleSortRecorder, times(1)).recordBubbleSortSteps(Arrays.asList(1, 6, 5, 3), 4, 2);
     }
+
+    @Test
+    public void testDeleteSort_Success() {
+
+        doNothing().when(bubbleSortMapper).deleteSort(anyInt(), anyInt());
+        ResponseEntity<Res<String>> response = bubbleSortController.deleteSort("mockToken", 3, 2);
+
+        // Assertions
+        assertNotNull(response);
+        assertEquals(1, response.getBody().getCode());
+        assertEquals("删除成功", response.getBody().getMsg());
+        assertNull(response.getBody().getData());
+
+        // Verify if deleteSort method was called once with the given parameters
+        verify(bubbleSortMapper, times(1)).deleteSort(1, 1);
+    }
+
+//    @Test
+//    public void testModifySort_Success() {
+//        // Mocking the behavior of deleteSort and insertSort in bubbleSortMapper
+//        doNothing().when(bubbleSortMapper).deleteSort(anyInt(), anyInt());
+//        doNothing().when(bubbleSortMapper).insertSort(any());
+//
+//        // Mocking the behavior of recordBubbleSortSteps in bubbleSortRecorder
+//        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
+//
+//        // Call the method to be tested
+//        ResponseEntity<Res<String>> response = bubbleSortController.modifySort("mockToken",
+//                Arrays.asList(1, 6, 5, 3), 3, 2);
+//
+//        // Assertions
+//        assertNotNull(response);
+//        assertEquals(1, response.getBody().getCode());
+//        assertEquals("添加成功", response.getBody().getMsg());
+//        assertNull(response.getBody().getData());
+//
+//        // Verify if deleteSort and insertSort methods were called once with the given parameters
+//        verify(bubbleSortMapper, times(1)).deleteSort(3, 2);
+//        verify(bubbleSortMapper, times(1)).insertSort(any());
+//
+//        // Verify if recordBubbleSortSteps method was called once with the given parameters
+//        verify(bubbleSortRecorder, times(1)).recordBubbleSortSteps(Arrays.asList(1, 6, 5, 3), 3, 2);
+//    }
+
 }

@@ -3,10 +3,13 @@ package com.example.sorting_algorithm_education_platform.util;
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class BubbleSortRecorder {
     private int exchange;
     private int prePos;
@@ -14,6 +17,7 @@ public class BubbleSortRecorder {
     private String currList;
     private int processNum;
     private int turn;
+    @Autowired
     private BubbleSortMapper bubbleSortMapper;
 
     public BubbleSortRecorder() {
@@ -26,6 +30,10 @@ public class BubbleSortRecorder {
     }
 
     public void recordBubbleSortSteps(List<Integer> inputList, int practiceId, int userId) {
+
+        System.out.println(inputList);
+        System.out.println(practiceId);
+        System.out.println(userId);
 
         int n = inputList.size();
         processNum = 0;
@@ -81,9 +89,9 @@ public class BubbleSortRecorder {
     }
 
     public static void main(String[] args) {
-        BubbleSortRecorder recorder = new BubbleSortRecorder();
-        List<Integer> inputList = List.of(5, 2, 8, 1, 4);
-        recorder.recordBubbleSortSteps(inputList,0,0);
+//        BubbleSortRecorder recorder = new BubbleSortRecorder();
+//        List<Integer> inputList = List.of(5, 2, 8, 1, 4);
+//        recorder.recordBubbleSortSteps(inputList,0,0);
 
 
     }
