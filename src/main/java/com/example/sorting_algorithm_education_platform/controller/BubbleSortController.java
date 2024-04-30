@@ -73,7 +73,7 @@ public class BubbleSortController {
             System.out.println("------------------------");
             recordBubbleSortSteps(sortList,practiceId, userId);
 
-            return ResponseEntity.ok(new Res<>(1, "添加成功",""));
+            return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " , e.getMessage()));
         }                                        
@@ -85,7 +85,7 @@ public class BubbleSortController {
                                                   @RequestParam("userId") Integer userId) {
         try {
             bubbleSortMapper.deleteSort(practiceId, userId);
-            return ResponseEntity.ok(new Res<>(1, "删除成功",""));
+            return ResponseEntity.ok(new Res<>(1, "删除成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
         }
@@ -113,7 +113,7 @@ public class BubbleSortController {
 
             bubbleSortMapper.insertSort(bubbleSort);
             recordBubbleSortSteps(sortList,practiceId, userId);
-            return ResponseEntity.ok(new Res<>(1, "添加成功",""));
+            return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
         }

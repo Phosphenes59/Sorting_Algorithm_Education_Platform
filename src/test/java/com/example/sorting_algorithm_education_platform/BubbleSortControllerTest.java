@@ -197,7 +197,7 @@ public class BubbleSortControllerTest {
         doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
 
         ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken",
-                "1, 6, 5, 3", 4, 2);
+                "1, 6, 5, 3", 8, 2);
 
         // Assertions
         assertNotNull(response);
@@ -206,7 +206,7 @@ public class BubbleSortControllerTest {
         assertNull(response.getBody().getData());
 
         // Verify if insertSort method was called once with the given parameters
-        verify(bubbleSortMapper, times(1)).insertSort(any());
+        verify(bubbleSortMapper, times(5)).insertSort(any());
 
     }
 
@@ -223,7 +223,7 @@ public class BubbleSortControllerTest {
         assertNull(response.getBody().getData());
 
         // Verify if deleteSort method was called once with the given parameters
-        verify(bubbleSortMapper, times(1)).deleteSort(1, 1);
+        verify(bubbleSortMapper, times(1)).deleteSort(3, 2);
     }
 
    @Test
@@ -247,7 +247,7 @@ public class BubbleSortControllerTest {
 
        // Verify if deleteSort and insertSort methods were called once with the given parameters
        verify(bubbleSortMapper, times(1)).deleteSort(3, 2);
-       verify(bubbleSortMapper, times(1)).insertSort(any());
+       verify(bubbleSortMapper, times(5)).insertSort(any());
 
    }
 
