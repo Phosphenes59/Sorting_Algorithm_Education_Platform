@@ -126,7 +126,7 @@ public class BubbleSortController {
         if (bubbleSort == null) {
             result = new Res<>(0, "查找失败",null);
         } else {
-            result = new Res<>(1, "success", null);
+            result = new Res<>(1, "success", bubbleSort);
         }
         return ResponseEntity.ok(result);
     }
@@ -135,7 +135,7 @@ public class BubbleSortController {
         if (solution == null) {
             result = new Res<>(0, "查找失败",null);
         } else {
-            result = new Res<>(1, "success",null);
+            result = new Res<>(1, "success",solution);
         }
         return ResponseEntity.ok(result);
     }
