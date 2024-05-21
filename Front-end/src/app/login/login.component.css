@@ -6,6 +6,18 @@
   /* 设置组件的高度为视口高度 */
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: #2196F3;
+
+  color: #fff;
+  padding: 0 20px;
+}
+
+
 .login-container {
   width: 300px;
   padding: 20px;

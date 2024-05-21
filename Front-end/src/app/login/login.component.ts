@@ -17,15 +17,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     };
-    this.http.post(this.login_url,
-      {
-        email: this.email,
-        password: this.password,
-      }, httpOptions).subscribe((response: any) => {
+    this.http.post(this.login_url,"email="+this.email+"&password="+this.password,httpOptions).subscribe((response: any) => {
         window.alert(response.msg);
-        if (response.code === 0) {
+        if (response.code === 1) {
           window.sessionStorage.setItem("email",this.email);
           this.router.navigate(['/profile']);
         }

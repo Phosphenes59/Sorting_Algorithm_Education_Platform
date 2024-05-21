@@ -23,15 +23,13 @@ export class RegisterComponent implements OnInit{
     }
 
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
     };
     this.http.post(this.reg_url,
-      {
-        email: this.email,
-        password: this.password,
-      }, httpOptions).subscribe((response: any) => {
+      "email="+this.email+"&password="+this.password
+      , httpOptions).subscribe((response: any) => {
         window.alert(response.msg);
-        if(response.code === 0){
+        if(response.code === 1){
           this.router.navigate(['/login']);
         }
       });
