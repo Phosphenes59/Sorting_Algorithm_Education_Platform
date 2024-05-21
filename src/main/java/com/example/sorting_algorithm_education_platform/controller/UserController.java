@@ -7,7 +7,6 @@ import com.example.sorting_algorithm_education_platform.util.Res;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping
-public class UserConstroller {
+@RequestMapping("/api/user")
+public class UserController {
     private final UserService userService;
 
     @Autowired
-    public UserConstroller(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
