@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.awt.geom.RectangularShape;
 
@@ -55,6 +56,7 @@ class UserControllerTest {
     }
 
     @Test
+    //正确登录
     void login() throws Exception {
         String email = "test";
         String password = "test";
@@ -74,7 +76,56 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.data.id").value(1))
                 .andExpect(jsonPath("$.data.email").value("test"))
                 .andExpect(jsonPath("$.data.password").value("test"));
+
     }
+    @Test
+    //未注册用户登录
+    void login2() throws Exception {
+        String email = "wrong";
+        String password = "test";
+        Res<User> res = new Res<>();
+        res.setCode(1);
+        res.setData(user);
+        res.setMsg("用户未注册");
+
+        when(userService.login(email, password)).thenReturn(res);
+
+        mockMvc.perform(post("/api/user/login")
+                        .param("email", email)
+                        .param("password", password))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.msg").value("用户未注册"))
+                .andExpect(jsonPath("$.data.id").value(1))
+                .andExpect(jsonPath("$.data.email").value("test"))
+                .andExpect(jsonPath("$.data.password").value("test"));
+
+    }
+
+    @Test
+    //错误密码
+    void login3() throws Exception {
+        String email = "test";
+        String password = "wrong";
+        Res<User> res = new Res<>();
+        res.setCode(1);
+        res.setData(user);
+        res.setMsg("密码错误");
+
+        when(userService.login(email, password)).thenReturn(res);
+
+        mockMvc.perform(post("/api/user/login")
+                        .param("email", email)
+                        .param("password", password))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.msg").value("密码错误"))
+                .andExpect(jsonPath("$.data.id").value(1))
+                .andExpect(jsonPath("$.data.email").value("test"))
+                .andExpect(jsonPath("$.data.password").value("test"));
+
+    }
+
 
     @Test
     void register() throws Exception {
@@ -87,7 +138,7 @@ class UserControllerTest {
 
         when(userService.register(email, password)).thenReturn(res);
 
-        mockMvc.perform(post("/api/user/register")
+        MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
                 .param("email", email)
                 .param("password", password))
                 .andExpect(status().isOk())
@@ -95,6 +146,37 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.msg").value("success"))
                 .andExpect(jsonPath("$.data.id").value(1))
                 .andExpect(jsonPath("$.data.email").value("test"))
-                .andExpect(jsonPath("$.data.password").value("test"));
+                .andExpect(jsonPath("$.data.password").value("test"))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
     }
+
+    @Test
+    //已注册用户注册
+    void register2() throws Exception {
+        String email = "wrong";
+        String password = "test";
+        Res<User> res = new Res<>();
+        res.setCode(1);
+        res.setData(user);
+        res.setMsg("用户已存在");
+
+        when(userService.register(email, password)).thenReturn(res);
+
+        MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
+                        .param("email", email)
+                        .param("password", password))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(1))
+                .andExpect(jsonPath("$.msg").value("用户已存在"))
+                .andExpect(jsonPath("$.data.id").value(1))
+                .andExpect(jsonPath("$.data.email").value("test"))
+                .andExpect(jsonPath("$.data.password").value("test"))
+                .andReturn();
+        String content = mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
+    }
+
+
 }
