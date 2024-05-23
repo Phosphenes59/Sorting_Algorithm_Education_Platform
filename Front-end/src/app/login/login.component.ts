@@ -11,21 +11,17 @@ export class LoginComponent implements OnInit {
   email!: string;
   password!: string;
 
-  private login_url = "http://124.221.137.186:8080/api/user/login";
+  private login_url = "http://localhost:8888/api/user/login";
 
   constructor(private router: Router, public http: HttpClient) { }
 
   login() {
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     };
-    this.http.post(this.login_url,
-      {
-        email: this.email,
-        password: this.password,
-      }, httpOptions).subscribe((response: any) => {
+    this.http.post(this.login_url,"email="+this.email+"&password="+this.password,httpOptions).subscribe((response: any) => {
         window.alert(response.msg);
-        if (response.code === 0) {
+        if (response.code === 1) {
           window.sessionStorage.setItem("email",this.email);
           this.router.navigate(['/profile']);
         }

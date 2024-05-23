@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit{
   password!: string;
   confirmPassword!: string;
 
-  private reg_url = "http://124.221.137.186:8080/api/user/register";
+  private reg_url = "http://localhost:8888/api/user/register";
 
   constructor(private router: Router,public http: HttpClient) {}
 
@@ -23,15 +23,13 @@ export class RegisterComponent implements OnInit{
     }
 
     const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
     };
     this.http.post(this.reg_url,
-      {
-        email: this.email,
-        password: this.password,
-      }, httpOptions).subscribe((response: any) => {
+      "email="+this.email+"&password="+this.password
+      , httpOptions).subscribe((response: any) => {
         window.alert(response.msg);
-        if(response.code === 0){
+        if(response.code === 1){
           this.router.navigate(['/login']);
         }
       });
