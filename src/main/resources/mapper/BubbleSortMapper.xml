@@ -32,4 +32,10 @@
         DELETE FROM bubble_sort
         WHERE user_id = #{userId} AND practice_id = #{practiceId}
     </delete>
+    <select id="countByUserIdAndPracticeId" resultType="int">
+        SELECT COUNT(*)
+        FROM bubble_sort
+        WHERE user_id = #{userId}
+          AND practice_id = #{practiceId}
+    </select>
 </mapper>

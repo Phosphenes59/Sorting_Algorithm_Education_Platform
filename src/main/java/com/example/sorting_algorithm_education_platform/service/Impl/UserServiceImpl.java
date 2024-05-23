@@ -13,6 +13,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    public boolean userIdExists(int userId) {
+        User user = userMapper.findUserById(userId);
+        return user != null;
+    }
+
     @Override
     public Res<User> login(String email, String password) {
         User user=userMapper.findUserByEmail(email);

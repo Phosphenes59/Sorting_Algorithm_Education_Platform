@@ -1,8 +1,12 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
+import com.example.sorting_algorithm_education_platform.entity.User;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.mapper.UserMapper;
+import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.BubbleSortRecorder;
+import com.example.sorting_algorithm_education_platform.controller.UserController;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/bubble-sort")
 public class BubbleSortController {
     @Autowired
     BubbleSortMapper bubbleSortMapper;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private BubbleSortRecorder bubbleSortRecorder;
@@ -50,12 +58,39 @@ public class BubbleSortController {
         return getResResponseEntity(solution);
     }
 
+
+    // 方法用于检查该userID的practiceId是否存在
+    private boolean practiceIdExistsForUser(int userId, int practiceId) {
+        int count = bubbleSortMapper.countByPracticeIdAndUserId(practiceId,userId);
+        return count > 0;
+    }
+
+    // 方法用于检查传进来的序列是否正确
+    public boolean isValidSequence(String sequence) {
+        String regex = "^\\d+(\\s*,\\s*\\d+)*$";
+        Pattern pattern = Pattern.compile(regex);
+        return pattern.matcher(sequence).matches();
+    }
+
     @PostMapping("/addSort")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
                                                @RequestParam(value = "sortList") String sortList,
                                                @RequestParam(value = "practiceId") Integer practiceId,
                                                @RequestParam(value = "userId") Integer userId) {
 
+        if (!userService.userIdExists(userId)) {
+            System.out.println("user id not exist");
+            return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
+        }
+
+        if (practiceIdExistsForUser(userId, practiceId)) {
+            System.out.println("user id && practiceId not exist");
+            return ResponseEntity.badRequest().body(new Res<>(0, "题号存在", null));
+        }
+        if (!isValidSequence(sortList)) {
+            System.out.println("invalid sequence");
+            return ResponseEntity.badRequest().body(new Res<>(0, "序列无效", null));
+        }
         try {
             // insert
             BubbleSort bubbleSort = new BubbleSort();
@@ -83,6 +118,13 @@ public class BubbleSortController {
     public ResponseEntity<Res<String>> deleteSort(@RequestHeader("token") String token,
                                                   @RequestParam("practiceId") Integer practiceId,
                                                   @RequestParam("userId") Integer userId) {
+        if (!userService.userIdExists(userId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
+        }
+
+        if (!practiceIdExistsForUser(userId, practiceId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
+        }
         try {
             bubbleSortMapper.deleteSort(practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "删除成功",null));
@@ -96,6 +138,16 @@ public class BubbleSortController {
                                                   @RequestParam(value = "sortList") String sortList,
                                                   @RequestParam(value = "practiceId") Integer practiceId,
                                                   @RequestParam(value = "userId") Integer userId) {
+        if (!userService.userIdExists(userId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
+        }
+
+        if (!practiceIdExistsForUser(userId, practiceId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
+        }
+        if (!isValidSequence(sortList)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "序列无效", null));
+        }
         try {
             //first delete
             bubbleSortMapper.deleteSort(practiceId, userId);

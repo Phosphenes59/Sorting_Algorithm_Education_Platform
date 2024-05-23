@@ -3,13 +3,16 @@ package com.example.sorting_algorithm_education_platform;
 import com.example.sorting_algorithm_education_platform.controller.BubbleSortController;
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.BubbleSortRecorder;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
@@ -38,6 +41,9 @@ public class BubbleSortControllerTest {
 
     @Mock
     private BubbleSortRecorder bubbleSortRecorder;
+
+    @MockBean
+    private UserService userService;
 
 
     @BeforeEach
@@ -192,12 +198,15 @@ public class BubbleSortControllerTest {
 
     @Test
     public void testAddSort_Success() {
-        doNothing().when(bubbleSortMapper).insertSort(any());
+        when(userService.userIdExists(anyInt())).thenReturn(true);
 
+        when(bubbleSortMapper.countByPracticeIdAndUserId(anyInt(), anyInt())).thenReturn(0);
+
+        doNothing().when(bubbleSortMapper).insertSort(any());
         doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
 
-        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken",
-                "1, 6, 5, 3", 8, 2);
+        // Execute the test
+        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken", "1, 7, 5, 3", 5, 2);
 
         // Assertions
         assertNotNull(response);
@@ -205,9 +214,71 @@ public class BubbleSortControllerTest {
         assertEquals("添加成功", response.getBody().getMsg());
         assertNull(response.getBody().getData());
 
-        // Verify if insertSort method was called once with the given parameters
+        // Verify if insertSort method was called 5 times
         verify(bubbleSortMapper, times(5)).insertSort(any());
+    }
+    @Test
+    public void testAddSort_FailNoUser() {
+        when(userService.userIdExists(anyInt())).thenReturn(false);
+        doNothing().when(bubbleSortMapper).insertSort(any());
+        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
 
+        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken", "1, 7, 5, 3", 3, 4);
+
+        // Assertions
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getCode());
+        assertEquals("用户ID不存在", response.getBody().getMsg());
+        assertNull(response.getBody().getData());
+
+        // Verify if insertSort method was called zero times
+        verify(bubbleSortMapper, times(0)).insertSort(any());
+
+    }
+
+    @Test
+    public void testAddSort_QuestionNumberAlreadyExists() {
+        when(userService.userIdExists(anyInt())).thenReturn(true);
+
+        when(bubbleSortMapper.countByPracticeIdAndUserId(anyInt(), anyInt())).thenReturn(1);
+
+        doNothing().when(bubbleSortMapper).insertSort(any());
+        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
+
+        // Execute the test
+        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken", "1, 7, 5, 3", 3, 2);
+
+        // Assertions
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getCode());
+        assertEquals("题号存在", response.getBody().getMsg());
+        assertNull(response.getBody().getData());
+
+        // Verify if insertSort method was called 5 times
+        verify(bubbleSortMapper, times(0)).insertSort(any());
+    }
+
+    @Test
+    public void testAddSort_InvalidSequence() {
+        when(userService.userIdExists(anyInt())).thenReturn(true);
+
+        when(bubbleSortMapper.countByPracticeIdAndUserId(anyInt(), anyInt())).thenReturn(0);
+
+        doNothing().when(bubbleSortMapper).insertSort(any());
+        doNothing().when(bubbleSortRecorder).recordBubbleSortSteps(anyList(), anyInt(), anyInt());
+
+
+        // Execute the test
+        ResponseEntity<Res<String>> response = bubbleSortController.addSort("mockToken", "1, -, 5, 3", 6, 2);
+
+        // Assertions
+        assertNotNull(response);
+        assertEquals(0, response.getBody().getCode());
+        assertEquals("序列无效", response.getBody().getMsg());
+        assertNull(response.getBody().getData());
+
+        // Verify if insertSort method was called 5 times
+        verify(bubbleSortMapper, times(0)).insertSort(any());
     }
 
     @Test

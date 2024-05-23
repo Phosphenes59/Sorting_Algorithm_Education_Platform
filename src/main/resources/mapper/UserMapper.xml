@@ -12,5 +12,11 @@
         FROM user
         WHERE email = #{email} AND password = #{password}
     </select>
+    <select id="findUserById" resultType="com.example.sorting_algorithm_education_platform.entity.User">
+        SELECT id, user_name, password, email, phone, is_admin
+        FROM user
+        WHERE id = #{id}
+    </select>
+
 
 </mapper>

@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User> {
     User findUserByEmail(String email);
     User findUserByEmailAndPassword(String email, String password);
+    User findUserById(int id);
 }

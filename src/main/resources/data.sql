@@ -1,4 +1,5 @@
 -- 创建用户表
+USE data;
 CREATE TABLE if NOT EXISTS `user` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_name` VARCHAR(50) NOT NULL,
@@ -25,8 +26,9 @@ CREATE TABLE if NOT EXISTS `bubble_sort` (
        `practice_id` INT NOT NULL,
        `process_num` INT NOT NULL,
        `user_id` INT NOT NULL,
-       FOREIGN KEY (`userid`) REFERENCES `user`(`id`)
-);
+       FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
+)ENGINE=InnoDB;
+
 
 -- 插入冒泡排序数据
 INSERT INTO `bubble_sort`(`bubble_id`,`exchange`,`pre_pos`,`post_pos`,`turn`,`curr_list`,`practice_id`,`process_num`,`user_id`)
