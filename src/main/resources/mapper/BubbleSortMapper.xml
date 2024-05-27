@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper">
-
     <select id="findNextStep" resultType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
         SELECT *
         FROM bubble_sort
@@ -32,7 +31,7 @@
         DELETE FROM bubble_sort
         WHERE user_id = #{userId} AND practice_id = #{practiceId}
     </delete>
-    <select id="countByUserIdAndPracticeId" resultType="int">
+    <select id="countByPracticeIdAndUserId" resultType="int">
         SELECT COUNT(*)
         FROM bubble_sort
         WHERE user_id = #{userId}
