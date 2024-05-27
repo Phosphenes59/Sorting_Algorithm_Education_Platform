@@ -2,11 +2,12 @@ package com.example.sorting_algorithm_education_platform.service;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 
-import java.util.List;
-
 public interface BubbleSortService {
-    BubbleSort getByBubbleId(int bubbleId);
-    BubbleSort getNextStep(int practiceId, int processNum);
-    String getCurrList(int practiceId, int processNum);
-    String getSolution(int practiceId);
+    BubbleSort getByBubbleId(Integer bubbleId);
+    BubbleSort getNextStep(Integer practiceId, Integer processNum);
+    String getCurrList(Integer practiceId, Integer processNum);
+    String getSolution(Integer practiceId);
+    void insertSort(BubbleSort bubbleSort);
+    void deleteSort(Integer practiceId, Integer userId);
+    int countByPracticeIdAndUserId(Integer practiceId, Integer userId);
 }

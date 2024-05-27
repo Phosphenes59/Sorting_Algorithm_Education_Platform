@@ -1,7 +1,7 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
-import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
 import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,11 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/sort")
 public class BaseController {
-    @Autowired
-    BubbleSortMapper bubbleSortMapper;
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private BubbleSortService bubbleSortService;
 
     @PostMapping("/add")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
@@ -52,7 +53,7 @@ public class BaseController {
             bubbleSort.setPostPos(0);
             bubbleSort.setTurn(0);
 
-            bubbleSortMapper.insertSort(bubbleSort);
+            bubbleSortService.insertSort(bubbleSort);
             System.out.println("------------------------");
             recordBubbleSortSteps(sortList,practiceId, userId);
 
@@ -74,7 +75,7 @@ public class BaseController {
             return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
         }
         try {
-            bubbleSortMapper.deleteSort(practiceId, userId);
+            bubbleSortService.deleteSort(practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "删除成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -98,7 +99,7 @@ public class BaseController {
         }
         try {
             //first delete
-            bubbleSortMapper.deleteSort(practiceId, userId);
+            bubbleSortService.deleteSort(practiceId, userId);
             // insert
             BubbleSort bubbleSort = new BubbleSort();
             // String currList = sortList.toString().replace("[", "").replace("]", "");
@@ -110,8 +111,7 @@ public class BaseController {
             bubbleSort.setPrePos(0);
             bubbleSort.setPostPos(0);
             bubbleSort.setTurn(0);
-
-            bubbleSortMapper.insertSort(bubbleSort);
+            bubbleSortService.insertSort(bubbleSort);
             recordBubbleSortSteps(sortList,practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
@@ -120,8 +120,8 @@ public class BaseController {
     }
 
     // 方法用于检查该userID的practiceId是否存在
-    private boolean practiceIdExistsForUser(int userId, int practiceId) {
-        int count = bubbleSortMapper.countByPracticeIdAndUserId(practiceId,userId);
+    private boolean practiceIdExistsForUser(Integer userId, Integer practiceId) {
+        int count = bubbleSortService.countByPracticeIdAndUserId(practiceId, userId);
         return count > 0;
     }
 
@@ -176,8 +176,7 @@ public class BaseController {
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
                     System.out.println("change " + turn + " " + processNum+ " "+ prePos +" "+ postPos);
-
-                    bubbleSortMapper.insertSort(bubbleSort);
+                    bubbleSortService.insertSort(bubbleSort);
                 }
 
             }
@@ -194,7 +193,7 @@ public class BaseController {
                 bubbleSort.setCurrList(currList);
                 bubbleSort.setProcessNum(processNum);
                 System.out.println("no " + turn + " " + processNum);
-                bubbleSortMapper.insertSort(bubbleSort);
+                bubbleSortService.insertSort(bubbleSort);
             }
         }
     }

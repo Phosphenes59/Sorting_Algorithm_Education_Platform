@@ -12,27 +12,42 @@ public class BubbleSortServiceImpl implements BubbleSortService {
     private BubbleSortMapper bubbleSortMapper;
 
     @Override
-    public BubbleSort getByBubbleId(int bubbleId){
+    public BubbleSort getByBubbleId(Integer bubbleId){
         BubbleSort bubbleSort = bubbleSortMapper.selectById(bubbleId);
         return bubbleSort;
     }
 
     @Override
-    public BubbleSort getNextStep(int practiceId, int processNum){
+    public BubbleSort getNextStep(Integer practiceId, Integer processNum){
         BubbleSort bubbleSort = bubbleSortMapper.findNextStep(practiceId, processNum);
         return bubbleSort;
     }
 
     @Override
-    public String getCurrList(int practiceId, int processNum){
+    public String getCurrList(Integer practiceId, Integer processNum){
         String currList = bubbleSortMapper.findCurrList(practiceId, processNum);
         return currList;
     }
 
     @Override
-    public String getSolution(int practiceId) {
+    public String getSolution(Integer practiceId) {
         String solution = bubbleSortMapper.findSolution(practiceId);
         return solution;
+    }
+
+    @Override
+    public void insertSort(BubbleSort bubbleSort) {
+        bubbleSortMapper.insertSort(bubbleSort);
+    }
+
+    @Override
+    public void deleteSort(Integer practiceId, Integer userId) {
+        bubbleSortMapper.deleteSort(practiceId, userId);
+    }
+
+    @Override
+    public int countByPracticeIdAndUserId(Integer practiceId, Integer userId) {
+        return bubbleSortMapper.countByPracticeIdAndUserId(practiceId, userId);
     }
 
 }
