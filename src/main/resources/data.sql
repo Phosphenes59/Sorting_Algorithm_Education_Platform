@@ -1,5 +1,5 @@
 -- 创建用户表
-USE data;
+USE alg_db;
 CREATE TABLE if NOT EXISTS `user` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_name` VARCHAR(50) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE if NOT EXISTS `user` (
     `email` VARCHAR(100) NOT NULL,
     `phone` VARCHAR(20) NOT NULL,
     `is_admin` TINYINT NOT NULL
-);
+)ENGINE=InnoDB;
 
 -- 插入用户数据
 INSERT INTO `user`(`id`,`user_name`,`password`,`email`,`phone`,`is_admin`)
@@ -28,7 +28,6 @@ CREATE TABLE if NOT EXISTS `bubble_sort` (
        `user_id` INT NOT NULL,
        FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
 )ENGINE=InnoDB;
-
 
 -- 插入冒泡排序数据
 INSERT INTO `bubble_sort`(`bubble_id`,`exchange`,`pre_pos`,`post_pos`,`turn`,`curr_list`,`practice_id`,`process_num`,`user_id`)
@@ -77,3 +76,16 @@ INSERT INTO `bubble_sort`(`bubble_id`,`exchange`,`pre_pos`,`post_pos`,`turn`,`cu
 VALUES (NULL, 1, 1, 2, 1, '1,3,5', 3, 2, 2);
 INSERT INTO `bubble_sort`(`bubble_id`,`exchange`,`pre_pos`,`post_pos`,`turn`,`curr_list`,`practice_id`,`process_num`,`user_id`)
 VALUES (NULL, 0, 0, 0, 2, '1,3,5', 3, 3, 2);
+
+CREATE TABLE if NOT EXISTS `study_history` (
+                                               `id` INT AUTO_INCREMENT PRIMARY KEY,
+                                               `sort_method` INT NOT NULL,
+                                               `problem_id` INT NOT NULL,
+                                               `last_step` INT NOT NULL,
+                                               `curr_time` DATETIME NOT NULL,
+                                               `status` INT NOT NULL,
+                                               `user_id` INT NOT NULL,
+                                               FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
+)ENGINE=InnoDB;
+
+#drop table `study_history`;
