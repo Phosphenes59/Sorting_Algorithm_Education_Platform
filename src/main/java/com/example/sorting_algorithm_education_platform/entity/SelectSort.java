@@ -31,7 +31,7 @@ public class SelectSort {
     private int processNum;
     // 出题人
     private int userId;
-    // 冒泡轮数
+    // 选择轮数
     private int turn;
 
     public Integer getSelectId() {

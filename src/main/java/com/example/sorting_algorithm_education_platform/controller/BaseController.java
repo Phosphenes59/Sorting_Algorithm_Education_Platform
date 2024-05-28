@@ -52,7 +52,7 @@ public class BaseController {
         try {
             insertBubble(sortList, practiceId, userId);
             insertInsert(sortList, practiceId, userId);
-//            insertSelect(sortList, practiceId, userId);
+            insertSelect(sortList, practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " , e.getMessage()));
@@ -103,7 +103,7 @@ public class BaseController {
             insertInsert(sortList, practiceId, userId);
             selectSortService.deleteSort(practiceId, userId);
             insertSelect(sortList, practiceId, userId);
-            return ResponseEntity.ok(new Res<>(1, "添加成功",null));
+            return ResponseEntity.ok(new Res<>(1, "修改成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
         }

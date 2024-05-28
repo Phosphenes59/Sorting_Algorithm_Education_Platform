@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,7 @@ public class StudyHistoryController {
 
     // 是否是三种排序算法中的一个
     private boolean sortMethodExists(int sortMethod) {
-        return sortMethod == bubbleSort || sortMethod == insertSort || sortMethod == quickSort;
+        return sortMethod == bubbleSort || sortMethod == insertSort || sortMethod == selectSort;
     }
 
     /*private boolean problemExistsForUser(int sortMethod, int problemId, int userId){

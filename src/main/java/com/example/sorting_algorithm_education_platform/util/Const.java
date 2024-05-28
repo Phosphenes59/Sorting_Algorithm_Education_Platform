@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 public class Const {
     public static final int bubbleSort = 0;
     public static final int insertSort = 1;
-    public static final int quickSort = 2;
+    public static final int selectSort = 2;
 }
