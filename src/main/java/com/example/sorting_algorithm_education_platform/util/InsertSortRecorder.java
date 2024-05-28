@@ -18,7 +18,7 @@ public class InsertSortRecorder {
         InsertSort insertSort = new InsertSort();
         insertSort.setPracticeId(practiceId);
         insertSort.setUserId(userId);
-        insertSort.setKeyNum(key);
+        insertSort.setPivot(key);
         insertSort.setOrderPos(orderPos);
         insertSort.setSortedList("");
         insertSort.setUnsortedList(inputList.toString().replace("[", "").replace("]", ""));
@@ -30,7 +30,7 @@ public class InsertSortRecorder {
         key = inputList.get(0);
         processNum++;
         turn++;
-        insertSort.setKeyNum(key);
+        insertSort.setPivot(key);
         insertSort.setSortedList(inputList.get(0).toString());
         insertSort.setUnsortedList(inputList.subList(1, n).toString().replace("[", "").replace("]", ""));
         insertSort.setProcessNum(processNum);
@@ -51,7 +51,7 @@ public class InsertSortRecorder {
             orderPos = j + 1;
             sorted = inputList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
             unsorted = inputList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
-            insertSort.setKeyNum(key);
+            insertSort.setPivot(key);
             insertSort.setOrderPos(orderPos);
             insertSort.setSortedList(sorted);
             insertSort.setUnsortedList(unsorted);

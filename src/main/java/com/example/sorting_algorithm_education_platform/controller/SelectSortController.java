@@ -1,50 +1,50 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
-import com.example.sorting_algorithm_education_platform.entity.InsertSort;
-import com.example.sorting_algorithm_education_platform.service.InsertSortService;
+import com.example.sorting_algorithm_education_platform.entity.SelectSort;
+import com.example.sorting_algorithm_education_platform.service.SelectSortService;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/insert-sort")
-public class InsertSortController {
+@RequestMapping("/select-sort")
+public class SelectSortController {
     @Autowired
-    private InsertSortService insertSortService;
+    private SelectSortService selectSortService;
 
     @PostMapping("/find")
-    public ResponseEntity<Res<InsertSort>> findSortById(@RequestHeader("token") String token,
-                                                        @RequestParam(value = "insertId") Integer insertId){
-        InsertSort insertSort = insertSortService.getByInsertId(insertId);
-        return getResResponseEntity(insertSort);
+    public ResponseEntity<Res<SelectSort>> findSortById(@RequestHeader("token") String token,
+                                                        @RequestParam(value = "selectId") Integer selectId){
+        SelectSort selectSort = selectSortService.getByInsertId(selectId);
+        return getResResponseEntity(selectSort);
     }
 
     @PostMapping("/nextStep")
-    public ResponseEntity<Res<InsertSort>> findNextStep(@RequestHeader("token") String token,
+    public ResponseEntity<Res<SelectSort>> findNextStep(@RequestHeader("token") String token,
                                                         @RequestParam(value = "practiceId") Integer practiceId,
                                                         @RequestParam(value = "processNum") Integer processNum){
-        InsertSort insertSort = insertSortService.getNextStep(practiceId, processNum);
-        return getResResponseEntity(insertSort);
+        SelectSort selectSort = selectSortService.getNextStep(practiceId, processNum);
+        return getResResponseEntity(selectSort);
     }
 
     @PostMapping("/currList")
     public ResponseEntity<Res<String>> findCurrList(@RequestHeader("token") String token,
                                                     @RequestParam(value = "practiceId") Integer practiceId,
                                                     @RequestParam(value = "processNum") Integer processNum){
-        String currList = insertSortService.getCurrList(practiceId, processNum);
+        String currList = selectSortService.getCurrList(practiceId, processNum);
         return getResResponseEntity(currList);
     }
 
     @PostMapping("/solution")
     public ResponseEntity<Res<String>> findSolution(@RequestHeader("token") String token,
                                                     @RequestParam(value = "practiceId") Integer practiceId){
-        String solution = insertSortService.getSolution(practiceId);
+        String solution = selectSortService.getSolution(practiceId);
         return getResResponseEntity(solution);
     }
 
-    private ResponseEntity<Res<InsertSort>> getResResponseEntity(InsertSort insertSort) {
-        Res<InsertSort> result;
+    private ResponseEntity<Res<SelectSort>> getResResponseEntity(SelectSort insertSort) {
+        Res<SelectSort> result;
         if (insertSort == null) {
             result = new Res<>(0, "查找失败",null);
         } else {

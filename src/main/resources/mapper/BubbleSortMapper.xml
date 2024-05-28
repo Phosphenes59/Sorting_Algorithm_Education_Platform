@@ -37,4 +37,9 @@
         WHERE user_id = #{userId}
           AND practice_id = #{practiceId}
     </select>
+    <select id="countByPracticeId" resultType="int">
+        SELECT COUNT(*)
+        FROM bubble_sort
+        WHERE practice_id = #{practiceId}
+    </select>
 </mapper>

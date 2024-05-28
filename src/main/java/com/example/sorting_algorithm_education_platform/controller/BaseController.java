@@ -2,8 +2,10 @@ package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.entity.InsertSort;
+import com.example.sorting_algorithm_education_platform.entity.SelectSort;
 import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
 import com.example.sorting_algorithm_education_platform.service.InsertSortService;
+import com.example.sorting_algorithm_education_platform.service.SelectSortService;
 import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class BaseController {
     private BubbleSortService bubbleSortService;
     @Autowired
     private InsertSortService insertSortService;
+    @Autowired
+    private SelectSortService selectSortService;
 
     @PostMapping("/add")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
@@ -37,7 +41,7 @@ public class BaseController {
             return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
         }
 
-        if (practiceIdExistsForUser(userId, practiceId)) {
+        if (practiceIdExists(practiceId)) {
             System.out.println("user id && practiceId not exist");
             return ResponseEntity.badRequest().body(new Res<>(0, "题号存在", null));
         }
@@ -48,6 +52,7 @@ public class BaseController {
         try {
             insertBubble(sortList, practiceId, userId);
             insertInsert(sortList, practiceId, userId);
+//            insertSelect(sortList, practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " , e.getMessage()));
@@ -62,12 +67,13 @@ public class BaseController {
             return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
         }
 
-        if (!practiceIdExistsForUser(userId, practiceId)) {
+        if (!practiceIdExists(practiceId)) {
             return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
         }
         try {
             bubbleSortService.deleteSort(practiceId, userId);
             insertSortService.deleteSort(practiceId, userId);
+            selectSortService.deleteSort(practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "删除成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -83,7 +89,7 @@ public class BaseController {
             return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
         }
 
-        if (!practiceIdExistsForUser(userId, practiceId)) {
+        if (!practiceIdExists(practiceId)) {
             return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
         }
         if (!isValidSequence(sortList)) {
@@ -95,6 +101,8 @@ public class BaseController {
             insertBubble(sortList, practiceId, userId);
             insertSortService.deleteSort(practiceId, userId);
             insertInsert(sortList, practiceId, userId);
+            selectSortService.deleteSort(practiceId, userId);
+            insertSelect(sortList, practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -102,8 +110,8 @@ public class BaseController {
     }
 
     // 方法用于检查该userID的practiceId是否存在
-    private boolean practiceIdExistsForUser(Integer userId, Integer practiceId) {
-        int count = bubbleSortService.countByPracticeIdAndUserId(practiceId, userId);
+    private boolean practiceIdExists(Integer practiceId) {
+        int count = bubbleSortService.countByPracticeId(practiceId);
         return count > 0;
     }
 
@@ -200,7 +208,7 @@ public class BaseController {
         InsertSort insertSort = new InsertSort();
         insertSort.setPracticeId(practiceId);
         insertSort.setUserId(userId);
-        insertSort.setKeyNum(0);
+        insertSort.setPivot(0);
         insertSort.setOrderPos(0);
         insertSort.setSortedList("");
         insertSort.setUnsortedList(integerList.toString().replace("[", "").replace("]", ""));
@@ -213,7 +221,7 @@ public class BaseController {
         key = integerList.get(0);
         processNum++;
         turn++;
-        insertSort.setKeyNum(key);
+        insertSort.setPivot(key);
         insertSort.setSortedList(integerList.get(0).toString());
         insertSort.setUnsortedList(integerList.subList(1, n).toString().replace("[", "").replace("]", ""));
         insertSort.setProcessNum(processNum);
@@ -235,7 +243,7 @@ public class BaseController {
             orderPos = j + 1;
             sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
             unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
-            insertSort.setKeyNum(key);
+            insertSort.setPivot(key);
             insertSort.setOrderPos(orderPos);
             insertSort.setSortedList(sorted);
             insertSort.setUnsortedList(unsorted);
@@ -244,6 +252,58 @@ public class BaseController {
             insertSort.setTurn(turn);
             System.out.println(insertSort);
             insertSortService.insertSort(insertSort);
+        }
+    }
+
+    public void insertSelect(String inputList, Integer practiceId, Integer userId){
+        String[] stringArray = inputList.split(","); // 使用逗号分割字符串，得到字符串数组
+        List<Integer> integerList = new ArrayList<>();
+        for (String str : stringArray) {
+            integerList.add(Integer.parseInt(str.trim()));
+        }
+
+        int n = integerList.size();
+        int processNum = 0;
+        int turn = 0;
+        int curPos = 0;
+        int minPos = 0;
+        int exchange = 0;
+
+        SelectSort selectSort = new SelectSort();
+        selectSort.setPracticeId(practiceId);
+        selectSort.setUserId(userId);
+        selectSort.setExchange(exchange);
+        selectSort.setCurPos(curPos);
+        selectSort.setMinPos(minPos);
+        selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+        selectSort.setProcessNum(processNum);
+        selectSort.setTurn(turn);
+        System.out.println(selectSort);
+        selectSortService.insertSort(selectSort);
+
+        for (int i = 0; i < n - 1; i++) {
+            turn++;
+            processNum++;
+            exchange = 0;
+            curPos = i;
+            minPos = i;
+            selectSort.setCurPos(curPos);
+            selectSort.setProcessNum(processNum);
+            selectSort.setTurn(turn);
+            for (int j = i + 1; j < n; j++) {
+                if (integerList.get(j) < integerList.get(minPos)){
+                    minPos = j;
+                }
+            }
+            if (minPos != i){
+                exchange = 1;
+                Collections.swap(integerList, i, minPos);
+            }
+            selectSort.setExchange(exchange);
+            selectSort.setMinPos(minPos);
+            selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+            System.out.println(selectSort);
+            selectSortService.insertSort(selectSort);
         }
     }
 }

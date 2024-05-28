@@ -50,4 +50,9 @@ public class BubbleSortServiceImpl implements BubbleSortService {
         return bubbleSortMapper.countByPracticeIdAndUserId(practiceId, userId);
     }
 
+    @Override
+    public int countByPracticeId(Integer practiceId) {
+        return bubbleSortMapper.countByPracticeId(practiceId);
+    }
+
 }

@@ -12,4 +12,5 @@ public interface BubbleSortMapper extends BaseMapper<BubbleSort> {
     void insertSort(BubbleSort bubbleSort);
     void deleteSort(Integer practiceId, Integer userId);
     int countByPracticeIdAndUserId(Integer practiceId, Integer userId);
+    int countByPracticeId(Integer practiceId);
 }

@@ -18,7 +18,7 @@ public class InsertSort {
     @TableId
     private Integer insertId;
     // 待插入的数
-    private int keyNum;
+    private int pivot;
     // 插入到有序列表中的位置
     private int orderPos;
     // 当前的有序列表
@@ -45,12 +45,12 @@ public class InsertSort {
         this.insertId = insertId;
     }
 
-    public int getKeyNum() {
-        return keyNum;
+    public int getPivot() {
+        return pivot;
     }
 
-    public void setKeyNum(int keyNum) {
-        this.keyNum = keyNum;
+    public void setPivot(int pivot) {
+        this.pivot = pivot;
     }
 
     public int getOrderPos() {

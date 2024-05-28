@@ -17,6 +17,4 @@
         FROM user
         WHERE id = #{id}
     </select>
-
-
 </mapper>
