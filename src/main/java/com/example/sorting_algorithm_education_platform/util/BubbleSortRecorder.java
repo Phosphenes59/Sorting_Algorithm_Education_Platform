@@ -3,6 +3,7 @@ package com.example.sorting_algorithm_education_platform.util;
 import com.example.sorting_algorithm_education_platform.controller.BubbleSortController;
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,9 @@ public class BubbleSortRecorder {
 //    @Autowired
 //    private static BubbleSortController bubbleSortController;
 
+    @Autowired
+    private BubbleSortService bubbleSortService;
+
 
 //    private static BubbleSortMapper bubbleSortMapper;
 //    @Autowired
@@ -40,6 +44,17 @@ public class BubbleSortRecorder {
     }
 
     public void recordBubbleSortSteps(List<Integer> inputList, int practiceId, int userId) {
+        BubbleSort bubbleSort = new BubbleSort();
+        bubbleSort.setPracticeId(practiceId);
+        bubbleSort.setUserId(userId);
+        bubbleSort.setTurn(0);
+        bubbleSort.setExchange(0);
+        bubbleSort.setPrePos(0);
+        bubbleSort.setPostPos(0);
+        bubbleSort.setCurrList(inputList.toString().replace("[", "").replace("]", ""));
+        bubbleSort.setProcessNum(0);
+        System.out.println(bubbleSort);
+//        bubbleSortService.insertSort(bubbleSort);
 
         int n = inputList.size();
         processNum = 0;
@@ -62,9 +77,6 @@ public class BubbleSortRecorder {
                     Collections.swap(inputList, j, j + 1);
                     processNum++;
                     currList = inputList.toString().replace("[", "").replace("]", "");
-                    BubbleSort bubbleSort = new BubbleSort();
-                    bubbleSort.setPracticeId(practiceId);
-                    bubbleSort.setBubbleId(userId);
                     bubbleSort.setTurn(turn);
                     bubbleSort.setExchange(exchange);
                     bubbleSort.setPrePos(prePos);
@@ -72,15 +84,13 @@ public class BubbleSortRecorder {
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
                     System.out.println(bubbleSort);
+//                    bubbleSortService.insertSort(bubbleSort);
 //                    bubbleSortMapper.insertSort(bubbleSort);
                 }
             }
             if(exchange == 0) {
                 processNum++;
                 currList = inputList.toString().replace("[", "").replace("]", "");
-                BubbleSort bubbleSort = new BubbleSort();
-                bubbleSort.setPracticeId(practiceId);
-                bubbleSort.setBubbleId(userId);
                 bubbleSort.setTurn(turn);
                 bubbleSort.setExchange(exchange);
                 bubbleSort.setPrePos(prePos);
@@ -88,6 +98,7 @@ public class BubbleSortRecorder {
                 bubbleSort.setCurrList(currList);
                 bubbleSort.setProcessNum(processNum);
                 System.out.println(bubbleSort);
+//                bubbleSortService.insertSort(bubbleSort);
 //                bubbleSortMapper.insertSort(bubbleSort);
             }
         }
@@ -97,12 +108,12 @@ public class BubbleSortRecorder {
     public static void main(String[] args) {
         BubbleSortRecorder recorder = new BubbleSortRecorder();
         ArrayList<Integer> inputList = new ArrayList<>();
-        inputList.add(3);
-        inputList.add(1);
-        inputList.add(4);
-        inputList.add(9);
+        inputList.add(12);
+        inputList.add(15);
+        inputList.add(7);
         inputList.add(8);
-        inputList.add(6);
-        recorder.recordBubbleSortSteps(inputList,0,0);
+        inputList.add(10);
+        inputList.add(25);
+        recorder.recordBubbleSortSteps(inputList,4,1);
     }
 }

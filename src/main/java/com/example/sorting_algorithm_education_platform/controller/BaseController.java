@@ -1,7 +1,9 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
+import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
+import com.example.sorting_algorithm_education_platform.service.InsertSortService;
 import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -20,6 +23,8 @@ public class BaseController {
     private UserService userService;
     @Autowired
     private BubbleSortService bubbleSortService;
+    @Autowired
+    private InsertSortService insertSortService;
 
     @PostMapping("/add")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
@@ -41,22 +46,8 @@ public class BaseController {
             return ResponseEntity.badRequest().body(new Res<>(0, "序列无效", null));
         }
         try {
-            // insert
-            BubbleSort bubbleSort = new BubbleSort();
-            // String currList = sortList.toString().replace("[", "").replace("]", "");
-            bubbleSort.setCurrList(sortList);
-            bubbleSort.setPracticeId(practiceId);
-            bubbleSort.setProcessNum(0);
-            bubbleSort.setUserId(userId);
-            bubbleSort.setExchange(0);
-            bubbleSort.setPrePos(0);
-            bubbleSort.setPostPos(0);
-            bubbleSort.setTurn(0);
-
-            bubbleSortService.insertSort(bubbleSort);
-            System.out.println("------------------------");
-            recordBubbleSortSteps(sortList,practiceId, userId);
-
+            insertBubble(sortList, practiceId, userId);
+            insertInsert(sortList, practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " , e.getMessage()));
@@ -76,6 +67,7 @@ public class BaseController {
         }
         try {
             bubbleSortService.deleteSort(practiceId, userId);
+            insertSortService.deleteSort(practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "删除成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -100,19 +92,9 @@ public class BaseController {
         try {
             //first delete
             bubbleSortService.deleteSort(practiceId, userId);
-            // insert
-            BubbleSort bubbleSort = new BubbleSort();
-            // String currList = sortList.toString().replace("[", "").replace("]", "");
-            bubbleSort.setCurrList(sortList);
-            bubbleSort.setPracticeId(practiceId);
-            bubbleSort.setProcessNum(0);
-            bubbleSort.setUserId(userId);
-            bubbleSort.setExchange(0);
-            bubbleSort.setPrePos(0);
-            bubbleSort.setPostPos(0);
-            bubbleSort.setTurn(0);
-            bubbleSortService.insertSort(bubbleSort);
-            recordBubbleSortSteps(sortList,practiceId, userId);
+            insertBubble(sortList, practiceId, userId);
+            insertSortService.deleteSort(practiceId, userId);
+            insertInsert(sortList, practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -132,7 +114,7 @@ public class BaseController {
         return pattern.matcher(sequence).matches();
     }
 
-    public void recordBubbleSortSteps(String inputList, int practiceId, int userId) {
+    public void insertBubble(String inputList, Integer practiceId, Integer userId){
         int processNum = 0;
         int turn = 0;
         int prePos = 0;
@@ -146,6 +128,17 @@ public class BaseController {
             integerList.add(Integer.parseInt(str.trim()));
         }
 
+        BubbleSort bubbleSort = new BubbleSort();
+        bubbleSort.setPracticeId(practiceId);
+        bubbleSort.setUserId(userId);
+        bubbleSort.setTurn(0);
+        bubbleSort.setExchange(0);
+        bubbleSort.setPrePos(0);
+        bubbleSort.setPostPos(0);
+        bubbleSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+        bubbleSort.setProcessNum(0);
+        System.out.println(bubbleSort);
+        bubbleSortService.insertSort(bubbleSort);
 
         int n = integerList.size();
         processNum = 0;
@@ -161,40 +154,96 @@ public class BaseController {
                     exchange = 1;
                     prePos = j;
                     postPos = j + 1;
-                    int temp = integerList.get(j);
-                    integerList.set(j, integerList.get(j + 1));
-                    integerList.set(j + 1, temp);
+                    Collections.swap(integerList, j, j + 1);
                     processNum++;
                     currList = integerList.toString().replace("[", "").replace("]", "");
-                    BubbleSort bubbleSort = new BubbleSort();
-                    bubbleSort.setPracticeId(practiceId);
-                    bubbleSort.setUserId(userId);
                     bubbleSort.setTurn(turn);
                     bubbleSort.setExchange(exchange);
                     bubbleSort.setPrePos(prePos);
                     bubbleSort.setPostPos(postPos);
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
-                    System.out.println("change " + turn + " " + processNum+ " "+ prePos +" "+ postPos);
+                    System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
                 }
-
             }
             if(exchange == 0) {
                 processNum++;
                 currList = integerList.toString().replace("[", "").replace("]", "");
-                BubbleSort bubbleSort = new BubbleSort();
-                bubbleSort.setPracticeId(practiceId);
-                bubbleSort.setUserId(userId);
                 bubbleSort.setTurn(turn);
                 bubbleSort.setExchange(exchange);
                 bubbleSort.setPrePos(prePos);
                 bubbleSort.setPostPos(postPos);
                 bubbleSort.setCurrList(currList);
                 bubbleSort.setProcessNum(processNum);
-                System.out.println("no " + turn + " " + processNum);
+                System.out.println(bubbleSort);
                 bubbleSortService.insertSort(bubbleSort);
             }
+        }
+    }
+
+    public void insertInsert(String inputList, Integer practiceId, Integer userId){
+
+        String[] stringArray = inputList.split(","); // 使用逗号分割字符串，得到字符串数组
+        List<Integer> integerList = new ArrayList<>();
+        for (String str : stringArray) {
+            integerList.add(Integer.parseInt(str.trim()));
+        }
+        int n = integerList.size();
+        int processNum = 0;
+        int turn = 0;
+        int key = 0;
+        int orderPos = 0;
+        String sorted = integerList.get(0).toString().replace("[", "").replace("]", "");
+        String unsorted = integerList.subList(1, n).toString().replace("[", "").replace("]", "");
+
+        InsertSort insertSort = new InsertSort();
+        insertSort.setPracticeId(practiceId);
+        insertSort.setUserId(userId);
+        insertSort.setKeyNum(0);
+        insertSort.setOrderPos(0);
+        insertSort.setSortedList("");
+        insertSort.setUnsortedList(integerList.toString().replace("[", "").replace("]", ""));
+        insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+        insertSort.setProcessNum(0);
+        insertSort.setTurn(0);
+        System.out.println(insertSort);
+        insertSortService.insertSort(insertSort);
+
+        key = integerList.get(0);
+        processNum++;
+        turn++;
+        insertSort.setKeyNum(key);
+        insertSort.setSortedList(integerList.get(0).toString());
+        insertSort.setUnsortedList(integerList.subList(1, n).toString().replace("[", "").replace("]", ""));
+        insertSort.setProcessNum(processNum);
+        insertSort.setTurn(turn);
+        System.out.println(insertSort);
+        insertSortService.insertSort(insertSort);
+
+        for (int i = 1; i < n; i++) {
+            turn++;
+            processNum++;
+            key = integerList.get(i);
+//            System.out.println("key:" + key);
+            int j;
+
+            for (j = i - 1; j >= 0 && integerList.get(j) > key; j--) {
+                integerList.set(j + 1, integerList.get(j));
+            }
+            integerList.set(j + 1, key);
+            orderPos = j + 1;
+            sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
+            unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
+            insertSort.setKeyNum(key);
+            insertSort.setOrderPos(orderPos);
+            insertSort.setSortedList(sorted);
+            insertSort.setUnsortedList(unsorted);
+            insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+            insertSort.setProcessNum(processNum);
+            insertSort.setTurn(turn);
+            System.out.println(insertSort);
+            insertSortService.insertSort(insertSort);
         }
     }
 }
