@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sorting_algorithm_education_platform.mapper.StudyHistoryMapper">
+    <select id="countBySortMethod" resultType="int">
+        SELECT COUNT(DISTINCT problem_id)
+        FROM (
+                 SELECT problem_id
+                 FROM study_history
+                 WHERE sort_method = #{sortMethod}
+                   AND user_id = #{userId}
+                   AND status = 1
+                 GROUP BY problem_id
+                 HAVING MAX(curr_time)
+             ) AS unique_problems
+    </select>
+    <select id="getIntervalByDateAndUserId" resultType="long">
+        SELECT COALESCE(
+                       (SELECT SUM(TIMESTAMPDIFF(SECOND, sh1.curr_time, sh2.curr_time))
+                        FROM study_history sh1
+                                 JOIN study_history sh2 ON sh1.id = sh2.id - 1
+                        WHERE sh1.user_id = #{userId}
+                          AND sh1.status = 0
+                          AND sh2.status = 1
+                          AND DATE(sh1.curr_time) = DATE(#{currTime})
+                          AND DATE(sh2.curr_time) = DATE(#{currTime})),
+                       0
+                   ) AS total_seconds
+    </select>
+    <insert id="insertHistory" parameterType="com.example.sorting_algorithm_education_platform.entity.StudyHistory">
+        INSERT INTO study_history (sort_method, problem_id, last_step, curr_time, status, user_id)
+        VALUES (#{sortMethod}, #{problemId}, #{lastStep}, #{currTime}, #{status}, #{userId})
+    </insert>
+    <select id="getLatestEnterHistory" resultType="com.example.sorting_algorithm_education_platform.entity.StudyHistory">
+        SELECT *
+        FROM study_history
+        WHERE user_id = #{userId}
+          AND sort_method = #{sortMethod}
+          AND problem_id = #{problemId}
+          AND status = 0
+        ORDER BY curr_time DESC
+            LIMIT 1
+    </select>
+    <select id="getCorrespondingExitHistory" resultType="com.example.sorting_algorithm_education_platform.entity.StudyHistory">
+        SELECT *
+        FROM study_history
+        WHERE user_id = (SELECT user_id FROM study_history WHERE id = #{enterId})
+          AND sort_method = (SELECT sort_method FROM study_history WHERE id = #{enterId})
+          AND problem_id = (SELECT problem_id FROM study_history WHERE id = #{enterId})
+          AND status = 1
+          AND curr_time > (SELECT curr_time FROM study_history WHERE id = #{enterId})
+        ORDER BY curr_time ASC
+        LIMIT 1
+    </select>
+    <select id="getStudyHistoryByUserId" resultType="com.example.sorting_algorithm_education_platform.entity.StudyHistory">
+        SELECT *
+        FROM study_history sh1
+        WHERE sh1.user_id = #{userId}
+          AND sh1.status = 1
+          AND sh1.problem_id &lt;= 10
+          AND sh1.curr_time = (
+            SELECT MAX(sh2.curr_time)
+            FROM study_history sh2
+            WHERE sh2.user_id = #{userId}
+              AND sh2.sort_method = sh1.sort_method
+              AND sh2.problem_id = sh1.problem_id
+              AND sh2.problem_id &lt;= 10
+        )
+        ORDER BY sh1.curr_time DESC
+    </select>
+</mapper>
