@@ -176,7 +176,6 @@ public class BaseController {
                     exchange = 0;
                     prePos = 0;
                     postPos = 0;
-                    Collections.swap(integerList, j, j + 1);
                     processNum++;
                     currList = integerList.toString().replace("[", "").replace("]", "");
                     bubbleSort.setTurn(turn);
