@@ -11,14 +11,25 @@
     <select id="findCurrList" resultType="string">
         SELECT curr_list
         FROM bubble_sort
-        WHERE practice_id = #{practiceId} AND process_num = #{processNum}
+        WHERE user_id = #{userId} AND practice_id = #{practiceId} AND process_num = #{processNum}
     </select>
-    <select id="findSolution" resultType="string">
-        SELECT curr_list
-        FROM bubble_sort
-        WHERE practice_id = #{practiceId} AND process_num = (
-            SELECT MAX(process_num) FROM bubble_sort WHERE practice_id = #{practiceId}
-        )
+    <select id="findSolution" resultType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
+        SELECT
+            `bubble_id`,
+            `exchange`,
+            `pre_pos`,
+            `post_pos`,
+            `turn`,
+            `curr_list`,
+            `practice_id`,
+            `process_num`,
+            `user_id`
+        FROM
+            `bubble_sort`
+        WHERE
+            `user_id` = #{userId}
+        AND
+            `practice_id` = #{practiceId}
     </select>
     <insert id="insertSort" parameterType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
         INSERT INTO bubble_sort (
