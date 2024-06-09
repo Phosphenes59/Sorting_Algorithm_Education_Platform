@@ -189,18 +189,6 @@ public class BaseController {
                     bubbleSortService.insertSort(bubbleSort);
                 }
             }
-            if(exchange == 0) {
-                processNum++;
-                currList = integerList.toString().replace("[", "").replace("]", "");
-                bubbleSort.setTurn(turn);
-                bubbleSort.setExchange(exchange);
-                bubbleSort.setPrePos(prePos);
-                bubbleSort.setPostPos(postPos);
-                bubbleSort.setCurrList(currList);
-                bubbleSort.setProcessNum(processNum);
-                System.out.println(bubbleSort);
-                bubbleSortService.insertSort(bubbleSort);
-            }
         }
     }
 
