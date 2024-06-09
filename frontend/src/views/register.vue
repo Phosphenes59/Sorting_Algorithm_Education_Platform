@@ -115,6 +115,10 @@
         width: 100%;
         height: 100%;
     }
+    ::v-deep .common-layout{
+        background: url(../assets/bg3.jpg);
+    }
+
     .main{
         width: 100%;
         height: 100%;
