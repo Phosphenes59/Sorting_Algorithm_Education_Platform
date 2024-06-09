@@ -149,19 +149,33 @@ public class BaseController {
         bubbleSortService.insertSort(bubbleSort);
 
         int n = integerList.size();
-        processNum = 0;
         for (int i = 0; i < n - 1; i++) {
             turn++;
             exchange = 0;
             prePos = 0;
             postPos = 0;
-
+            processNum = 0;
 
             for (int j = 0; j < n - i - 1; j++) {
                 if (integerList.get(j) > integerList.get(j + 1)) {
                     exchange = 1;
                     prePos = j;
                     postPos = j + 1;
+                    Collections.swap(integerList, j, j + 1);
+                    processNum++;
+                    currList = integerList.toString().replace("[", "").replace("]", "");
+                    bubbleSort.setTurn(turn);
+                    bubbleSort.setExchange(exchange);
+                    bubbleSort.setPrePos(prePos);
+                    bubbleSort.setPostPos(postPos);
+                    bubbleSort.setCurrList(currList);
+                    bubbleSort.setProcessNum(processNum);
+                    System.out.println(bubbleSort);
+                    bubbleSortService.insertSort(bubbleSort);
+                } else {
+                    exchange = 0;
+                    prePos = 0;
+                    postPos = 0;
                     Collections.swap(integerList, j, j + 1);
                     processNum++;
                     currList = integerList.toString().replace("[", "").replace("]", "");
