@@ -283,7 +283,7 @@ public class BaseController {
             int j;
 
             for (j = i - 1; j >= 0 && integerList.get(j) > key; j--) {
-                integerList.set(j + 1, integerList.get(j));
+                integerList.set(j + 1, key);
                 processNum++;
                 processStep++;
                 orderPos = j + 1;
@@ -298,6 +298,7 @@ public class BaseController {
                 insertSort.setProcessStep(processStep + turn - 1);
                 insertSort.setTurn(turn);
                 insertSortService.insertSort(insertSort);
+                integerList.set(j + 1, integerList.get(j));
             }
             integerList.set(j + 1, key);
             processNum++;
