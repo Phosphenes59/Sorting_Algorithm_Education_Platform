@@ -23,6 +23,7 @@
             `curr_list`,
             `practice_id`,
             `process_num`,
+            `process_step`,
             `user_id`
         FROM
             `bubble_sort`
@@ -33,9 +34,9 @@
     </select>
     <insert id="insertSort" parameterType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
         INSERT INTO bubble_sort (
-            exchange, pre_pos, post_pos, curr_list, practice_id, process_num, user_id, turn
+            exchange, pre_pos, post_pos, curr_list, practice_id, process_num, process_step, user_id, turn
         ) VALUES (
-            #{exchange}, #{prePos}, #{postPos}, #{currList}, #{practiceId}, #{processNum}, #{userId}, #{turn}
+            #{exchange}, #{prePos}, #{postPos}, #{currList}, #{practiceId}, #{processNum}, #{processStep}, #{userId}, #{turn}
         )
     </insert>
     <delete id="deleteSort" parameterType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
@@ -52,5 +53,10 @@
         SELECT COUNT(*)
         FROM bubble_sort
         WHERE practice_id = #{practiceId}
+    </select>
+    <select id="getAllProblems" resultType="com.example.sorting_algorithm_education_platform.entity.BubbleSort">
+        SELECT curr_list
+        FROM bubble_sort
+        WHERE user_id = #{userId} AND practice_id = #{practiceId} AND process_num = #{processNum}
     </select>
 </mapper>
