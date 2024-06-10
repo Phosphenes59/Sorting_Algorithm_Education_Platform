@@ -10,6 +10,6 @@ module.exports = defineConfig({
           '^/api': ''  // 移除前缀
         }
       }
-    }
+    },
   }
 })
