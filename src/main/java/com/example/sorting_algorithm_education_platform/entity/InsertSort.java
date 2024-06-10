@@ -33,6 +33,8 @@ public class InsertSort {
     private int userId;
     // 步骤序号(为0时代表原题)
     private int processNum;
+    // 每一轮的步骤
+    private int processStep;
     // 插入轮数
     private int turn;
 
@@ -115,5 +117,13 @@ public class InsertSort {
 
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+
+    public int getProcessStep() {
+        return processStep;
+    }
+
+    public void setProcessStep(int processStep) {
+        this.processStep = processStep;
     }
 }
