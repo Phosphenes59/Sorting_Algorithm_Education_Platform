@@ -1,21 +1,11 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
-import com.example.sorting_algorithm_education_platform.SortingAlgorithmEducationPlatformApplication;
-import com.example.sorting_algorithm_education_platform.controller.BubbleSortController;
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
-import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
 import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
 import com.example.sorting_algorithm_education_platform.service.UserService;
-import com.example.sorting_algorithm_education_platform.util.BubbleSortRecorder;
-import com.example.sorting_algorithm_education_platform.util.Res;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,11 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -63,42 +49,61 @@ public class BubbleSortControllerTest {
         verify(bubbleSortService).getByBubbleId(bubbleId);
     }
 
-//    @Test
-//    public void testFindNextStep() {
-//        BubbleSort mockBubbleSort1 = new BubbleSort();
-//        mockBubbleSort1.setBubbleId(1);
-//        mockBubbleSort1.setExchange(0);
-//        mockBubbleSort1.setPrePos(0);
-//        mockBubbleSort1.setPostPos(0);
-//        mockBubbleSort1.setCurrList("1, 6, 5, 3");
-//        mockBubbleSort1.setPracticeId(1);
-//        mockBubbleSort1.setProcessNum(0);
-//        mockBubbleSort1.setUserId(1);
-//        mockBubbleSort1.setTurn(0);
-//
-//        BubbleSort mockBubbleSort2 = new BubbleSort();
-//        mockBubbleSort2.setBubbleId(2);
-//        mockBubbleSort2.setExchange(0);
-//        mockBubbleSort2.setPrePos(0);
-//        mockBubbleSort2.setPostPos(0);
-//        mockBubbleSort2.setCurrList("1, 6, 5, 3");
-//        mockBubbleSort2.setPracticeId(1);
-//        mockBubbleSort2.setProcessNum(1);
-//        mockBubbleSort2.setUserId(1);
-//        mockBubbleSort2.setTurn(1);
-//
-//        when(bubbleSortMapper.findNextStep(1, 0)).thenReturn(mockBubbleSort2);
-//
-//        ResponseEntity
-//                <Res<BubbleSort>> response = bubbleSortController.findNextStep("mockToken", 1, 0);
-//
-//        assertNotNull(response);
-//        assertEquals(1, response.getBody().getCode());
-//        assertEquals("success", response.getBody().getMsg());
-//        assertEquals(mockBubbleSort2, response.getBody().getData());
-//
-//        verify(bubbleSortMapper, times(1)).findNextStep(1, 0);
-//    }
+    @Test
+    public void testFindNextStep() throws Exception{
+        int practiceId = 1;
+        int processNum = 0;
+        BubbleSort mockBubbleSort1 = new BubbleSort();
+        mockBubbleSort1.setBubbleId(1);
+        mockBubbleSort1.setExchange(0);
+        mockBubbleSort1.setPrePos(0);
+        mockBubbleSort1.setPostPos(0);
+        mockBubbleSort1.setCurrList("1, 6, 5, 3");
+        mockBubbleSort1.setPracticeId(1);
+        mockBubbleSort1.setProcessNum(0);
+        mockBubbleSort1.setUserId(1);
+        mockBubbleSort1.setTurn(0);
+
+        BubbleSort mockBubbleSort2 = new BubbleSort();
+        mockBubbleSort2.setBubbleId(2);
+        mockBubbleSort2.setExchange(0);
+        mockBubbleSort2.setPrePos(0);
+        mockBubbleSort2.setPostPos(0);
+        mockBubbleSort2.setCurrList("1, 6, 5, 3");
+        mockBubbleSort2.setPracticeId(1);
+        mockBubbleSort2.setProcessNum(1);
+        mockBubbleSort2.setUserId(1);
+        mockBubbleSort2.setTurn(1);
+
+        when(bubbleSortService.getNextStep(1, 0)).thenReturn(mockBubbleSort2);
+        ResultActions perform=mockMvc.perform(post("/bubble-sort/nextStep").param("practiceId", "1").param("processNum", "0").header("token", "token"));
+        perform.andExpect(status().isOk());
+        verify(bubbleSortService).getNextStep(practiceId, processNum);
+    }
+
+    @Test
+    public void testFindCurrList() throws Exception{
+        int userId = 1;
+        int practiceId = 1;
+        int processNum = 0;
+        BubbleSort mockBubbleSort = new BubbleSort();
+        mockBubbleSort.setBubbleId(1);
+        mockBubbleSort.setExchange(0);
+        mockBubbleSort.setPrePos(0);
+        mockBubbleSort.setPostPos(0);
+        mockBubbleSort.setCurrList("1, 6, 5, 3");
+        mockBubbleSort.setPracticeId(1);
+        mockBubbleSort.setProcessNum(0);
+        mockBubbleSort.setUserId(1);
+        mockBubbleSort.setTurn(0);
+
+        when(bubbleSortService.getCurrList(userId, practiceId, processNum)).thenReturn(mockBubbleSort.getCurrList());
+        ResultActions perform=mockMvc.perform(post("/bubble-sort/currList").param("practiceId", "1").param("processNum", "0").header("token", "token"));
+        perform.andExpect(status().isOk());
+        verify(bubbleSortService).getNextStep(practiceId, processNum);
+    }
+
+
 //
 //    @Test
 //    public void testFindCurrList() {

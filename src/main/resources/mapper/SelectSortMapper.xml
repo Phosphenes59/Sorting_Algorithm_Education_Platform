@@ -20,9 +20,9 @@
     </select>
     <insert id="insertSort" parameterType="com.example.sorting_algorithm_education_platform.entity.SelectSort">
         INSERT INTO select_sort (
-            exchange, min_pos, cur_pos, curr_list, practice_id, process_num, user_id, turn
+            exchange, min_pos, cur_pos, curr_list, practice_id, process_num, process_step, user_id, turn
         ) VALUES (
-                     #{exchange}, #{minPos}, #{curPos}, #{currList}, #{practiceId}, #{processNum}, #{userId}, #{turn}
+                     #{exchange}, #{minPos}, #{curPos}, #{currList}, #{practiceId}, #{processNum}, #{processStep}, #{userId}, #{turn}
                  )
     </insert>
     <delete id="deleteSort" parameterType="com.example.sorting_algorithm_education_platform.entity.SelectSort">

@@ -29,6 +29,8 @@ public class SelectSort {
     private int practiceId;
     // 步骤序号(为0时代表原题)
     private int processNum;
+    // 每一轮的步骤
+    private int processStep;
     // 出题人
     private int userId;
     // 选择轮数
@@ -104,5 +106,13 @@ public class SelectSort {
 
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+
+    public int getProcessStep() {
+        return processStep;
+    }
+
+    public void setProcessStep(int processStep) {
+        this.processStep = processStep;
     }
 }

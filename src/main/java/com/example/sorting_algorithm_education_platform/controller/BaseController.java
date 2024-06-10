@@ -297,6 +297,7 @@ public class BaseController {
 
         int n = integerList.size();
         int processNum = 0;
+        int processStep = 0;
         int turn = 0;
         int curPos = 0;
         int minPos = 0;
@@ -310,13 +311,14 @@ public class BaseController {
         selectSort.setMinPos(minPos);
         selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
         selectSort.setProcessNum(processNum);
+        selectSort.setProcessStep(processStep);
         selectSort.setTurn(turn);
         System.out.println(selectSort);
         selectSortService.insertSort(selectSort);
 
         for (int i = 0; i < n - 1; i++) {
             turn++;
-            processNum = 0;
+            processStep = 0;
             exchange = 0;
             curPos = i;
             minPos = i;
@@ -326,7 +328,9 @@ public class BaseController {
                 if (integerList.get(j) < integerList.get(minPos)){
                     minPos = j;
                     processNum++;
+                    processStep++;
                     selectSort.setProcessNum(processNum);
+                    selectSort.setProcessStep(processStep + turn - 1);
                     selectSort.setExchange(exchange);
                     selectSort.setMinPos(minPos);
                     selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
@@ -338,7 +342,9 @@ public class BaseController {
                 Collections.swap(integerList, i, minPos);
             }
             processNum++;
+            processStep++;
             selectSort.setProcessNum(processNum);
+            selectSort.setProcessStep(processStep + turn - 1);
             selectSort.setExchange(exchange);
             selectSort.setMinPos(minPos);
             selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
