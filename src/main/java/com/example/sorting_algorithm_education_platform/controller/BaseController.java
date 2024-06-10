@@ -295,7 +295,7 @@ public class BaseController {
                 insertSort.setUnsortedList(unsorted);
                 insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
                 insertSort.setProcessNum(processNum);
-                insertSort.setProcessStep(processStep + turn - 1);
+                insertSort.setProcessStep(turn - processStep + 1);
                 insertSort.setTurn(turn);
                 insertSortService.insertSort(insertSort);
                 integerList.set(j + 1, integerList.get(j));
@@ -312,7 +312,7 @@ public class BaseController {
             insertSort.setUnsortedList(unsorted);
             insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
             insertSort.setProcessNum(processNum);
-            insertSort.setProcessStep(processStep + turn - 1);
+            insertSort.setProcessStep(turn - processStep + 1);
             insertSort.setTurn(turn);
             System.out.println(insertSort);
             insertSortService.insertSort(insertSort);
