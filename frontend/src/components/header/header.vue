@@ -7,6 +7,7 @@
             :ellipsis="false"
             @select="handleSelect"
     >
+        <img src="../../assets/mylogo.jpg" alt="logo" style="width: 55px;height: 55px;border-radius: 50%">
         <el-menu-item index="main" class="main">算法教学平台</el-menu-item>
         <div class="flex-grow" />
         <el-menu-item index="postList">新手引导</el-menu-item>

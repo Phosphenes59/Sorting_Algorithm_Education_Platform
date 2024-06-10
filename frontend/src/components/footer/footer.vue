@@ -1,5 +1,5 @@
 <template>
-    <div id="footer">Copyright © 2024, All Right Reserved</div>
+    <div id="footer">Copyright © 2024 Software Practice Group 4, All Right Reserved</div>
 </template>
 
 <script>

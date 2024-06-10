@@ -39,7 +39,7 @@
    }
 
    ::v-deep .el-tabs__item {
-      front-size:20px;
+      font-size:20px;
    }
 
 
