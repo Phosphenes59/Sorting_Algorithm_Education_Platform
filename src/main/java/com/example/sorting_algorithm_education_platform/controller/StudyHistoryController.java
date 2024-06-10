@@ -161,6 +161,24 @@ public class StudyHistoryController {
         return ResponseEntity.ok(new Res<>(1, "获取学习进度成功", progress));
     }
 
+    // 获取用户对应方法的完成题数
+    @PostMapping ("/allprogress")
+    public ResponseEntity<Res<List<Integer>>> getAllProgressByMethod(
+            @RequestHeader("token") String token,
+            @RequestParam("userId") Integer userId
+    ){
+        if (!userService.userIdExists(userId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = bubbleSort; i < selectSort; i++){
+            int progress = studyHistoryMapper.countBySortMethod(i, userId);
+            result.add(progress);
+        }
+
+        return ResponseEntity.ok(new Res<>(1, "获取学习进度成功", result));
+    }
+
     // 获取过去七天的学习时间和总和
     @PostMapping ("/studytime")
     public ResponseEntity<Res<List<Duration>>> getLast7DayStudyTimeAndSum(
