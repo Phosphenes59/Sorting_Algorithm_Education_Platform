@@ -131,18 +131,18 @@ class UserControllerTest {
     void register() throws Exception {
         String email = "test";
         String password = "test";
+        String userName = "test";
         String phone = "test";
         Res<User> res = new Res<>();
         res.setCode(1);
         res.setData(user);
         res.setMsg("success");
 
-        when(userService.register(email, password,phone)).thenReturn(res);
+        when(userService.register(email, password, userName, phone)).thenReturn(res);
 
         MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
                 .param("email", email)
-                .param("password", password)
-                        .param("phone",phone))
+                .param("password", password))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1))
                 .andExpect(jsonPath("$.msg").value("success"))
@@ -159,18 +159,18 @@ class UserControllerTest {
     void register2() throws Exception {
         String email = "wrong";
         String password = "test";
+        String userName = "test";
         String phone = "test";
         Res<User> res = new Res<>();
         res.setCode(1);
         res.setData(user);
         res.setMsg("用户已存在");
 
-        when(userService.register(email, password,phone)).thenReturn(res);
+        when(userService.register(email, password, userName, phone)).thenReturn(res);
 
         MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
                         .param("email", email)
-                        .param("password", password)
-                        .param("phone",phone))
+                        .param("password", password))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1))
                 .andExpect(jsonPath("$.msg").value("用户已存在"))

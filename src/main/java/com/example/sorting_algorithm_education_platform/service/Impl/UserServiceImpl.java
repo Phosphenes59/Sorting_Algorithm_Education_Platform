@@ -34,17 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Res<User> register(String email, String password,String phone){
+    public Res<User> register(String email, String password, String userName, String phone) {
         User user=new User();
         user.setEmail(email);
-        user.setPhone(phone);
         user.setPassword(password);
-        System.out.println(user);
+        user.setUserName(userName);
+        user.setPhone(phone);
+        user.setIsAdmin(0);
         if (userMapper.findUserByEmail(email)!=null){
             return new Res<>(0,"用户已经存在",null);
         }
         else {
-            userMapper.insert(user);
+            userMapper.insertUser(user);
             return new Res<>(1,"success",user);
         }
     }
