@@ -13,12 +13,10 @@
         FROM insert_sort
         WHERE practice_id = #{practiceId} AND process_num = #{processNum}
     </select>
-    <select id="findSolution" resultType="string">
-        SELECT curr_list
+    <select id="findSolution" resultType="com.example.sorting_algorithm_education_platform.entity.InsertSort">
+        SELECT *
         FROM insert_sort
-        WHERE practice_id = #{practiceId} AND process_num = (
-            SELECT MAX(process_num) FROM insert_sort WHERE practice_id = #{practiceId}
-        )
+        WHERE user_id = #{userId} AND practice_id = #{practiceId}
     </select>
     <insert id="insertSort" parameterType="com.example.sorting_algorithm_education_platform.entity.InsertSort">
         INSERT INTO insert_sort (

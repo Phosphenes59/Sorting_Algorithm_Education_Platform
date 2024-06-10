@@ -1,11 +1,14 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
+import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.entity.SelectSort;
 import com.example.sorting_algorithm_education_platform.service.SelectSortService;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/select-sort")
@@ -37,10 +40,21 @@ public class SelectSortController {
     }
 
     @PostMapping("/solution")
-    public ResponseEntity<Res<String>> findSolution(@RequestHeader("token") String token,
-                                                    @RequestParam(value = "practiceId") Integer practiceId){
-        String solution = selectSortService.getSolution(practiceId);
+    public ResponseEntity<Res<List<SelectSort>>> findSolution(@RequestHeader("token") String token,
+                                                              @RequestParam(value = "userId") Integer userId,
+                                                              @RequestParam(value = "practiceId") Integer practiceId){
+        List<SelectSort> solution = selectSortService.getSolution(userId, practiceId);
         return getResResponseEntity(solution);
+    }
+
+    private ResponseEntity<Res<List<SelectSort>>> getResResponseEntity(List<SelectSort> selectSortList) {
+        Res<List<SelectSort>> result;
+        if (selectSortList == null) {
+            result = new Res<>(0, "查找失败",null);
+        } else {
+            result = new Res<>(1, "success", selectSortList);
+        }
+        return ResponseEntity.ok(result);
     }
 
     private ResponseEntity<Res<SelectSort>> getResResponseEntity(SelectSort insertSort) {
