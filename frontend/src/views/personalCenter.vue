@@ -38,5 +38,9 @@
        margin-top: 20px;
    }
 
+   ::v-deep .el-tabs__item {
+      front-size:20px;
+   }
+
 
 </style>
