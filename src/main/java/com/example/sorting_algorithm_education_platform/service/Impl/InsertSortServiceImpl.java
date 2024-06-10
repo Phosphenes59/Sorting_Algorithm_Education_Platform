@@ -1,11 +1,14 @@
 package com.example.sorting_algorithm_education_platform.service.Impl;
 
+import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
 import com.example.sorting_algorithm_education_platform.mapper.InsertSortMapper;
 import com.example.sorting_algorithm_education_platform.service.InsertSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class InsertSortServiceImpl implements InsertSortService {
@@ -28,8 +31,9 @@ public class InsertSortServiceImpl implements InsertSortService {
     }
 
     @Override
-    public String getSolution(Integer practiceId) {
-        return insertSortMapper.findSolution(practiceId);
+    public List<InsertSort> getSolution(Integer userId, Integer practiceId) {
+        List<InsertSort> solution = insertSortMapper.findSolution(userId, practiceId);
+        return solution;
     }
 
     @Override

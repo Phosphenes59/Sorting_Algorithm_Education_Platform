@@ -1,10 +1,13 @@
 package com.example.sorting_algorithm_education_platform.service.Impl;
 
+import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.entity.SelectSort;
 import com.example.sorting_algorithm_education_platform.mapper.SelectSortMapper;
 import com.example.sorting_algorithm_education_platform.service.SelectSortService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SelectSortServiceImpl implements SelectSortService {
@@ -26,8 +29,9 @@ public class SelectSortServiceImpl implements SelectSortService {
     }
 
     @Override
-    public String getSolution(Integer practiceId) {
-        return selectSortMapper.findSolution(practiceId);
+    public List<SelectSort> getSolution(Integer userId, Integer practiceId) {
+        List<SelectSort> solution = selectSortMapper.findSolution(userId, practiceId);
+        return solution;
     }
 
     @Override
