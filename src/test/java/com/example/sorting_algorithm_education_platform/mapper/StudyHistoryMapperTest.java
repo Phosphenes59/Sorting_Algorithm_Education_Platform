@@ -106,4 +106,48 @@ public class StudyHistoryMapperTest {
         List<StudyHistory> result = studyHistoryMapper.getStudyHistoryByUserId(userId);
         Assertions.assertEquals(expectedHistories, result);
     }
+
+    @Test
+    void testInsertHistory_NullHistory() {
+        StudyHistory nullHistory = null;
+        studyHistoryMapper.insertHistory(nullHistory);
+        verify(studyHistoryMapper).insertHistory(nullHistory);
+    }
+
+    @Test
+    void testInsertHistory_InvalidHistory() {
+        StudyHistory invalidHistory = new StudyHistory();
+        invalidHistory.setSortMethod(-1);
+        invalidHistory.setProblemId(-1);
+        invalidHistory.setLastStep(-1);
+        invalidHistory.setCurrTime(null);
+        invalidHistory.setStatus(-1);
+        invalidHistory.setUserId(-1);
+
+        studyHistoryMapper.insertHistory(invalidHistory);
+        verify(studyHistoryMapper).insertHistory(invalidHistory);
+    }
+
+    @Test
+    void testGetStudyHistoryByUserId_NoHistory() {
+        int userIdWithNoHistory = 999;
+        List<StudyHistory> expectedEmptyList = new ArrayList<>();
+
+        when(studyHistoryMapper.getStudyHistoryByUserId(userIdWithNoHistory)).thenReturn(expectedEmptyList);
+
+        List<StudyHistory> result = studyHistoryMapper.getStudyHistoryByUserId(userIdWithNoHistory);
+        Assertions.assertEquals(expectedEmptyList, result);
+    }
+
+    @Test
+    void testCountBySortMethod_NonExistentMethod() {
+        int nonExistentSortMethod = 999;
+        int userId = 1;
+        int expectedCount = 0;
+
+        when(studyHistoryMapper.countBySortMethod(nonExistentSortMethod, userId)).thenReturn(expectedCount);
+
+        int result = studyHistoryMapper.countBySortMethod(nonExistentSortMethod, userId);
+        Assertions.assertEquals(expectedCount, result);
+    }
 }
