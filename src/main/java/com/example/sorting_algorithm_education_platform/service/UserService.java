@@ -8,5 +8,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface UserService {
     boolean userIdExists(int userId);
     Res<User> login(String email, String password);
-    Res<User> register(String email,String password);
+    Res<User> register(String email,String password,String phone);
 }

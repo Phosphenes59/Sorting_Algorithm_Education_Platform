@@ -44,7 +44,8 @@ public class UserController {
     }
     @PostMapping("/register")
     public ResponseEntity<Res<User>> register(@RequestParam(value = "email") String email,
-                                                   @RequestParam(value = "password") String password){
-        return ResponseEntity.ok(userService.register(email, password));
+                                              @RequestParam(value = "password") String password,
+                                              @RequestParam(value = "phone")String phone){
+        return ResponseEntity.ok(userService.register(email, password,phone));
     }
 }
