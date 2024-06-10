@@ -6,6 +6,8 @@ import com.example.sorting_algorithm_education_platform.service.BubbleSortServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BubbleSortServiceImpl implements BubbleSortService {
     @Autowired
@@ -24,14 +26,15 @@ public class BubbleSortServiceImpl implements BubbleSortService {
     }
 
     @Override
-    public String getCurrList(Integer practiceId, Integer processNum){
-        String currList = bubbleSortMapper.findCurrList(practiceId, processNum);
-        return currList;
+    public String getCurrList(Integer userId, Integer practiceId, Integer processNum) {
+        String solution = bubbleSortMapper.findCurrList(userId, practiceId, processNum);
+        return solution;
     }
 
+
     @Override
-    public String getSolution(Integer practiceId) {
-        String solution = bubbleSortMapper.findSolution(practiceId);
+    public List<BubbleSort> getSolution(Integer userId, Integer practiceId) {
+        List<BubbleSort> solution = bubbleSortMapper.findSolution(userId, practiceId);
         return solution;
     }
 

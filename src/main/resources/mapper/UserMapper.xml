@@ -17,4 +17,11 @@
         FROM user
         WHERE id = #{id}
     </select>
+    <insert id="insertUser" parameterType="com.example.sorting_algorithm_education_platform.entity.User">
+        INSERT INTO user (
+            email, password, user_name, phone, is_admin
+        ) VALUES (
+                     #{email}, #{password}, #{userName}, #{phone}, #{isAdmin}
+                 )
+    </insert>
 </mapper>

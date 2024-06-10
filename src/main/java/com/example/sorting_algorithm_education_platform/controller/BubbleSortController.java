@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/bubble-sort")
 public class BubbleSortController {
@@ -31,17 +33,28 @@ public class BubbleSortController {
 
     @PostMapping("/currList")
     public ResponseEntity<Res<String>> findCurrList(@RequestHeader("token") String token,
-                                                    @RequestParam(value = "practiceId") Integer practiceId,
-                                                    @RequestParam(value = "processNum") Integer processNum){
-        String currList = bubbleSortService.getCurrList(practiceId, processNum);
+                                                    @RequestParam(value = "userId") Integer userId,
+                                                    @RequestParam(value = "practiceId") Integer practiceId){
+        String currList = bubbleSortService.getCurrList(userId, practiceId, 0);
         return getResResponseEntity(currList);
     }
 
     @PostMapping("/solution")
-    public ResponseEntity<Res<String>> findSolution(@RequestHeader("token") String token,
-                                                    @RequestParam(value = "practiceId") Integer practiceId){
-        String solution = bubbleSortService.getSolution(practiceId);
+    public ResponseEntity<Res<List<BubbleSort>>> findSolution(@RequestHeader("token") String token,
+                                                  @RequestParam(value = "userId") Integer userId,
+                                                  @RequestParam(value = "practiceId") Integer practiceId){
+        List<BubbleSort> solution = bubbleSortService.getSolution(userId, practiceId);
         return getResResponseEntity(solution);
+    }
+
+    private ResponseEntity<Res<List<BubbleSort>>> getResResponseEntity(List<BubbleSort> bubbleSortList) {
+        Res<List<BubbleSort>> result;
+        if (bubbleSortList == null) {
+            result = new Res<>(0, "查找失败",null);
+        } else {
+            result = new Res<>(1, "success", bubbleSortList);
+        }
+        return ResponseEntity.ok(result);
     }
 
     private ResponseEntity<Res<BubbleSort>> getResResponseEntity(BubbleSort bubbleSort) {

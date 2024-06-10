@@ -85,6 +85,8 @@ class UserServiceTest {
     void register() {
         String email = "test";
         String password = "test";
+        String userName = "test";
+        String phone = "test";
         Res<User> res = new Res<>();
         User user = new User();
         user.setEmail(email);
@@ -92,7 +94,7 @@ class UserServiceTest {
 
         when(userMapper.findUserByEmail(email)).thenReturn(user);
 
-        res = userService.register(email, password);
+        res = userService.register(email, password, userName, phone);
 
         assertEquals(0, res.getCode());
         assertEquals("用户已经存在", res.getMsg());
@@ -104,6 +106,8 @@ class UserServiceTest {
     void register2() {
         String email = "test";
         String password = "test";
+        String userName = "test";
+        String phone = "test";
         Res<User> res = new Res<>();
         User user = new User();
         user.setEmail(email);
@@ -111,7 +115,7 @@ class UserServiceTest {
 
         when(userMapper.findUserByEmail(email)).thenReturn(null);
 
-        res = userService.register(email, password);
+        res = userService.register(email, password, userName, phone);
 
         assertEquals(1, res.getCode());
         assertEquals("success", res.getMsg());

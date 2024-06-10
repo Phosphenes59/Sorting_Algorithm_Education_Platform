@@ -19,6 +19,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -119,7 +122,7 @@ public class BubbleSortControllerTest {
         mockBubbleSort.setProcessNum(0);
         mockBubbleSort.setUserId(1);
         mockBubbleSort.setTurn(0);
-        when(bubbleSortMapper.findCurrList(1, 0)).thenReturn(mockBubbleSort.getCurrList());
+        when(bubbleSortMapper.findCurrList(1, 0,0)).thenReturn(mockBubbleSort.getCurrList());
         ResponseEntity
                 <Res<String>> response = bubbleSortController.findCurrList("mockToken", 1, 0);
 
@@ -128,7 +131,7 @@ public class BubbleSortControllerTest {
         assertEquals("success", response.getBody().getMsg());
         assertEquals("1, 6, 5, 3", response.getBody().getData());
 
-        verify(bubbleSortMapper, times(1)).findCurrList(1, 0);
+        verify(bubbleSortMapper, times(1)).findCurrList(1, 0,0);
     }
 
     @Test
@@ -177,17 +180,23 @@ public class BubbleSortControllerTest {
         mockBubbleSort.setUserId(2);
         mockBubbleSort.setTurn(2);
 
-        when(bubbleSortMapper.findSolution(3)).thenReturn(mockBubbleSort.getCurrList());
+        List<BubbleSort> mockBubbleSortList = new ArrayList<>();
+        mockBubbleSortList.add(mockBubbleSort1);
+        mockBubbleSortList.add(mockBubbleSort2);
+        mockBubbleSortList.add(mockBubbleSort3);
+        mockBubbleSortList.add(mockBubbleSort);
+
+        when(bubbleSortMapper.findSolution(2,3)).thenReturn(mockBubbleSortList);
 
         ResponseEntity
-                <Res<String>> response = bubbleSortController.findSolution("mockToken", 3);
+                <Res<List<BubbleSort>>> response = bubbleSortController.findSolution("mockToken", 2,3);
 
         assertNotNull(response);
         assertEquals(1, response.getBody().getCode());
         assertEquals("success", response.getBody().getMsg());
         assertEquals(mockBubbleSort.getCurrList(), response.getBody().getData());
 
-        verify(bubbleSortMapper, times(1)).findSolution(3);
+        verify(bubbleSortMapper, times(1)).findSolution(2,3);
     }
 
 //    @Test

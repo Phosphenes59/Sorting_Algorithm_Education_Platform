@@ -28,8 +28,8 @@ public class InsertSortRecorder {
         System.out.println(insertSort);
 
         key = inputList.get(0);
-        processNum++;
         turn++;
+        processNum++;
         insertSort.setPivot(key);
         insertSort.setSortedList(inputList.get(0).toString());
         insertSort.setUnsortedList(inputList.subList(1, n).toString().replace("[", "").replace("]", ""));
@@ -39,15 +39,28 @@ public class InsertSortRecorder {
 
         for (int i = 1; i < n; i++) {
             turn++;
-            processNum++;
+            processNum = 0;
             key = inputList.get(i);
 //            System.out.println("key:" + key);
             int j;
 
             for (j = i - 1; j >= 0 && inputList.get(j) > key; j--) {
                 inputList.set(j + 1, inputList.get(j));
+                processNum++;
+                orderPos = j + 1;
+                sorted = inputList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
+                unsorted = inputList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
+                insertSort.setPivot(key);
+                insertSort.setOrderPos(orderPos);
+                insertSort.setSortedList(sorted);
+                insertSort.setUnsortedList(unsorted);
+                insertSort.setCurrList(inputList.toString().replace("[", "").replace("]", ""));
+                insertSort.setProcessNum(processNum);
+                insertSort.setTurn(turn);
+                System.out.println(insertSort);
             }
             inputList.set(j + 1, key);
+            processNum++;
             orderPos = j + 1;
             sorted = inputList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
             unsorted = inputList.subList(i + 1, n).toString().replace("[", "").replace("]", "");

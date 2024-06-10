@@ -149,13 +149,12 @@ public class BaseController {
         bubbleSortService.insertSort(bubbleSort);
 
         int n = integerList.size();
-        processNum = 0;
         for (int i = 0; i < n - 1; i++) {
             turn++;
             exchange = 0;
             prePos = 0;
             postPos = 0;
-
+            processNum = 0;
 
             for (int j = 0; j < n - i - 1; j++) {
                 if (integerList.get(j) > integerList.get(j + 1)) {
@@ -173,19 +172,21 @@ public class BaseController {
                     bubbleSort.setProcessNum(processNum);
                     System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
+                } else {
+                    exchange = 0;
+                    prePos = 0;
+                    postPos = 0;
+                    processNum++;
+                    currList = integerList.toString().replace("[", "").replace("]", "");
+                    bubbleSort.setTurn(turn);
+                    bubbleSort.setExchange(exchange);
+                    bubbleSort.setPrePos(prePos);
+                    bubbleSort.setPostPos(postPos);
+                    bubbleSort.setCurrList(currList);
+                    bubbleSort.setProcessNum(processNum);
+                    System.out.println(bubbleSort);
+                    bubbleSortService.insertSort(bubbleSort);
                 }
-            }
-            if(exchange == 0) {
-                processNum++;
-                currList = integerList.toString().replace("[", "").replace("]", "");
-                bubbleSort.setTurn(turn);
-                bubbleSort.setExchange(exchange);
-                bubbleSort.setPrePos(prePos);
-                bubbleSort.setPostPos(postPos);
-                bubbleSort.setCurrList(currList);
-                bubbleSort.setProcessNum(processNum);
-                System.out.println(bubbleSort);
-                bubbleSortService.insertSort(bubbleSort);
             }
         }
     }
@@ -219,8 +220,8 @@ public class BaseController {
         insertSortService.insertSort(insertSort);
 
         key = integerList.get(0);
-        processNum++;
         turn++;
+        processNum++;
         insertSort.setPivot(key);
         insertSort.setSortedList(integerList.get(0).toString());
         insertSort.setUnsortedList(integerList.subList(1, n).toString().replace("[", "").replace("]", ""));
@@ -231,15 +232,28 @@ public class BaseController {
 
         for (int i = 1; i < n; i++) {
             turn++;
-            processNum++;
+            processNum = 0;
             key = integerList.get(i);
 //            System.out.println("key:" + key);
             int j;
 
             for (j = i - 1; j >= 0 && integerList.get(j) > key; j--) {
                 integerList.set(j + 1, integerList.get(j));
+                processNum++;
+                orderPos = j + 1;
+                sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
+                unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
+                insertSort.setPivot(key);
+                insertSort.setOrderPos(orderPos);
+                insertSort.setSortedList(sorted);
+                insertSort.setUnsortedList(unsorted);
+                insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+                insertSort.setProcessNum(processNum);
+                insertSort.setTurn(turn);
+                insertSortService.insertSort(insertSort);
             }
             integerList.set(j + 1, key);
+            processNum++;
             orderPos = j + 1;
             sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
             unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
@@ -283,22 +297,29 @@ public class BaseController {
 
         for (int i = 0; i < n - 1; i++) {
             turn++;
-            processNum++;
+            processNum = 0;
             exchange = 0;
             curPos = i;
             minPos = i;
             selectSort.setCurPos(curPos);
-            selectSort.setProcessNum(processNum);
             selectSort.setTurn(turn);
             for (int j = i + 1; j < n; j++) {
                 if (integerList.get(j) < integerList.get(minPos)){
                     minPos = j;
+                    processNum++;
+                    selectSort.setProcessNum(processNum);
+                    selectSort.setExchange(exchange);
+                    selectSort.setMinPos(minPos);
+                    selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+                    selectSortService.insertSort(selectSort);
                 }
             }
             if (minPos != i){
                 exchange = 1;
                 Collections.swap(integerList, i, minPos);
             }
+            processNum++;
+            selectSort.setProcessNum(processNum);
             selectSort.setExchange(exchange);
             selectSort.setMinPos(minPos);
             selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
