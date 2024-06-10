@@ -356,17 +356,17 @@ public class BaseController {
             selectSort.setCurPos(curPos);
             selectSort.setTurn(turn);
             for (int j = i + 1; j < n; j++) {
+                processNum++;
+                processStep++;
                 if (integerList.get(j) < integerList.get(minPos)){
                     minPos = j;
-                    processNum++;
-                    processStep++;
-                    selectSort.setProcessNum(processNum);
-                    selectSort.setProcessStep(processStep + turn - 1);
-                    selectSort.setExchange(exchange);
-                    selectSort.setMinPos(minPos);
-                    selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
-                    selectSortService.insertSort(selectSort);
                 }
+                selectSort.setProcessNum(processNum);
+                selectSort.setProcessStep(processStep + turn - 1);
+                selectSort.setExchange(exchange);
+                selectSort.setMinPos(minPos);
+                selectSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+                selectSortService.insertSort(selectSort);
             }
             if (minPos != i){
                 exchange = 1;
