@@ -171,7 +171,7 @@ public class StudyHistoryController {
             return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
         }
         List<Integer> result = new ArrayList<>();
-        for (int i = bubbleSort; i < selectSort; i++){
+        for (int i = bubbleSort; i < selectSort+1; i++){
             int progress = studyHistoryMapper.countBySortMethod(i, userId);
             result.add(progress);
         }
