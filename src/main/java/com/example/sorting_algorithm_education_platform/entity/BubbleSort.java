@@ -29,6 +29,25 @@ public class BubbleSort {
     private int practiceId;
     // 步骤序号(为0时代表原题)
     private int processNum;
+
+    public void setPrePos(int prePos) {
+        this.prePos = prePos;
+    }
+
+    public void setPostPos(int postPos) {
+        this.postPos = postPos;
+    }
+
+    public int getProcessStep() {
+        return processStep;
+    }
+
+    public void setProcessStep(int processStep) {
+        this.processStep = processStep;
+    }
+
+    // 每一轮的步骤
+    private int processStep;
     // 出题人
     private int userId;
     // 冒泡轮数

@@ -30,6 +30,11 @@ public class BaseController {
     @Autowired
     private SelectSortService selectSortService;
 
+//    @PostMapping("/all")
+//    public ResponseEntity<Res<List<BubbleSort>>> getAllProblems(@RequestHeader("token") String token){
+//
+//    }
+
     @PostMapping("/add")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
                                                @RequestParam(value = "sortList") String sortList,
@@ -128,6 +133,7 @@ public class BaseController {
         int prePos = 0;
         int postPos = 0;
         int exchange = 0;
+        int processStep = 0;
         String currList = null;
 
         String[] stringArray = inputList.split(","); // 使用逗号分割字符串，得到字符串数组
@@ -145,6 +151,7 @@ public class BaseController {
         bubbleSort.setPostPos(0);
         bubbleSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
         bubbleSort.setProcessNum(0);
+        bubbleSort.setProcessStep(0);
         System.out.println(bubbleSort);
         bubbleSortService.insertSort(bubbleSort);
 
@@ -154,7 +161,7 @@ public class BaseController {
             exchange = 0;
             prePos = 0;
             postPos = 0;
-            processNum = 0;
+            processStep = 0;
 
             for (int j = 0; j < n - i - 1; j++) {
                 if (integerList.get(j) > integerList.get(j + 1)) {
@@ -163,6 +170,7 @@ public class BaseController {
                     postPos = j + 1;
                     Collections.swap(integerList, j, j + 1);
                     processNum++;
+                    processStep++;
                     currList = integerList.toString().replace("[", "").replace("]", "");
                     bubbleSort.setTurn(turn);
                     bubbleSort.setExchange(exchange);
@@ -170,6 +178,7 @@ public class BaseController {
                     bubbleSort.setPostPos(postPos);
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
+                    bubbleSort.setProcessStep(processStep + turn - 1);
                     System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
                 } else {
@@ -177,6 +186,7 @@ public class BaseController {
                     prePos = 0;
                     postPos = 0;
                     processNum++;
+                    processStep++;
                     currList = integerList.toString().replace("[", "").replace("]", "");
                     bubbleSort.setTurn(turn);
                     bubbleSort.setExchange(exchange);
@@ -184,6 +194,7 @@ public class BaseController {
                     bubbleSort.setPostPos(postPos);
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
+                    bubbleSort.setProcessStep(processStep + turn - 1);
                     System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
                 }
