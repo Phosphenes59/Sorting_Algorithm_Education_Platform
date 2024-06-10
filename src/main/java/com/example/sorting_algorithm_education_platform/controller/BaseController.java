@@ -220,8 +220,8 @@ public class BaseController {
         insertSortService.insertSort(insertSort);
 
         key = integerList.get(0);
-        processNum++;
         turn++;
+        processNum++;
         insertSort.setPivot(key);
         insertSort.setSortedList(integerList.get(0).toString());
         insertSort.setUnsortedList(integerList.subList(1, n).toString().replace("[", "").replace("]", ""));
@@ -232,15 +232,28 @@ public class BaseController {
 
         for (int i = 1; i < n; i++) {
             turn++;
-            processNum++;
+            processNum = 0;
             key = integerList.get(i);
 //            System.out.println("key:" + key);
             int j;
 
             for (j = i - 1; j >= 0 && integerList.get(j) > key; j--) {
                 integerList.set(j + 1, integerList.get(j));
+                processNum++;
+                orderPos = j + 1;
+                sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
+                unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
+                insertSort.setPivot(key);
+                insertSort.setOrderPos(orderPos);
+                insertSort.setSortedList(sorted);
+                insertSort.setUnsortedList(unsorted);
+                insertSort.setCurrList(integerList.toString().replace("[", "").replace("]", ""));
+                insertSort.setProcessNum(processNum);
+                insertSort.setTurn(turn);
+                insertSortService.insertSort(insertSort);
             }
             integerList.set(j + 1, key);
+            processNum++;
             orderPos = j + 1;
             sorted = integerList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
             unsorted = integerList.subList(i + 1, n).toString().replace("[", "").replace("]", "");
