@@ -14,7 +14,7 @@ public class SelectSortServiceImpl implements SelectSortService {
     @Autowired
     private SelectSortMapper selectSortMapper;
     @Override
-    public SelectSort getByInsertId(Integer SelectId) {
+    public SelectSort getBySelectId(Integer SelectId) {
         return selectSortMapper.selectById(SelectId);
     }
 
@@ -24,8 +24,9 @@ public class SelectSortServiceImpl implements SelectSortService {
     }
 
     @Override
-    public String getCurrList(Integer practiceId, Integer processNum) {
-        return selectSortMapper.findCurrList(practiceId, processNum);
+    public String getCurrList(Integer userId, Integer practiceId, Integer processNum) {
+        String solution = selectSortMapper.findCurrList(userId, practiceId, processNum);
+        return solution;
     }
 
     @Override

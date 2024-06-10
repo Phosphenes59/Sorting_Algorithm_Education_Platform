@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sorting_algorithm_education_platform.mapper.ProblemsMapper">
+    <select id="findAll" resultType="com.example.sorting_algorithm_education_platform.entity.Problems">
+        SELECT *
+        FROM problems
+        ORDER BY practice_id ASC
+    </select>
+    <select id="findMy" resultType="com.example.sorting_algorithm_education_platform.entity.Problems">
+        SELECT *
+        FROM problems
+        WHERE user_id = #{userId}
+        ORDER BY practice_id ASC
+    </select>
+    <insert id="insertProblems" parameterType="com.example.sorting_algorithm_education_platform.entity.Problems">
+        INSERT INTO problems (
+            curr_list, practice_id, user_id
+        ) VALUES (
+                     #{currList}, #{practiceId}, #{userId}
+                 )
+    </insert>
+    <delete id="deleteProblems" parameterType="com.example.sorting_algorithm_education_platform.entity.Problems">
+        DELETE FROM problems
+        WHERE user_id = #{userId} AND practice_id = #{practiceId}
+    </delete>
+</mapper>

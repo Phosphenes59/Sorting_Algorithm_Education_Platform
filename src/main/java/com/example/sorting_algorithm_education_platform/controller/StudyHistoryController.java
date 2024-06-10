@@ -1,6 +1,9 @@
 package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.StudyHistory;
+import com.example.sorting_algorithm_education_platform.mapper.BubbleSortMapper;
+import com.example.sorting_algorithm_education_platform.mapper.InsertSortMapper;
+import com.example.sorting_algorithm_education_platform.mapper.SelectSortMapper;
 import com.example.sorting_algorithm_education_platform.mapper.StudyHistoryMapper;
 import com.example.sorting_algorithm_education_platform.service.UserService;
 import com.example.sorting_algorithm_education_platform.util.Res;
@@ -25,6 +28,15 @@ public class StudyHistoryController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    BubbleSortMapper bubbleSortMapper;
+
+    @Autowired
+    InsertSortMapper insertSortMapper;
+
+    @Autowired
+    SelectSortMapper selectSortMapper;
+
     // 进入某题学习时记录进入时间
     @GetMapping("/enter")
     public ResponseEntity<Res<String>> updateHistoryByEnterStudy(
@@ -41,11 +53,10 @@ public class StudyHistoryController {
             System.out.println("sort method not exist");
             return ResponseEntity.badRequest().body(new Res<>(0, "排序类型不存在", null));
         }
-        /* Todo: 检查题号是否存在
-        if (!problemExistsForUser(sortMethod, problemId, userId)) {
+        if (!problemExistsForUser(problemId)){
             System.out.println("problem not exist for user");
             return ResponseEntity.badRequest().body(new Res<>(0, "题号不存在", null));
-        }*/
+        }
         try {
             // 创建 StudyHistory 对象
             StudyHistory studyHistory = new StudyHistory();
@@ -67,9 +78,10 @@ public class StudyHistoryController {
         return sortMethod == bubbleSort || sortMethod == insertSort || sortMethod == selectSort;
     }
 
-    /*private boolean problemExistsForUser(int sortMethod, int problemId, int userId){
-        int count = bubbleSortMapper.countByPracticeIdAndUserId(practiceId,userId);
-    }*/
+    private boolean problemExistsForUser(int problemId){
+        int count = bubbleSortMapper.countByPracticeId(problemId);
+        return count > 0;
+    }
 
 
     // 退出某题学习时记录当前学习状态与退出时间
@@ -147,6 +159,24 @@ public class StudyHistoryController {
 
         int progress = studyHistoryMapper.countBySortMethod(sortMethod, userId);
         return ResponseEntity.ok(new Res<>(1, "获取学习进度成功", progress));
+    }
+
+    // 获取用户对应方法的完成题数
+    @PostMapping ("/allprogress")
+    public ResponseEntity<Res<List<Integer>>> getAllProgressByMethod(
+            @RequestHeader("token") String token,
+            @RequestParam("userId") Integer userId
+    ){
+        if (!userService.userIdExists(userId)) {
+            return ResponseEntity.badRequest().body(new Res<>(0, "用户ID不存在", null));
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = bubbleSort; i < selectSort+1; i++){
+            int progress = studyHistoryMapper.countBySortMethod(i, userId);
+            result.add(progress);
+        }
+
+        return ResponseEntity.ok(new Res<>(1, "获取学习进度成功", result));
     }
 
     // 获取过去七天的学习时间和总和
