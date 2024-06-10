@@ -14,7 +14,7 @@ public class SelectSortServiceImpl implements SelectSortService {
     @Autowired
     private SelectSortMapper selectSortMapper;
     @Override
-    public SelectSort getByInsertId(Integer SelectId) {
+    public SelectSort getBySelectId(Integer SelectId) {
         return selectSortMapper.selectById(SelectId);
     }
 
