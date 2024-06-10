@@ -31,7 +31,6 @@ public class BubbleSortServiceImpl implements BubbleSortService {
         return solution;
     }
 
-
     @Override
     public List<BubbleSort> getSolution(Integer userId, Integer practiceId) {
         List<BubbleSort> solution = bubbleSortMapper.findSolution(userId, practiceId);

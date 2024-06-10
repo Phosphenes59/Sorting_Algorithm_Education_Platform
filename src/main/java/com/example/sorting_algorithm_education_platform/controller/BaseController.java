@@ -2,11 +2,9 @@ package com.example.sorting_algorithm_education_platform.controller;
 
 import com.example.sorting_algorithm_education_platform.entity.BubbleSort;
 import com.example.sorting_algorithm_education_platform.entity.InsertSort;
+import com.example.sorting_algorithm_education_platform.entity.Problems;
 import com.example.sorting_algorithm_education_platform.entity.SelectSort;
-import com.example.sorting_algorithm_education_platform.service.BubbleSortService;
-import com.example.sorting_algorithm_education_platform.service.InsertSortService;
-import com.example.sorting_algorithm_education_platform.service.SelectSortService;
-import com.example.sorting_algorithm_education_platform.service.UserService;
+import com.example.sorting_algorithm_education_platform.service.*;
 import com.example.sorting_algorithm_education_platform.util.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +27,21 @@ public class BaseController {
     private InsertSortService insertSortService;
     @Autowired
     private SelectSortService selectSortService;
+    @Autowired
+    private ProblemsService problemsService;
 
-//    @PostMapping("/all")
-//    public ResponseEntity<Res<List<BubbleSort>>> getAllProblems(@RequestHeader("token") String token){
-//
-//    }
+    @PostMapping("/all")
+    public ResponseEntity<Res<List<Problems>>> getAllProblems(@RequestHeader("token") String token){
+        List<Problems> solution = problemsService.findAll();
+        return getResResponseEntity(solution);
+    }
+
+    @PostMapping("/myPractice")
+    public ResponseEntity<Res<List<Problems>>> getMyProblems(@RequestHeader("token") String token,
+                                                             @RequestParam(value = "userId") Integer userId){
+        List<Problems> solution = problemsService.findMy(userId);
+        return getResResponseEntity(solution);
+    }
 
     @PostMapping("/add")
     public ResponseEntity<Res<String>> addSort(@RequestHeader("token") String token,
@@ -54,10 +62,15 @@ public class BaseController {
             System.out.println("invalid sequence");
             return ResponseEntity.badRequest().body(new Res<>(0, "序列无效", null));
         }
+        Problems problems = new Problems();
+        problems.setCurrList(sortList);
+        problems.setPracticeId(practiceId);
+        problems.setUserId(userId);
         try {
             insertBubble(sortList, practiceId, userId);
             insertInsert(sortList, practiceId, userId);
             insertSelect(sortList, practiceId, userId);
+            problemsService.insertProblems(problems);
             return ResponseEntity.ok(new Res<>(1, "添加成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0, "添加失败: " , e.getMessage()));
@@ -79,6 +92,7 @@ public class BaseController {
             bubbleSortService.deleteSort(practiceId, userId);
             insertSortService.deleteSort(practiceId, userId);
             selectSortService.deleteSort(practiceId, userId);
+            problemsService.deleteProblems(practiceId, userId);
             return ResponseEntity.ok(new Res<>(1, "删除成功",null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
@@ -100,6 +114,10 @@ public class BaseController {
         if (!isValidSequence(sortList)) {
             return ResponseEntity.badRequest().body(new Res<>(0, "序列无效", null));
         }
+        Problems problems = new Problems();
+        problems.setCurrList(sortList);
+        problems.setPracticeId(practiceId);
+        problems.setUserId(userId);
         try {
             //first delete
             bubbleSortService.deleteSort(practiceId, userId);
@@ -108,10 +126,22 @@ public class BaseController {
             insertInsert(sortList, practiceId, userId);
             selectSortService.deleteSort(practiceId, userId);
             insertSelect(sortList, practiceId, userId);
+            problemsService.deleteProblems(practiceId, userId);
+            problemsService.insertProblems(problems);
             return ResponseEntity.ok(new Res<>(1, "修改成功",null));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new Res<>(0,"删除失败: ",e.getMessage()));
+            return ResponseEntity.badRequest().body(new Res<>(0,"修改失败: ",e.getMessage()));
         }
+    }
+
+    private ResponseEntity<Res<List<Problems>>> getResResponseEntity(List<Problems> problems) {
+        Res<List<Problems>> result;
+        if (problems == null) {
+            result = new Res<>(0, "查找失败",null);
+        } else {
+            result = new Res<>(1, "success", problems);
+        }
+        return ResponseEntity.ok(result);
     }
 
     // 方法用于检查该userID的practiceId是否存在
