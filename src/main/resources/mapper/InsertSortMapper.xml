@@ -11,7 +11,7 @@
     <select id="findCurrList" resultType="string">
         SELECT curr_list
         FROM insert_sort
-        WHERE practice_id = #{practiceId} AND process_num = #{processNum}
+        WHERE user_id = #{userId} AND practice_id = #{practiceId} AND process_num = #{processNum}
     </select>
     <select id="findSolution" resultType="com.example.sorting_algorithm_education_platform.entity.InsertSort">
         SELECT *

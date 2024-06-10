@@ -26,8 +26,9 @@ public class InsertSortServiceImpl implements InsertSortService {
     }
 
     @Override
-    public String getCurrList(Integer practiceId, Integer processNum) {
-        return insertSortMapper.findCurrList(practiceId, processNum);
+    public String getCurrList(Integer userId, Integer practiceId, Integer processNum) {
+        String solution = insertSortMapper.findCurrList(userId, practiceId, processNum);
+        return solution;
     }
 
     @Override

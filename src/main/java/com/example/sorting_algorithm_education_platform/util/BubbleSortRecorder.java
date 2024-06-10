@@ -18,6 +18,7 @@ public class BubbleSortRecorder {
     private int postPos;
     private String currList;
     private int processNum;
+    private int processStep;
     private int turn;
 //    @Autowired
 //    private BubbleSortMapper bubbleSortMapper;
@@ -40,6 +41,7 @@ public class BubbleSortRecorder {
         this.postPos = -1;
         this.currList = null;
         this.processNum = 0;
+        this.processStep = 0;
         this.turn = 0;
     }
 
@@ -53,6 +55,7 @@ public class BubbleSortRecorder {
         bubbleSort.setPostPos(0);
         bubbleSort.setCurrList(inputList.toString().replace("[", "").replace("]", ""));
         bubbleSort.setProcessNum(0);
+        bubbleSort.setProcessStep(0);
         System.out.println(bubbleSort);
 //        bubbleSortService.insertSort(bubbleSort);
 
@@ -76,6 +79,7 @@ public class BubbleSortRecorder {
 //                    inputList.set(j + 1, temp);
                     Collections.swap(inputList, j, j + 1);
                     processNum++;
+                    processStep++;
                     currList = inputList.toString().replace("[", "").replace("]", "");
                     bubbleSort.setTurn(turn);
                     bubbleSort.setExchange(exchange);
