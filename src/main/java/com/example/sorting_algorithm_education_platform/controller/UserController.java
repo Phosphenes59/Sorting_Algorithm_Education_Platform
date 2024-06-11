@@ -49,4 +49,14 @@ public class UserController {
                                               @RequestParam(value = "phone") String phone){
         return ResponseEntity.ok(userService.register(email, password, userName, phone));
     }
+
+    @PostMapping("/modify")
+    public ResponseEntity<Res<User>> modify(@RequestParam(value = "id") Integer id,
+                                            @RequestParam(value = "email") String email,
+                                            @RequestParam(value = "password") String password,
+                                            @RequestParam(value = "userName") String userName,
+                                            @RequestParam(value = "phone") String phone){
+
+        return ResponseEntity.ok(userService.modify(id, email, password, userName, phone));
+    }
 }

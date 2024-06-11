@@ -49,4 +49,15 @@ public class UserServiceImpl implements UserService {
             return new Res<>(1,"success",user);
         }
     }
+
+    @Override
+    public Res<User> modify(Integer id, String email,String password, String userName, String phone){
+        User user = userMapper.findUserById(id);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setUserName(userName);
+        user.setPhone(phone);
+        userMapper.updateById(user);
+        return new Res<>(1,"success",user);
+    }
 }

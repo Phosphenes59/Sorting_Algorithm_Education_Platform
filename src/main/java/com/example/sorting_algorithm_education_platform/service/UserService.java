@@ -9,4 +9,5 @@ public interface UserService {
     boolean userIdExists(int userId);
     Res<User> login(String email, String password);
     Res<User> register(String email,String password, String userName, String phone);
+    Res<User> modify(Integer id, String email,String password, String userName, String phone);
 }
