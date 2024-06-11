@@ -75,4 +75,27 @@ class BubbleSortServiceTest {
         assertEquals(1, bubbleSort.getTurn());
     }
 
+    @Test
+    void findCurrList(){
+        int userId = 1;
+        int practiceId = 1;
+        int processNum = 0;
+        String currList = "1, 6, 5, 3";
+        BubbleSort mockBubbleSort = new BubbleSort();
+        mockBubbleSort.setBubbleId(1);
+        mockBubbleSort.setExchange(0);
+        mockBubbleSort.setPrePos(0);
+        mockBubbleSort.setPostPos(0);
+        mockBubbleSort.setCurrList("1, 6, 5, 3");
+        mockBubbleSort.setPracticeId(1);
+        mockBubbleSort.setProcessNum(0);
+        mockBubbleSort.setUserId(1);
+        mockBubbleSort.setTurn(0);
+
+        when(bubbleSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
+
+        String res = bubbleSortService.getCurrList(userId, practiceId, processNum);
+        assertEquals(currList, res);
+    }
+
 }
