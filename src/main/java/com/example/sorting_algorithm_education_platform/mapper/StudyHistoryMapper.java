@@ -17,4 +17,5 @@ public interface StudyHistoryMapper extends BaseMapper<StudyHistory> {
     StudyHistory getLatestEnterHistory(Integer userId,Integer sortMethod, Integer problemId);
     StudyHistory getCorrespondingExitHistory(Integer enterId);
     List<StudyHistory> getStudyHistoryByUserId(Integer userId);
+    int deleteAll();
 }

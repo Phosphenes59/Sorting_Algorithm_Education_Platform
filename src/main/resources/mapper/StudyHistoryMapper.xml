@@ -67,4 +67,8 @@
         )
         ORDER BY sh1.curr_time DESC
     </select>
+    <delete id="deleteAll">
+        DELETE FROM study_history
+    </delete>
+
 </mapper>
