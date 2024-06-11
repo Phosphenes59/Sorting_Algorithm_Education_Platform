@@ -1,10 +1,10 @@
 <template>
   <div class="vis-container">
-    <div class="btn-container1">
+    <!-- <div class="btn-container1">
       <Button label="冒泡排序" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="selectButton('bubble')" :class="{'selected-button': selectedButton === 'bubble'}"  />
       <Button label="插入排序" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="selectButton('insert')" :class="{'selected-button': selectedButton === 'insert'}"  />
       <Button label="选择排序" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="selectButton('select')" :class="{'selected-button': selectedButton === 'select'}"  />
-    </div>
+    </div> -->
     <div class="sort-container" ref="sort_container">
       <svg id="sort_chart">
       </svg>
@@ -918,7 +918,7 @@ export default {
       isPlaying: false,
       chart_height: 0,
       chart_width: 0,
-      selectedButton: 'insert',
+      selectedButton: 'select',
       solution_insert: [
     {
         "insertId": 277,

@@ -1,6 +1,5 @@
 package com.example.sorting_algorithm_education_platform.mapper;
 
-import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.entity.Problems;
 import org.apache.ibatis.annotations.Mapper;
 

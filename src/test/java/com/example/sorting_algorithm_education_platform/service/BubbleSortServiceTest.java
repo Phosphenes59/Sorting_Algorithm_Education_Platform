@@ -92,9 +92,9 @@ class BubbleSortServiceTest {
         mockBubbleSort.setUserId(1);
         mockBubbleSort.setTurn(0);
 
-        when(bubbleSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
+//        when(bubbleSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
 
-        String res = bubbleSortService.getCurrList(userId, practiceId, processNum);
+        String res = bubbleSortService.getCurrList(practiceId, processNum);
         assertEquals(currList, res);
     }
 

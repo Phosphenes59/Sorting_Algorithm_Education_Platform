@@ -8,7 +8,7 @@ import java.util.List;
 public interface InsertSortService {
     InsertSort getByInsertId(Integer InsertId);
     InsertSort getNextStep(Integer practiceId, Integer processNum);
-    String getCurrList(Integer userId, Integer practiceId, Integer processNum);
+    String getCurrList(Integer practiceId, Integer processNum);
     List<InsertSort> getSolution(Integer userId, Integer practiceId);
     void insertSort(InsertSort insertSort);
     void deleteSort(Integer practiceId, Integer userId);

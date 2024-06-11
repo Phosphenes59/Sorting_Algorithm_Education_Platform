@@ -24,8 +24,8 @@ public class SelectSortServiceImpl implements SelectSortService {
     }
 
     @Override
-    public String getCurrList(Integer userId, Integer practiceId, Integer processNum) {
-        String solution = selectSortMapper.findCurrList(userId, practiceId, processNum);
+    public String getCurrList( Integer practiceId, Integer processNum) {
+        String solution = selectSortMapper.findCurrList(practiceId, processNum);
         return solution;
     }
 

@@ -26,8 +26,8 @@ public class BubbleSortServiceImpl implements BubbleSortService {
     }
 
     @Override
-    public String getCurrList(Integer userId, Integer practiceId, Integer processNum) {
-        String solution = bubbleSortMapper.findCurrList(userId, practiceId, processNum);
+    public String getCurrList(Integer practiceId, Integer processNum) {
+        String solution = bubbleSortMapper.findCurrList(practiceId, processNum);
         return solution;
     }
 
