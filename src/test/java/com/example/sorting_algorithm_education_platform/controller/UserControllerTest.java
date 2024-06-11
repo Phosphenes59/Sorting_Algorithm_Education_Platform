@@ -142,7 +142,9 @@ class UserControllerTest {
 
         MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
                 .param("email", email)
-                .param("password", password))
+                .param("password", password)
+                .param("userName", userName)
+                .param("phone", phone))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1))
                 .andExpect(jsonPath("$.msg").value("success"))
@@ -170,7 +172,11 @@ class UserControllerTest {
 
         MvcResult mvcResult= (MvcResult) mockMvc.perform(post("/api/user/register")
                         .param("email", email)
-                        .param("password", password))
+                        .param("password", password)
+                        .param("userName", userName)
+                        .param("phone", phone)
+                )
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1))
                 .andExpect(jsonPath("$.msg").value("用户已存在"))

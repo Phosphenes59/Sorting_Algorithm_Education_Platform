@@ -148,4 +148,12 @@ CREATE TABLE if NOT EXISTS `study_history` (
                                                FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
 )ENGINE=InnoDB;
 
+CREATE TABLE if NOT EXISTS `problems` (
+                                          `problem_id` INT AUTO_INCREMENT PRIMARY KEY,
+                                          `curr_list` VARCHAR(50) NOT NULL,
+                                          `practice_id` INT NOT NULL,
+                                          `user_id` INT NOT NULL,
+                                          FOREIGN KEY (`user_id`) REFERENCES `user`(`id`)
+)ENGINE=InnoDB;
+
 #drop table `study_history`;

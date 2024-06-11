@@ -19,7 +19,7 @@ public class SelectSortController {
     @PostMapping("/find")
     public ResponseEntity<Res<SelectSort>> findSortById(@RequestHeader("token") String token,
                                                         @RequestParam(value = "selectId") Integer selectId){
-        SelectSort selectSort = selectSortService.getByInsertId(selectId);
+        SelectSort selectSort = selectSortService.getBySelectId(selectId);
         return getResResponseEntity(selectSort);
     }
 
@@ -33,9 +33,9 @@ public class SelectSortController {
 
     @PostMapping("/currList")
     public ResponseEntity<Res<String>> findCurrList(@RequestHeader("token") String token,
-                                                    @RequestParam(value = "practiceId") Integer practiceId,
-                                                    @RequestParam(value = "processNum") Integer processNum){
-        String currList = selectSortService.getCurrList(practiceId, processNum);
+                                                    @RequestParam(value = "userId") Integer userId,
+                                                    @RequestParam(value = "practiceId") Integer practiceId){
+        String currList = selectSortService.getCurrList(userId, practiceId, 0);
         return getResResponseEntity(currList);
     }
 

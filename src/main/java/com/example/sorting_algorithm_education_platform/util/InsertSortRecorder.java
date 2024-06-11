@@ -45,7 +45,7 @@ public class InsertSortRecorder {
             int j;
 
             for (j = i - 1; j >= 0 && inputList.get(j) > key; j--) {
-                inputList.set(j + 1, inputList.get(j));
+                inputList.set(j + 1, key);
                 processNum++;
                 orderPos = j + 1;
                 sorted = inputList.subList(0, i + 1).toString().replace("[", "").replace("]", "");
@@ -58,6 +58,7 @@ public class InsertSortRecorder {
                 insertSort.setProcessNum(processNum);
                 insertSort.setTurn(turn);
                 System.out.println(insertSort);
+                inputList.set(j + 1, inputList.get(j));
             }
             inputList.set(j + 1, key);
             processNum++;
