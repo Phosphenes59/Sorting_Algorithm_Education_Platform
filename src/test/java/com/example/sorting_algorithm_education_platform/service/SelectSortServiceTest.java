@@ -1,6 +1,5 @@
 package com.example.sorting_algorithm_education_platform.service;
 
-import com.example.sorting_algorithm_education_platform.entity.InsertSort;
 import com.example.sorting_algorithm_education_platform.entity.SelectSort;
 import com.example.sorting_algorithm_education_platform.mapper.SelectSortMapper;
 import com.example.sorting_algorithm_education_platform.service.Impl.SelectSortServiceImpl;

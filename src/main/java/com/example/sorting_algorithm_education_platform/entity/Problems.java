@@ -23,4 +23,36 @@ public class Problems {
     private String currList;
     // 题目序号
     private int practiceId;
+
+    public Integer getProblemId() {
+        return problemId;
+    }
+
+    public void setProblemId(Integer problemId) {
+        this.problemId = problemId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getCurrList() {
+        return currList;
+    }
+
+    public void setCurrList(String currList) {
+        this.currList = currList;
+    }
+
+    public int getPracticeId() {
+        return practiceId;
+    }
+
+    public void setPracticeId(int practiceId) {
+        this.practiceId = practiceId;
+    }
 }
