@@ -32,6 +32,7 @@
 
 <script>
     import {getCurrentInstance, reactive} from "vue";
+    import { storeUSER } from "@/utils/loginInfo";
     import router from "@/router";
     import axios from "axios";
     import {ElMessage} from "element-plus";
@@ -65,7 +66,9 @@
                         console.log('Response:', res.data);
                         ElMessage.success(res.data.msg);
                         sessionStorage.setItem("user", JSON.stringify(res.data.data));
-                         router.push("/personalCenter");
+                        //存一下userId
+                        storeUSER(res.data.data.id);
+                        router.push("/personalCenter");
                     }else{
                         ElMessage.error(res.data.msg);
                     }
@@ -123,3 +126,4 @@
         font-size: small;
     }
 </style>
+@/utils/loginInfo

@@ -9,7 +9,7 @@ import java.util.List;
 public interface BubbleSortService {
     BubbleSort getByBubbleId(Integer bubbleId);
     BubbleSort getNextStep(Integer practiceId, Integer processNum);
-    String getCurrList(Integer userId, Integer practiceId, Integer processNum);
+    String getCurrList(Integer practiceId, Integer processNum);
     List<BubbleSort> getSolution(Integer userId, Integer practiceId);
     void insertSort(BubbleSort bubbleSort);
     void deleteSort(Integer practiceId, Integer userId);

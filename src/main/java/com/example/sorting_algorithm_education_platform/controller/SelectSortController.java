@@ -35,7 +35,7 @@ public class SelectSortController {
     public ResponseEntity<Res<String>> findCurrList(@RequestHeader("token") String token,
                                                     @RequestParam(value = "userId") Integer userId,
                                                     @RequestParam(value = "practiceId") Integer practiceId){
-        String currList = selectSortService.getCurrList(userId, practiceId, 0);
+        String currList = selectSortService.getCurrList(practiceId, 0);
         return getResResponseEntity(currList);
     }
 

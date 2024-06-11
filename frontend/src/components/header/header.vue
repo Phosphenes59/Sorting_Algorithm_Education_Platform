@@ -25,6 +25,7 @@
 <script>
     import { ref } from 'vue'
     import router from "@/router";
+    import { removeUSER } from "@/utils/loginInfo";
     export default {
         name:"layoutHeader",
         data(){
@@ -48,6 +49,8 @@
             },
             logout(){
                 sessionStorage.removeItem("user");
+                //删除userId
+                removeUSER();
                 router.push("/login");
             }
         }
@@ -67,3 +70,4 @@
         font-size: 39px;
     }
 </style>
+@/utils/loginInfo

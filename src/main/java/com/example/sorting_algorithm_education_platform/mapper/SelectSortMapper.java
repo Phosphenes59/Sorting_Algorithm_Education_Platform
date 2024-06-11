@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface SelectSortMapper extends BaseMapper<SelectSort> {
     SelectSort findNextStep(Integer practiceId, Integer processNum);
-    String findCurrList(Integer userId, Integer practiceId, Integer processNum);
+    String findCurrList( Integer practiceId, Integer processNum);
     List<SelectSort> findSolution(Integer userId, Integer practiceId);
     void deleteSort(Integer practiceId, Integer userId);
     void insertSort(SelectSort selectSort);

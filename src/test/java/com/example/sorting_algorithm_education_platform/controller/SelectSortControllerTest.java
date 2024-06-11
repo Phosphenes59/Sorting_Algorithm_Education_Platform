@@ -96,10 +96,10 @@ class SelectSortControllerTest {
         mockSelectSort.setUserId(1);
         mockSelectSort.setTurn(0);
 
-        when(selectSortService.getCurrList(userId, practiceId, processNum)).thenReturn(mockSelectSort.getCurrList());
+        when(selectSortService.getCurrList( practiceId, processNum)).thenReturn(mockSelectSort.getCurrList());
         ResultActions perform=mockMvc.perform(post("/select-sort/currList").param("userId", "1").param("practiceId", "1").param("processNum", "0").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(selectSortService).getCurrList(userId, practiceId, processNum);
+        verify(selectSortService).getCurrList(practiceId, processNum);
     }
 
     @Test

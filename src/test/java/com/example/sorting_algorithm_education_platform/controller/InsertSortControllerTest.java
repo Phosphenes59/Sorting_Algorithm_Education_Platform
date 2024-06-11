@@ -100,10 +100,10 @@ class InsertSortControllerTest {
         mockInsertSort.setUserId(1);
         mockInsertSort.setTurn(0);
 
-        when(insertSortService.getCurrList(userId, practiceId, processNum)).thenReturn(mockInsertSort.getCurrList());
+        when(insertSortService.getCurrList(practiceId, processNum)).thenReturn(mockInsertSort.getCurrList());
         ResultActions perform=mockMvc.perform(post("/insert-sort/currList").param("userId", "1").param("practiceId", "1").param("processNum", "0").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(insertSortService).getCurrList(userId, practiceId, processNum);
+        verify(insertSortService).getCurrList(practiceId, processNum);
     }
 
     @Test

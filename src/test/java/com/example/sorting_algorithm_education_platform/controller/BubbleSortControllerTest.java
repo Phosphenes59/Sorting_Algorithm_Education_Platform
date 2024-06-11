@@ -96,10 +96,10 @@ public class BubbleSortControllerTest {
         mockBubbleSort.setUserId(1);
         mockBubbleSort.setTurn(0);
 
-        when(bubbleSortService.getCurrList(userId, practiceId, processNum)).thenReturn(mockBubbleSort.getCurrList());
+        when(bubbleSortService.getCurrList(practiceId, processNum)).thenReturn(mockBubbleSort.getCurrList());
         ResultActions perform=mockMvc.perform(post("/bubble-sort/currList").param("userId", "1").param("practiceId", "1").param("processNum", "0").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(bubbleSortService).getCurrList(userId, practiceId, processNum);
+        verify(bubbleSortService).getCurrList(practiceId, processNum);
     }
 
     @Test

@@ -100,9 +100,9 @@ class InsertSortServiceTest {
         mockInsertSort.setUserId(1);
         mockInsertSort.setTurn(0);
 
-        when(insertSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
+//        when(insertSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
 
-        String res = insertSortService.getCurrList(userId, practiceId, processNum);
+        String res = insertSortService.getCurrList(practiceId, processNum);
         assertEquals(currList, res);
     }
 
