@@ -102,9 +102,7 @@ class BubbleSortServiceTest {
         assertEquals(currList, res);
     }
 
-<<<<<<< HEAD
-}
-=======
+
     @Test
     void getSolution(){
         int userId = 2;
@@ -201,4 +199,4 @@ class BubbleSortServiceTest {
     }
 
 }
->>>>>>> adf32b78d7914393e86437c279816cd27c813559
+

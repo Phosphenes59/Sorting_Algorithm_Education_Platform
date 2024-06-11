@@ -97,9 +97,9 @@ class SelectSortServiceTest {
         mockSelectSort.setUserId(1);
         mockSelectSort.setTurn(0);
 
-        when(selectSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
+//        when(selectSortMapper.findCurrList(1, 1, 0)).thenReturn(currList);
 
-        String res = selectSortService.getCurrList(userId, practiceId, processNum);
+        String res = selectSortService.getCurrList(practiceId, processNum);
         assertEquals(currList, res);
     }
 
