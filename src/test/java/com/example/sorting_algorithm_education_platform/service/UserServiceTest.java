@@ -91,6 +91,8 @@ class UserServiceTest {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
+        user.setPhone(phone);
+        user.setUserName(userName);
 
         when(userMapper.findUserByEmail(email)).thenReturn(user);
 
@@ -112,6 +114,8 @@ class UserServiceTest {
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
+        user.setUserName(userName);
+        user.setPhone(phone);
 
         when(userMapper.findUserByEmail(email)).thenReturn(null);
 
