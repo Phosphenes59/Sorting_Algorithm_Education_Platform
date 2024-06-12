@@ -10,7 +10,10 @@
                         </div>
                         <el-form :model="register_data" size="large" :rules="rules">
                             <el-form-item label="邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱"  prop="email">
-                                <el-input prefix-icon = "User" v-model="register_data.email" />
+                                <el-input prefix-icon = "Message" v-model="register_data.email" />
+                            </el-form-item>
+                            <el-form-item label="用&nbsp&nbsp户&nbsp&nbsp名"  prop="userName">
+                                <el-input prefix-icon = "User" v-model="register_data.userName" />
                             </el-form-item>
                             <el-form-item label="联系电话"  prop="phone">
                                 <el-input prefix-icon="Iphone" v-model="register_data.phone"/>
@@ -65,6 +68,7 @@
                 flag:'',
                 register_data:{
                     email:'',
+                    userName:'',
                     phone:'',
                     password:'',
                     passwordCheck:''
@@ -72,6 +76,9 @@
                 rules:{
                     email: [
                         { required: true, message: '请输入邮箱', trigger: 'blur' },
+                    ],
+                    userName: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' },
                     ],
                     phone:[
                         { required: true, message: '请输入电话号码', trigger: 'blur' },
@@ -90,6 +97,7 @@
                 const params = new URLSearchParams();
                 params.append('email', this.register_data.email);
                 params.append('password', this.register_data.password);
+                params.append('userName', this.register_data.userName);
                 params.append('phone', this.register_data.phone);
                 axios.post("/api/api/user/register",params).then(res => {
                     if(res.data.code === 1){

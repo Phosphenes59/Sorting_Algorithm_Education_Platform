@@ -30,25 +30,52 @@
                 studyData:[],//学习数据
                 totalStudyData:0,
                 mockStudyData: [100000, 200000, 30000, 40000, 50000, 60000, 7000],
-                chapterProgress: [30, 50, 70], // 每一章的学习进度，百分比
+                chapterProgress: [], // 每一章的学习进度，百分比
                 chapterNames: ['冒泡排序', '插入排序', '选择排序'] // 章节名称
             };
         },
         mounted() {
             this.getData()
+            this.getProgress();
         },
         methods: {
             handleChange(val) {
                 console.log(val);
             },
 
-            getData(){
+            getProgress(){
+                let userJson = sessionStorage.getItem("user");
+                let userId = JSON.parse(userJson).id;
+                let progress = [];
                 const config = {
                     headers: {
                         token: "user1",
                     },
                     params: {
-                        userId: '2',
+                        userId: userId,
+                    }
+                };
+                axios.post("api/study-history/allprogress",null,config).then(res=>{
+                    console.log(res);
+                    progress = res.data.data;
+                    console.log('progress',progress)
+                    for(let i = 0; i < progress.length; i++){
+                        this.chapterProgress.push(progress[i]*10);
+                    }
+                }).catch(err=>{
+                    console.log(err);
+                });
+            },
+
+            getData(){
+                let userJson = sessionStorage.getItem("user");
+                let userId = JSON.parse(userJson).id;
+                const config = {
+                    headers: {
+                        token: "user1",
+                    },
+                    params: {
+                        userId: userId,
                         currTime: dayjs().toISOString()
                     }
                 };
@@ -102,14 +129,14 @@
 
                 // 创建 y 轴的比例尺
                 const y = d3.scaleLinear() // 使用线性比例尺（Linear Scale）
-                    .domain([0, d3.max(this.mockStudyData)]) // 设置比例尺的输入域为 0 到数据的最大值
+                    .domain([0, d3.max(this.studyData)]) // 设置比例尺的输入域为 0 到数据的最大值
                     .nice() // 将比例尺的域值调整为适合的刻度值
                     .range([height, 0]); // 设置比例尺的输出范围为图表的高度（倒置）
 
                 // 绘制柱状图
                 svg.append("g") // 添加一个分组 <g> 元素
                     .selectAll("rect") // 选择所有的矩形元素
-                    .data(this.mockStudyData) // 绑定数据
+                    .data(this.studyData) // 绑定数据
                     .enter() // 对数据的每一项执行以下操作
                     .append("rect") // 添加矩形元素
                     .attr("x", (_, i) => x(dates[i])) // 设置矩形的 x 坐标
@@ -121,7 +148,7 @@
                 // 添加柱子上方的具体时长文本
                 svg.append("g") // 添加一个分组 <g> 元素
                     .selectAll("text") // 选择所有的文本元素
-                    .data(this.mockStudyData) // 绑定数据
+                    .data(this.studyData) // 绑定数据
                     .enter() // 对数据的每一项执行以下操作
                     .append("text") // 添加文本元素
                     .attr("x", (_, i) => x(dates[i]) + x.bandwidth() / 2) // 设置文本的 x 坐标
