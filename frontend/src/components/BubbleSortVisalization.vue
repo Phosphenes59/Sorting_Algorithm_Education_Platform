@@ -8,8 +8,8 @@
     <div class="sort-container" ref="sort_container">
       <svg id="sort_chart">
       </svg>
-    </div>
-    <div class="btn-container">
+    <!-- </div>
+    <div class="btn-container"> -->
       <Button label="step back" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="stepBack" />
       <Button label="Play" severity="success" rounded style="margin-left:10px; margin-right: 10px;" @click="play"  />
       <Button label="Pause" severity="warning" rounded style="margin-left:10px; margin-right: 10px;" @click="pause" />
@@ -25,6 +25,8 @@
 import axios from 'axios';
 import Button from 'primevue/button';
 import * as d3 from 'd3';
+import { getUSER } from "@/utils/loginInfo";
+import { getBubbleCurList, getInsertCurList, getSelectCurList, getBubbleSolution, getInsertSolution, getSelectSolution } from "@/api/index";
 
 export default {
   name: 'SortVisualization',
@@ -3164,7 +3166,8 @@ export default {
     }
   },
   mounted() {
-    this.drawChart();
+    // this.drawChart();
+    this.receiveList();
   },
   methods: {
     receiveList() {
@@ -3172,37 +3175,54 @@ export default {
         headers: {
           'token': this.token,
         },
-        params: {
-          userId: 3,
-          practiceId: 21,
-        }
+        // params: {
+        //   userId: 3,
+        //   practiceId: 21,
+        // }
       };
-      axios.post(`/api/${this.selectedButton}-sort/solution`, null, config)
-        .then(response => {
-          console.log(response.data)
-          // todo ...
-         // this.solution = response.data
-        })
-        .catch(error => {
-          console.error("There was an error!", error)
-        })
+    //   axios.post(`/api/${this.selectedButton}-sort/solution`, null, config)
+    //     .then(response => {
+    //       console.log(response.data)
+    //       // todo ...
+    //      // this.solution = response.data
+    //     })
+    //     .catch(error => {
+    //       console.error("There was an error!", error)
+    //     })
+      getBubbleSolution({
+        userId: 1,
+        practiceId: this.$route.query.practiceId
+      }).then((res)=>{
+        this.solution = res.data
+        this.solution_bubble = res.data
+        this.currList = res.data[0].currList.split(',').map(Number);
+        console.log(this.currList)
+        this.drawChart();
+        console.log(res.data)
+      })
     },
     addSort() {
+      getBubbleCurList({ userId: 1, practiceId: this.practiceId }).then(response => {
+                    // console.log("当前序列0:", response.data);
+                    this.sortList = response.data;
+                    console.log(this.sortList)
+                    console.log(111)
+      })
       const config = {
         headers: {
           'token': this.token,
         },
         params: {
-          sortList: "5,8,10,23,44,19,0,2,55,29,33,50,1",
-          practiceId: 21,
-          userId: 3,
+          sortList: this.sortList,
+          practiceId: this.$route.query.practiceId,
+          userId: 1,
         }
       };
       axios.post('/api/sort/add', null, config)
         .then(response => {
           console.log(response.data)
           // todo ...
-         // this.solution = response.data
+         this.solution = response.data
         })
         .catch(error => {
           console.error("There was an error!", error)
@@ -3319,7 +3339,8 @@ export default {
     .data(legendData)
     .enter().append("g")
     .attr("class", "legend-item")
-    .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+    .attr("transform", (d, i) => `translate(0, ${i * 20})`)
+    .attr("font-size","20px");
 
   legendItem.append("circle")
     .attr("cx", 0)

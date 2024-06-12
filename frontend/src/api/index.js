@@ -74,3 +74,10 @@ export function listMySorts(data) {
     })
   }
   
+  export function getBubbleSolution(data) {
+    return requests({
+      url: '/bubble-sort/solution',
+      method: 'post',
+      params:data
+    })
+  }
