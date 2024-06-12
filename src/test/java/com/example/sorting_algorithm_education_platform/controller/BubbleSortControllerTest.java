@@ -156,10 +156,10 @@ public class BubbleSortControllerTest {
         mockBubbleSortList.add(mockBubbleSort3);
         mockBubbleSortList.add(mockBubbleSort);
 
-        when(bubbleSortService.getSolution(userId, practiceId)).thenReturn(mockBubbleSortList);
+        when(bubbleSortService.getSolution(practiceId)).thenReturn(mockBubbleSortList);
         ResultActions perform=mockMvc.perform(post("/bubble-sort/solution").param("userId", "2").param("practiceId", "3").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(bubbleSortService).getSolution(userId, practiceId);
+        verify(bubbleSortService).getSolution(practiceId);
     }
 
 }

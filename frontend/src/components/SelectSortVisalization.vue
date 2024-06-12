@@ -26,7 +26,7 @@ import axios from 'axios';
 import Button from 'primevue/button';
 import * as d3 from 'd3';
 import { getUSER } from "@/utils/loginInfo";
-import { getBubbleCurList, getInsertCurList, getSelectCurList, getBubbleSolution, getInsertSolution, getSelectSolution } from "@/api/index";
+import { getBubbleCurList, getInsertCurList, getSelectCurList, getSelectSolution } from "@/api/index";
 
 export default {
   name: 'SortVisualization',
@@ -88,7 +88,7 @@ mounted() {
 
     // 直接返回Promise
     return getSelectSolution({
-      userId: 1,
+      // userId: ,
       practiceId: this.$route.query.practiceId
     }).then((res) => {
       this.solution = res.data;

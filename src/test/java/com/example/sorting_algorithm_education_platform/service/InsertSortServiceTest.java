@@ -138,9 +138,9 @@ class InsertSortServiceTest {
         mockInsertSortList.add(mockInsertSort1);
         mockInsertSortList.add(mockInsertSort2);
 
-        when(insertSortMapper.findSolution(2, 3)).thenReturn(mockInsertSortList);
+        when(insertSortMapper.findSolution(3)).thenReturn(mockInsertSortList);
 
-        List<InsertSort> res = insertSortService.getSolution(userId, practiceId);
+        List<InsertSort> res = insertSortService.getSolution(practiceId);
         assertEquals(2, res.size());
     }
 

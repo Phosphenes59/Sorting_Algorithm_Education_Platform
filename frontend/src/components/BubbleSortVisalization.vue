@@ -26,7 +26,7 @@ import axios from 'axios';
 import Button from 'primevue/button';
 import * as d3 from 'd3';
 import { getUSER } from "@/utils/loginInfo";
-import { getBubbleCurList, getInsertCurList, getSelectCurList, getBubbleSolution, getInsertSolution, getSelectSolution } from "@/api/index";
+import { getBubbleCurList, getInsertCurList, getSelectCurList, getBubbleSolution} from "@/api/index";
 
 export default {
   name: 'SortVisualization',
@@ -38,7 +38,7 @@ export default {
   },
   data() {
     return {
-       token: "user1",
+      token: "user1",
       bubbleId: 2,
       currList: [5,8,10,23,44,19,0,2,55,29,33,50,1],
       xScale: null,
@@ -63,7 +63,7 @@ mounted() {
   });
 },
   methods: {
-      observeContainer() {
+    observeContainer() {
     const container = this.$refs.sort_container;
     if (!container) return;
 
@@ -88,7 +88,7 @@ mounted() {
 
     // 直接返回Promise
     return getBubbleSolution({
-      userId: 1,
+      // userId: getUSER(),
       practiceId: this.$route.query.practiceId
     }).then((res) => {
       this.solution = res.data;
@@ -105,7 +105,6 @@ mounted() {
                     // console.log("当前序列0:", response.data);
                     this.sortList = response.data;
                     console.log(this.sortList)
-                    console.log(111)
       })
       const config = {
         headers: {
@@ -129,7 +128,6 @@ mounted() {
     },
     drawChart() {
       const container = this.$refs.sort_container;
-      console.log(container)
       const svg = d3.select("#sort_chart");
       const t_this = this;
       // Clear the svg
@@ -137,7 +135,6 @@ mounted() {
 
       const containerWidth = container.clientWidth;
       const containerHeight = container.clientHeight;
-      console.log('width,height',containerWidth,containerHeight);
       this.chart_width = containerWidth - 30;
       this.chart_height = containerHeight - 30;
 
@@ -152,8 +149,6 @@ mounted() {
 
       this.colorScale = d3.scaleSequential(d3.interpolateBlues);
 
-
-      //
       const dataItem = this.solution[0];
       const currList = dataItem.currList.split(',').map(Number);
       const cur_length = currList.length;
@@ -365,8 +360,8 @@ mounted() {
     },
     startAnimation(){
       this.interval = setInterval(() => {
-        console.log(this.index)
-        console.log(this.solution)
+        // console.log(this.index)
+        // console.log(this.solution)
         if (this.index < this.solution.length) {
           this.updateExchange(this.index);
           this.index++;
@@ -377,9 +372,7 @@ mounted() {
       }, 1000);
     },
     play() {
-      console.log(111)
       if (!this.isPlaying) {
-        console.log(222)
         this.isPlaying = true;
         this.startAnimation();
       }

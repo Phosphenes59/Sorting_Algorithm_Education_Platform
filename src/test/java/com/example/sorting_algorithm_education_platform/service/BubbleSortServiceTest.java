@@ -157,9 +157,9 @@ class BubbleSortServiceTest {
         mockBubbleSortList.add(mockBubbleSort3);
         mockBubbleSortList.add(mockBubbleSort);
 
-        when(bubbleSortMapper.findSolution(2, 3)).thenReturn(mockBubbleSortList);
+        when(bubbleSortMapper.findSolution( 3)).thenReturn(mockBubbleSortList);
 
-        List<BubbleSort> res = bubbleSortService.getSolution(userId, practiceId);
+        List<BubbleSort> res = bubbleSortService.getSolution(practiceId);
         assertEquals(4, res.size());
     }
 

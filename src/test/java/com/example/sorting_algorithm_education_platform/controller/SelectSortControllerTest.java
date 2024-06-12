@@ -132,10 +132,10 @@ class SelectSortControllerTest {
         mockSelectSortList.add(mockSelectSort1);
         mockSelectSortList.add(mockSelectSort2);
 
-        when(selectSortService.getSolution(userId, practiceId)).thenReturn(mockSelectSortList);
+        when(selectSortService.getSolution(practiceId)).thenReturn(mockSelectSortList);
         ResultActions perform=mockMvc.perform(post("/select-sort/solution").param("userId", "2").param("practiceId", "3").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(selectSortService).getSolution(userId, practiceId);
+        verify(selectSortService).getSolution(practiceId);
     }
 
 }

@@ -88,7 +88,7 @@ receiveList() {
 
     // 直接返回Promise
     return getSelectSolution({
-      userId: 1,
+      // userId: getUSER(),
       practiceId: this.$route.query.practiceId
     }).then((res) => {
       this.solution = res.data;

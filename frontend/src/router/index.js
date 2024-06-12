@@ -43,16 +43,16 @@ const routes = [
         name:'learn',
         component: learnPage
     }
-    ,{
-         path: '/evaluation',
-        name:'evaluation',
-        component: evaluationPage
-    }
-    ,{
-        path: '/learn',
-        name:'learn',
-        component: learnPage
-    }
+    // ,{
+    //      path: '/evaluation',
+    //     name:'evaluation',
+    //     component: evaluationPage
+    // }
+    // ,{
+    //     path: '/learn',
+    //     name:'learn',
+    //     component: learnPage
+    // }
 ]
 
 const router = createRouter({

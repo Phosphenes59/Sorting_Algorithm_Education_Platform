@@ -132,9 +132,9 @@ class SelectSortServiceTest {
         mockSelectSortList.add(mockSelectSort1);
         mockSelectSortList.add(mockSelectSort2);
 
-        when(selectSortMapper.findSolution(2, 3)).thenReturn(mockSelectSortList);
+        when(selectSortMapper.findSolution(3)).thenReturn(mockSelectSortList);
 
-        List<SelectSort> res = selectSortService.getSolution(userId, practiceId);
+        List<SelectSort> res = selectSortService.getSolution(practiceId);
         assertEquals(2, res.size());
     }
 

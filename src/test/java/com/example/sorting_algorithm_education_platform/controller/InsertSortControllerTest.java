@@ -138,10 +138,10 @@ class InsertSortControllerTest {
         mockInsertSortList.add(mockInsertSort1);
         mockInsertSortList.add(mockInsertSort2);
 
-        when(insertSortService.getSolution(userId, practiceId)).thenReturn(mockInsertSortList);
+        when(insertSortService.getSolution(practiceId)).thenReturn(mockInsertSortList);
         ResultActions perform=mockMvc.perform(post("/insert-sort/solution").param("userId", "2").param("practiceId", "3").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(insertSortService).getSolution(userId, practiceId);
+        verify(insertSortService).getSolution(practiceId);
     }
 
 }
