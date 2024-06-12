@@ -246,11 +246,12 @@ export default {
     methods: {
         //获取所有数据
         getAllData() {
-            listAllSorts().then(response => {
+            let userId = getUSER();
+            listAllSorts({userId:userId}).then(response => {
                 // console.log("所有题目", response.data);
                 this.allSortList = response.data;
             })
-            let userId = getUSER();
+        
             listMySorts({ userId: userId }).then(response => {
                 // console.log("我的题目", response.data);
                 this.mySortList = response.data;

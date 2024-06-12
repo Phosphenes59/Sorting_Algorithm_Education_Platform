@@ -2,10 +2,11 @@ import requests from "@/api/requests";
 
 
 // 查询所有题目
-export function listAllSorts() {
+export function listAllSorts(data) {
     return requests({
       url: '/sort/all',
       method: 'post',
+      params:data
     })
   }
   

@@ -38,11 +38,21 @@ export default {
   },
   data() {
     return {
-      token: "user1",
+       token: "user1",
       bubbleId: 2,
       currList: [5,8,10,23,44,19,0,2,55,29,33,50,1],
+      xScale: null,
+      yScale: null,
+      colorScale: null,
+      index: 1,
+      interval: null,
+      isPlaying: false,
+      chart_height: 0,
+      chart_width: 0,
+      //改为固定值
+      selectedButton: 'bubble',
       solution_bubble: [],
-      solution:[]
+      solution: []
     }
   },
 mounted() {
@@ -355,6 +365,8 @@ mounted() {
     },
     startAnimation(){
       this.interval = setInterval(() => {
+        console.log(this.index)
+        console.log(this.solution)
         if (this.index < this.solution.length) {
           this.updateExchange(this.index);
           this.index++;
@@ -365,7 +377,9 @@ mounted() {
       }, 1000);
     },
     play() {
+      console.log(111)
       if (!this.isPlaying) {
+        console.log(222)
         this.isPlaying = true;
         this.startAnimation();
       }
