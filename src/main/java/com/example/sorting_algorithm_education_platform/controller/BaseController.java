@@ -356,7 +356,6 @@ public class BaseController {
             selectSort.setCurPos(curPos);
             selectSort.setTurn(turn);
             for (int j = i + 1; j < n; j++) {
-                processNum++;
                 processStep++;
                 if (integerList.get(j) < integerList.get(minPos)){
                     minPos = j;
