@@ -59,10 +59,10 @@ class BaseControllerTest {
         problemsList.add(problems);
         problemsList.add(problems1);
 
-        when(problemsService.findAll()).thenReturn(problemsList);
-        ResultActions perform=mockMvc.perform(post("/sort/all").header("token", "token"));
+        when(problemsService.findAll(2)).thenReturn(problemsList);
+        ResultActions perform=mockMvc.perform(post("/sort/all").param("userId", "2").header("token", "token"));
         perform.andExpect(status().isOk());
-        verify(problemsService).findAll();
+        verify(problemsService).findAll(2);
     }
 
     @Test

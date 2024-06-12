@@ -31,8 +31,9 @@ public class BaseController {
     private ProblemsService problemsService;
 
     @PostMapping("/all")
-    public ResponseEntity<Res<List<Problems>>> getAllProblems(@RequestHeader("token") String token){
-        List<Problems> solution = problemsService.findAll();
+    public ResponseEntity<Res<List<Problems>>> getAllProblems(@RequestHeader("token") String token,
+                                                              @RequestParam(value = "userId") Integer userId){
+        List<Problems> solution = problemsService.findAll(userId);
         return getResResponseEntity(solution);
     }
 

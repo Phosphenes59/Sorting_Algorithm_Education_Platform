@@ -27,6 +27,7 @@ class ProblemsServiceTest {
 
     @Test
     void findAll() {
+        int userId = 2;
         Problems problems = new Problems();
         problems.setUserId(1);
         problems.setProblemId(1);
@@ -45,7 +46,7 @@ class ProblemsServiceTest {
 
         when(problemsMapper.findAll()).thenReturn(problemsList);
 
-        List<Problems> res = problemsService.findAll();
+        List<Problems> res = problemsService.findAll(userId);
         assertEquals(2, res.size());
     }
 

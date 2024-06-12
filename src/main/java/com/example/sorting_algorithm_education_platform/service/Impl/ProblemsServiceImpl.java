@@ -14,8 +14,11 @@ public class ProblemsServiceImpl implements ProblemsService {
     ProblemsMapper problemsMapper;
 
     @Override
-    public List<Problems> findAll() {
-        return problemsMapper.findAll();
+    public List<Problems> findAll(Integer userId) {
+        List<Problems> problemsList = problemsMapper.findAll();
+        List<Problems> problems = problemsMapper.findMy(userId);
+        problemsList.addAll(problems);
+        return problemsList;
     }
 
     @Override
