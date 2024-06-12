@@ -41,9 +41,9 @@ public class SelectSortController {
 
     @PostMapping("/solution")
     public ResponseEntity<Res<List<SelectSort>>> findSolution(@RequestHeader("token") String token,
-                                                              @RequestParam(value = "userId") Integer userId,
+//                                                              @RequestParam(value = "userId") Integer userId,
                                                               @RequestParam(value = "practiceId") Integer practiceId){
-        List<SelectSort> solution = selectSortService.getSolution(userId, practiceId);
+        List<SelectSort> solution = selectSortService.getSolution(practiceId);
         return getResResponseEntity(solution);
     }
 

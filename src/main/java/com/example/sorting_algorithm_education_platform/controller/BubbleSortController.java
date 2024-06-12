@@ -41,9 +41,10 @@ public class BubbleSortController {
 
     @PostMapping("/solution")
     public ResponseEntity<Res<List<BubbleSort>>> findSolution(@RequestHeader("token") String token,
-                                                  @RequestParam(value = "userId") Integer userId,
+//                                                  @RequestParam(value = "userId") Integer userId,
                                                   @RequestParam(value = "practiceId") Integer practiceId){
-        List<BubbleSort> solution = bubbleSortService.getSolution(userId, practiceId);
+//        List<BubbleSort> solution = bubbleSortService.getSolution(userId, practiceId);
+        List<BubbleSort> solution = bubbleSortService.getSolution(practiceId);
         return getResResponseEntity(solution);
     }
 

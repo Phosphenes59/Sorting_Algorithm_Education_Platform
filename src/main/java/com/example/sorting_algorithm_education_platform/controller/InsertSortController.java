@@ -41,9 +41,9 @@ public class InsertSortController {
 
     @PostMapping("/solution")
     public ResponseEntity<Res<List<InsertSort>>> findSolution(@RequestHeader("token") String token,
-                                                              @RequestParam(value = "userId") Integer userId,
+//                                                              @RequestParam(value = "userId") Integer userId,
                                                               @RequestParam(value = "practiceId") Integer practiceId){
-        List<InsertSort> solution = insertSortService.getSolution(userId, practiceId);
+        List<InsertSort> solution = insertSortService.getSolution(practiceId);
         return getResResponseEntity(solution);
     }
 

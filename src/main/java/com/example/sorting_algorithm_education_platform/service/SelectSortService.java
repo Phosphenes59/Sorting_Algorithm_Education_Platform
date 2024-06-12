@@ -9,7 +9,7 @@ public interface SelectSortService {
     SelectSort getBySelectId(Integer SelectId);
     SelectSort getNextStep(Integer practiceId, Integer processNum);
     String getCurrList(Integer practiceId, Integer processNum);
-    List<SelectSort> getSolution(Integer userId, Integer practiceId);
+    List<SelectSort> getSolution(Integer practiceId);
     void insertSort(SelectSort selectSort);
     void deleteSort(Integer practiceId, Integer userId);
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public interface BubbleSortMapper extends BaseMapper<BubbleSort> {
     BubbleSort findNextStep(Integer practiceId, Integer processNum);
     String findCurrList(Integer practiceId, Integer processNum);
-    List<BubbleSort> findSolution(Integer userId, Integer practiceId);
+    List<BubbleSort> findSolution(Integer practiceId);
     void insertSort(BubbleSort bubbleSort);
     void deleteSort(Integer practiceId, Integer userId);
     int countByPracticeIdAndUserId(Integer practiceId, Integer userId);

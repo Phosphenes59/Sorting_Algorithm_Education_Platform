@@ -10,7 +10,7 @@ public interface BubbleSortService {
     BubbleSort getByBubbleId(Integer bubbleId);
     BubbleSort getNextStep(Integer practiceId, Integer processNum);
     String getCurrList(Integer practiceId, Integer processNum);
-    List<BubbleSort> getSolution(Integer userId, Integer practiceId);
+    List<BubbleSort> getSolution(Integer practiceId);
     void insertSort(BubbleSort bubbleSort);
     void deleteSort(Integer practiceId, Integer userId);
     int countByPracticeIdAndUserId(Integer practiceId, Integer userId);

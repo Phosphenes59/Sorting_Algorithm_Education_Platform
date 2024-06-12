@@ -10,7 +10,7 @@ import java.util.List;
 public interface SelectSortMapper extends BaseMapper<SelectSort> {
     SelectSort findNextStep(Integer practiceId, Integer processNum);
     String findCurrList( Integer practiceId, Integer processNum);
-    List<SelectSort> findSolution(Integer userId, Integer practiceId);
+    List<SelectSort> findSolution(Integer practiceId);
     void deleteSort(Integer practiceId, Integer userId);
     void insertSort(SelectSort selectSort);
 }

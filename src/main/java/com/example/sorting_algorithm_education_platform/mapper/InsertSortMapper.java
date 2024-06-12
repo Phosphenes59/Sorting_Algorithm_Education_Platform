@@ -10,7 +10,7 @@ import java.util.List;
 public interface InsertSortMapper extends BaseMapper<InsertSort> {
     InsertSort findNextStep(Integer practiceId, Integer processNum);
     String findCurrList(Integer practiceId, Integer processNum);
-    List<InsertSort> findSolution(Integer userId, Integer practiceId);
+    List<InsertSort> findSolution(Integer practiceId);
     void deleteSort(Integer practiceId, Integer userId);
     void insertSort(InsertSort insertSort);
 }

@@ -32,8 +32,8 @@ public class InsertSortServiceImpl implements InsertSortService {
     }
 
     @Override
-    public List<InsertSort> getSolution(Integer userId, Integer practiceId) {
-        List<InsertSort> solution = insertSortMapper.findSolution(userId, practiceId);
+    public List<InsertSort> getSolution(Integer practiceId) {
+        List<InsertSort> solution = insertSortMapper.findSolution(practiceId);
         return solution;
     }
 

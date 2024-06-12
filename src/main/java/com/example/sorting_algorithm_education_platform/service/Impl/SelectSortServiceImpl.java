@@ -30,8 +30,8 @@ public class SelectSortServiceImpl implements SelectSortService {
     }
 
     @Override
-    public List<SelectSort> getSolution(Integer userId, Integer practiceId) {
-        List<SelectSort> solution = selectSortMapper.findSolution(userId, practiceId);
+    public List<SelectSort> getSolution(Integer practiceId) {
+        List<SelectSort> solution = selectSortMapper.findSolution(practiceId);
         return solution;
     }
 
