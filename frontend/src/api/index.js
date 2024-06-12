@@ -81,3 +81,19 @@ export function listMySorts(data) {
       params:data
     })
   }
+
+  export function getInsertSolution(data) {
+    return requests({
+      url: '/insert-sort/solution',
+      method: 'post',
+      params:data
+    })
+  }
+
+  export function getSelectSolution(data) {
+    return requests({
+      url: '/select-sort/solution',
+      method: 'post',
+      params:data
+    })
+  }

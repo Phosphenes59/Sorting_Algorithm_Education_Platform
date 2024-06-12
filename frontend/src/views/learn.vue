@@ -16,7 +16,7 @@
                 </el-row>
                 <InsertSortVisalization />
             </el-col>
-            <el-col :span="18" v-if="id === '2'">
+            <el-col :span="18" v-show="id === '2'">
                 <el-row>
                     <el-tag size="large" class="tag" type="warning" @click="open">选择排序</el-tag>
                     <el-tag size="large" class="tag" type="success" @click="goback">我的学习</el-tag>
