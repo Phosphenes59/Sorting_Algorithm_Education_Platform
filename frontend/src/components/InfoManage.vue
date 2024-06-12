@@ -46,7 +46,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import { ElMessage } from 'element-plus';
-  
+  import axios from 'axios';
   const userInfo = ref({
     name: '',
     email: '',
@@ -63,7 +63,9 @@
     if (storedUser) {
       const userData = JSON.parse(storedUser);
       userInfo.value = {
+        id: userData.id,
         name: userData.userName,
+        password: userData.password,
         email: userData.email,
         phone: userData.phone,
         avatar: userData.avatar || 'https://i.pravatar.cc/300' // 默认头像
@@ -99,12 +101,33 @@
     return true;
   };
   
+
+
   const submitEdit = () => {
-    userInfo.value = {...editFormData.value};
-    isEditing.value = false;
-    sessionStorage.setItem('user', JSON.stringify(userInfo.value)); // 更新 sessionStorage
-    ElMessage.success('信息已保存');
-  };
+    const { id, password } = userInfo.value;
+    console.log(id, password);
+    const params = new URLSearchParams();
+    params.append('id', Number.parseInt(id));
+    params.append('email', editFormData.value.email);
+    params.append('password', password);
+    params.append('userName', editFormData.value.name);
+    params.append('phone', editFormData.value.phone);
+    axios.post('/api/api/user/modify', params).then(response => {
+      if (response.data.code === 1) {
+        ElMessage.success('信息修改成功');
+        userInfo.value = {...editFormData.value}; // 更新本地的用户信息
+        isEditing.value = false; // 关闭编辑模式
+        sessionStorage.setItem('user', JSON.stringify(userInfo.value)); // 更新 sessionStorage
+      } else {
+        ElMessage.error(response.data.msg);
+      }
+    }, error => {
+      console.log(error)
+      ElMessage.error('修改失败: ' + error.message);
+    });
+    
+    
+  } 
   </script>
   
   <style scoped>
