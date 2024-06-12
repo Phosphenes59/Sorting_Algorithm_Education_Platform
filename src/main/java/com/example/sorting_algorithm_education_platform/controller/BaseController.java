@@ -37,6 +37,13 @@ public class BaseController {
         return getResResponseEntity(solution);
     }
 
+    @PostMapping("/maxSortNum")
+    public ResponseEntity<Res<Integer>> getProblemNum(@RequestHeader("token") String token){
+        Integer solution = problemsService.findMaxPracticeId();
+        return getResResponseEntity(solution);
+    }
+
+
     @PostMapping("/myPractice")
     public ResponseEntity<Res<List<Problems>>> getMyProblems(@RequestHeader("token") String token,
                                                              @RequestParam(value = "userId") Integer userId){
@@ -141,6 +148,16 @@ public class BaseController {
             result = new Res<>(0, "查找失败",null);
         } else {
             result = new Res<>(1, "success", problems);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    private ResponseEntity<Res<Integer>> getResResponseEntity(Integer practiceNum) {
+        Res<Integer> result;
+        if (practiceNum == null) {
+            result = new Res<>(0, "查找失败",null);
+        } else {
+            result = new Res<>(1, "success", practiceNum);
         }
         return ResponseEntity.ok(result);
     }

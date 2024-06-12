@@ -35,4 +35,9 @@ public class ProblemsServiceImpl implements ProblemsService {
     public void deleteProblems(Integer practiceId, Integer userId) {
         problemsMapper.deleteProblems(practiceId, userId);
     }
+
+    @Override
+    public Integer findMaxPracticeId() {
+        return problemsMapper.findMaxPracticeId();
+    }
 }

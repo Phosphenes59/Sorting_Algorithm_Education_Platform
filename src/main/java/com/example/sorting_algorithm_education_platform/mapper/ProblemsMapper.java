@@ -11,4 +11,5 @@ public interface ProblemsMapper {
     List<Problems> findMy(Integer userId);
     void insertProblems(Problems problems);
     void deleteProblems(Integer practiceId, Integer userId);
+    Integer findMaxPracticeId();
 }
