@@ -2,12 +2,20 @@
     <div class="learning-history">
       <el-card class="box-card">
         <div v-if="studyHistory.length > 0">
-          <el-table :data="studyHistory" style="width: 100%">
-            <el-table-column prop="date" label="日期" width="180"></el-table-column>
-            <el-table-column prop="sortMethod" label="排序方法" width="180"></el-table-column>
-            <el-table-column prop="problemId" label="题目编号" width="180"></el-table-column>
-            <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus"></el-table-column>
-            <el-table-column prop="lastStep" label="最后一步" width="180"></el-table-column>
+          <el-table :data="studyHistory" border style="width: 100%">
+            <el-table-column prop="currTime" label="日期" minWidth="90">
+              <template #default="scope">
+                {{ formatTime(scope.row.currTime) }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="sortMethod" label="排序方法">
+              <template #default="scope">
+                {{ formatSortMethod(scope.row.sortMethod) }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="problemId" label="题目编号"></el-table-column>
+            <el-table-column prop="status" label="状态" :formatter="formatStatus"></el-table-column>
+            <el-table-column prop="lastStep" label="最后一步" ></el-table-column>
           </el-table>
         </div>
         <div v-else>
@@ -28,7 +36,24 @@
   const formatStatus = (row, column, value) => {
     return value === 1 ? '已完成' : '进行中';
   };
+
+  const formatTime = (time) => {
+    const date = new Date(time);
+    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  }
   
+  const formatSortMethod = (value) => {
+    switch (value) {
+      case 0:
+        return '冒泡排序';
+      case 1:
+        return '插入排序';
+      case 2:
+        return '选择排序';
+      default:
+        return '未知排序方法';
+    }
+  };
   // 在组件挂载时从 sessionStorage 获取用户ID，并请求学习历史
   onMounted(() => {
     const storedUser = sessionStorage.getItem('user');
@@ -47,12 +72,13 @@
         const token = 'mock';
     //   const token = sessionStorage.getItem('token'); // 从 sessionStorage 获取 token
     //   console.log(token);
-      const response = await axios.post('http://localhost:8888/study-history/history', null, {
+      const response = await axios.post('/api/study-history/history', null, {
         headers: { token },
         params: { userId }
       });
       if (response.data.code === 1) {
         studyHistory.value = response.data.data;
+        console.log(studyHistory)
       } else {
         ElMessage.error(response.data.msg);
       }
