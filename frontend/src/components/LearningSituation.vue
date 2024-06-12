@@ -29,7 +29,7 @@
                 activeNames: ['1','2'],
                 studyData:[],//学习数据
                 totalStudyData:0,
-                mockStudyData: [100000, 200000, 30000, 40000, 50000, 60000, 7000],
+                mockStudyData: [10000,9000 , 8000, 7000, 6000, 5000, 4000],
                 chapterProgress: [], // 每一章的学习进度，百分比
                 chapterNames: ['冒泡排序', '插入排序', '选择排序'] // 章节名称
             };
@@ -82,6 +82,8 @@
                 axios.post('api/study-history/studytime',null, config).then(res => {
                     console.log(res);
                     this.studyData = res.data.data.slice(-7);
+                    this.studyData.reverse();
+                    console.log("study:",this.studyData);
                     this.totalStudyData = res.data.data.slice(-1);
                     this.barChart();
                 })
