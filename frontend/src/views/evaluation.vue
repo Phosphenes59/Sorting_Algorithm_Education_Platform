@@ -219,7 +219,7 @@
 <script>
 import { ElMessageBox } from 'element-plus';
 import { getUSER } from "@/utils/loginInfo";
-import { listAllSorts, listMySorts, AddMySort, DelMySort, ExitMySort } from "@/api/index";
+import { listAllSorts, listMySorts, AddMySort, DelMySort, ExitMySort,maxSortNumber } from "@/api/index";
 import {ElMessage} from "element-plus";
 export default {
     name: "evaluationPage",
@@ -255,6 +255,10 @@ export default {
             listMySorts({ userId: userId }).then(response => {
                 // console.log("我的题目", response.data);
                 this.mySortList = response.data;
+            })
+            
+            maxSortNumber().then(response => {
+                this.maxSortNum = response.data;
             })
         },
         handleSelect(key, keyPath) {
@@ -321,8 +325,10 @@ export default {
         confirm(){
             if(this.state==='0'){
                 let sortList=this.input;
+                console.log(111)
+                console.log(sortList);
                 let userId = getUSER();
-                let practiceId = this.allSortList.length+1;
+                let practiceId = this.maxSortNum+1;
                 AddMySort({ userId: userId, practiceId: practiceId,sortList:sortList }).then(response => {
                         if (response.code === 1) {
                             // console.log('Response:', response);

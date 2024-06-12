@@ -19,6 +19,12 @@ export function listMySorts(data) {
     })
   }
 
+export function  maxSortNumber() {
+  return requests({
+    url: '/sort/maxSortNum',
+    method: 'post'
+  })
+}
 
   //新建题目
   export function AddMySort(data) {
