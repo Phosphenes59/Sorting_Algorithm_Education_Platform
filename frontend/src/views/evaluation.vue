@@ -175,13 +175,13 @@
                         <el-table-column label="题目序列" width="220">
                             <template #default="scope">[{{ " " + scope.row.currList + " " }}]</template>
                         </el-table-column>
-                        <el-table-column label="创建时间" width="200">
+                        <!-- <el-table-column label="创建时间" width="200">
                             <template >{{ date }}</template>
-                        </el-table-column>
+                        </el-table-column> -->
                         <el-table-column align="right">
-                            <template #header>
+                            <!-- <template #header>
                                 <el-input v-model="search" size="medium" placeholder="Type to search" />
-                            </template>
+                            </template> -->
                             <template #default="scope">
                                 <el-button type="success" @click="handleEdit(scope.row)">
                                     编辑

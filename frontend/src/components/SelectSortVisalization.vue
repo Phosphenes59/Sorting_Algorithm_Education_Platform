@@ -15,8 +15,8 @@
       <Button label="Pause" severity="warning" rounded style="margin-left:10px; margin-right: 10px;" @click="pause" />
       <Button label="Reset" severity="Info" rounded style="margin-left:10px; margin-right: 10px;" @click="reset" />
       <Button label="step forward" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="stepForward" />
-      <Button label="addsort" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="addSort" />
-      <Button label="receive list" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="receiveList" />
+      <!-- <Button label="addsort" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="addSort" /> -->
+      <!-- <Button label="receive list" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="receiveList" /> -->
     </div>
   </div>
 </template>
@@ -100,33 +100,33 @@ mounted() {
       console.error("获取选择数据时出错:", error);
     });
   },
-    addSort() {
-      getSelectCurList({ userId: 1, practiceId: this.practiceId }).then(response => {
-                    // console.log("当前序列0:", response.data);
-                    this.sortList = response.data;
-                    console.log(this.sortList)
-                    console.log(111)
-      })
-      const config = {
-        headers: {
-          'token': this.token,
-        },
-        params: {
-          sortList: this.sortList,
-          practiceId: this.$route.query.practiceId,
-          userId: 1,
-        }
-      };
-      axios.post('/api/sort/add', null, config)
-        .then(response => {
-          console.log(response.data)
-          // todo ...
-         this.solution = response.data
-        })
-        .catch(error => {
-          console.error("There was an error!", error)
-        })
-    },
+    // addSort() {
+    //   getSelectCurList({ userId: 1, practiceId: this.practiceId }).then(response => {
+    //                 // console.log("当前序列0:", response.data);
+    //                 this.sortList = response.data;
+    //                 console.log(this.sortList)
+    //                 console.log(111)
+    //   })
+    //   const config = {
+    //     headers: {
+    //       'token': this.token,
+    //     },
+    //     params: {
+    //       sortList: this.sortList,
+    //       practiceId: this.$route.query.practiceId,
+    //       userId: 1,
+    //     }
+    //   };
+    //   axios.post('/api/sort/add', null, config)
+    //     .then(response => {
+    //       console.log(response.data)
+    //       // todo ...
+    //      this.solution = response.data
+    //     })
+    //     .catch(error => {
+    //       console.error("There was an error!", error)
+    //     })
+    // },
     drawChart() {
       const container = this.$refs.sort_container;
       const svg = d3.select("#sort_chart");
