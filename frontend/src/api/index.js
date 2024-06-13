@@ -104,3 +104,21 @@ export function  maxSortNumber() {
       params:data
     })
   }
+
+  //进入退出时保存记录
+  export function enter(query){
+    return requests({
+      url: '/study-history/enter',
+      method: 'get',
+      params: query
+    })
+  }
+
+
+  export function exit(query){
+    return requests({
+      url: '/study-history/exit',
+      method: 'get',
+      params: query
+    })
+  }

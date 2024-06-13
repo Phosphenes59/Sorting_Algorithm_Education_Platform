@@ -54,7 +54,8 @@ import BubbleSortVisalization from "@/components/BubbleSortVisalization.vue";
 import InsertSortVisalization from "@/components/InsertSortVisalization.vue";
 import SelectSortVisalization from "@/components/SelectSortVisalization.vue";
 import { ElNotification } from 'element-plus';
-import { getBubbleCurList, getInsertCurList, getSelectCurList } from "@/api/index";
+import { getBubbleCurList, getInsertCurList, getSelectCurList, enter, exit } from "@/api/index";
+import { getBubbleSolution,getInsertSolution,getSelectSolution } from "@/api/index";
 import { getUSER } from "@/utils/loginInfo";
 
 export default {
@@ -62,16 +63,45 @@ export default {
     components: {
         BubbleSortVisalization, InsertSortVisalization, SelectSortVisalization
     },
+    beforeRouteEnter(to, from, next) {
+        // 获取路由参数
+        let id = to.query.id;
+        let practiceId = to.query.practiceId;
+        let userId = getUSER();
+
+        // 发送请求
+        enter({ currTime: new Date(new Date().getTime() + (8 * 60 * 60 * 1000)), userId: userId, sortMethod: id, problemId: practiceId }).then(() => {
+            next();
+        });
+
+    },
+    beforeRouteLeave(to, from, next) {
+        console.log("执行离开操作")
+
+        // 获取路由参数
+        let id = from.query.id;
+        let practiceId = from.query.practiceId;
+        let userId = getUSER();
+
+        next();
+
+        // 离开页面时执行的逻辑
+        exit({ currTime: new Date(new Date().getTime() + (8 * 60 * 60 * 1000)), userId: userId, sortMethod: id, problemId: practiceId, lastStep: this.steps-1 }).then(() => {
+            next();
+        });
+    },
     data() {
         return {
             //id  为0时是冒泡   为 1时是插入   为2是选择
             id: '0',
-            //题目序号
+            //题目序号practiceId = this.$route.query.practiceId;
             practiceId: '',
             //题目序列
             rawList: '',
             //帮助信息
             message: 'help',
+            //获取当前的总步骤长度
+            steps:0
         }
     },
     mounted() {
@@ -87,8 +117,8 @@ export default {
                 getBubbleCurList({ userId: userId, practiceId: this.practiceId }).then(response => {
                     console.log("当前序列0", response.data);
                     this.rawList = response.data;
-                    this.message = 
-                    `
+                    this.message =
+                        `
                     <div>
                        <div><strong>冒泡排序:</strong></div>
                      <ul>
@@ -99,12 +129,19 @@ export default {
                     </div>
                      `
                 })
+                //获取总步骤长度
+                getBubbleSolution({
+                    practiceId: this.practiceId
+                }).then((res) => {
+                    this.steps = res.data.length;
+                    console.log("长度",this.steps)
+                })
             }
             if (this.id === '1') {
                 getInsertCurList({ userId: userId, practiceId: this.practiceId }).then(response => {
                     // console.log("当前序列1", response.data);
                     this.rawList = response.data;
-                    this.message =  `
+                    this.message = `
                     <div>
                        <div><strong>插入排序:</strong></div>
                      <ul>
@@ -114,15 +151,22 @@ export default {
                      <div><strong>时间复杂度:O(n^2)</strong></div>
                     </div>
                      `
-                       
-                   
+
+
+                })
+                 //获取总步骤长度
+                 getInsertSolution({
+                    practiceId: this.practiceId
+                }).then((res) => {
+                    this.steps = res.data.length;
+                    console.log("长度",this.steps)
                 })
             }
             if (this.id === '2') {
                 getSelectCurList({ userId: userId, practiceId: this.practiceId }).then(response => {
                     // console.log("当前序列2", response.data);
                     this.rawList = response.data;
-                    this.message =  `
+                    this.message = `
                     <div>
                        <div><strong>选择排序:</strong></div>
                      <ul>
@@ -133,6 +177,13 @@ export default {
                      <div><strong>时间复杂度:O(n^2)</strong></div>
                     </div>
                      `
+                })
+                 //获取总步骤长度
+                 getSelectSolution({
+                    practiceId: this.practiceId
+                }).then((res) => {
+                    this.steps = res.data.length;
+                    console.log("长度",this.steps)
                 })
             }
         },

@@ -87,7 +87,7 @@ receiveList() {
     };
 
     // 直接返回Promise
-    return getSelectSolution({
+    return getInsertSolution({
       // userId: getUSER(),
       practiceId: this.$route.query.practiceId
     }).then((res) => {

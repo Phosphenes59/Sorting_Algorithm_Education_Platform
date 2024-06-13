@@ -8,13 +8,15 @@
     <div class="sort-container" ref="sort_container">
       <svg id="sort_chart">
       </svg>
-    <!-- </div>
+      <!-- </div>
     <div class="btn-container"> -->
-      <Button label="step back" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="stepBack" />
-      <Button label="Play" severity="success" rounded style="margin-left:10px; margin-right: 10px;" @click="play"  />
+      <Button label="step back" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;"
+        @click="stepBack" />
+      <Button label="Play" severity="success" rounded style="margin-left:10px; margin-right: 10px;" @click="play" />
       <Button label="Pause" severity="warning" rounded style="margin-left:10px; margin-right: 10px;" @click="pause" />
       <Button label="Reset" severity="Info" rounded style="margin-left:10px; margin-right: 10px;" @click="reset" />
-      <Button label="step forward" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="stepForward" />
+      <Button label="step forward" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;"
+        @click="stepForward" />
       <!-- <Button label="addsort" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="addSort" /> -->
       <!-- <Button label="receive list" severity="secondary" rounded style="margin-left:10px; margin-right: 10px;" @click="receiveList" /> -->
     </div>
@@ -26,12 +28,13 @@ import axios from 'axios';
 import Button from 'primevue/button';
 import * as d3 from 'd3';
 import { getUSER } from "@/utils/loginInfo";
-import { getBubbleCurList, getInsertCurList, getSelectCurList, getBubbleSolution} from "@/api/index";
+import { getBubbleSolution } from "@/api/index";
+import { exit } from "@/api/index";
 
 export default {
   name: 'SortVisualization',
   props: {
-    
+
   },
   components: {
     Button,
@@ -40,7 +43,7 @@ export default {
     return {
       token: "user1",
       bubbleId: 2,
-      currList: [5,8,10,23,44,19,0,2,55,29,33,50,1],
+      currList: [5, 8, 10, 23, 44, 19, 0, 2, 55, 29, 33, 50, 1],
       xScale: null,
       yScale: null,
       colorScale: null,
@@ -55,51 +58,51 @@ export default {
       solution: []
     }
   },
-mounted() {
-  this.receiveList().then(() => {
-     this.observeContainer();  // 确保在数据加载完后调用
-  }).catch(error => {
-    console.error("初始化过程中出错:", error);
-  });
-},
+  mounted() {
+    this.receiveList().then(() => {
+      this.observeContainer();  // 确保在数据加载完后调用
+    }).catch(error => {
+      console.error("初始化过程中出错:", error);
+    });
+  },
   methods: {
     observeContainer() {
-    const container = this.$refs.sort_container;
-    if (!container) return;
+      const container = this.$refs.sort_container;
+      if (!container) return;
 
-    const observer = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        const { width, height } = entry.contentRect;
-        if (width > 0 && height > 0) {
-          this.drawChart();
-          observer.disconnect(); // 停止观察
+      const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          const { width, height } = entry.contentRect;
+          if (width > 0 && height > 0) {
+            this.drawChart();
+            observer.disconnect(); // 停止观察
+          }
         }
-      }
-    });
+      });
 
-    observer.observe(container);
-  },
+      observer.observe(container);
+    },
     receiveList() {
-    const config = {
-      headers: {
-        'token': this.token,
-      }
-    };
+      const config = {
+        headers: {
+          'token': this.token,
+        }
+      };
 
-    // 直接返回Promise
-    return getBubbleSolution({
-      // userId: getUSER(),
-      practiceId: this.$route.query.practiceId
-    }).then((res) => {
-      this.solution = res.data;
-      this.solution_bubble = res.data; // 假设这是你需要的额外操作
-      this.currList = res.data[0].currList.split(',').map(Number);
-      console.log("当前列表:", this.currList);
-      console.log("解决方案数据:", res.data);
-    }).catch(error => {
-      console.error("获取冒泡排序数据时出错:", error);
-    });
-  },
+      // 直接返回Promise
+      return getBubbleSolution({
+        // userId: getUSER(),
+        practiceId: this.$route.query.practiceId
+      }).then((res) => {
+        this.solution = res.data;
+        this.solution_bubble = res.data; // 假设这是你需要的额外操作
+        this.currList = res.data[0].currList.split(',').map(Number);
+        console.log("当前列表:", this.currList);
+        console.log("解决方案数据:", res.data);
+      }).catch(error => {
+        console.error("获取冒泡排序数据时出错:", error);
+      });
+    },
     // addSort() {
     //   getBubbleCurList({ userId: 1, practiceId: this.practiceId }).then(response => {
     //                 // console.log("当前序列0:", response.data);
@@ -158,207 +161,208 @@ mounted() {
 
       const bars = svg.selectAll(".bar")
         .data(currList, (d, i) => i);
-        
-        bars.enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", (d, i) => this.xScale(i))
-          .attr("y", d => this.yScale(d))
-          .attr("width", this.xScale.bandwidth())
-          .attr("height", d => this.chart_height - this.yScale(d) || 1)
-          .attr("transform","translate(0,-20)")
-          .attr("fill", d => this.colorScale(d));
 
-        bars.exit().remove();
+      bars.enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", (d, i) => this.xScale(i))
+        .attr("y", d => this.yScale(d))
+        .attr("width", this.xScale.bandwidth())
+        .attr("height", d => this.chart_height - this.yScale(d) || 1)
+        .attr("transform", "translate(0,-20)")
+        .attr("fill", d => this.colorScale(d));
 
-        const labels = svg.selectAll(".label")
-          .data(currList, (d, i) => i);
-        
-        labels.enter().append("text")
-          .attr("class", "label")
-          .attr("x", (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
-          .attr("y", d => this.yScale(d) - 5)
-          .attr("text-anchor", "middle")
-          .attr("transform","translate(0,-20)")
-          .text(d => d);
+      bars.exit().remove();
+
+      const labels = svg.selectAll(".label")
+        .data(currList, (d, i) => i);
+
+      labels.enter().append("text")
+        .attr("class", "label")
+        .attr("x", (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
+        .attr("y", d => this.yScale(d) - 5)
+        .attr("text-anchor", "middle")
+        .attr("transform", "translate(0,-20)")
+        .text(d => d);
 
 
-        labels.exit().remove();
+      labels.exit().remove();
 
-        const turn = Math.max(dataItem.turn, 1);
-        let processNum = Math.max(dataItem.processNum, 1);
-        if(this.selectedButton == 'bubble') {
-          processNum = Math.max(dataItem.processNum, 1);
-        } else if(this.selectedButton == 'insert') {
-          processNum = Math.max(dataItem.processStep,1);
-        }else if(this.selectedButton == 'select') {
-          processNum = Math.max(dataItem.processStep,1);
-        }
+      const turn = Math.max(dataItem.turn, 1);
+      let processNum = Math.max(dataItem.processNum, 1);
+      if (this.selectedButton == 'bubble') {
+        processNum = Math.max(dataItem.processNum, 1);
+      } else if (this.selectedButton == 'insert') {
+        processNum = Math.max(dataItem.processStep, 1);
+      } else if (this.selectedButton == 'select') {
+        processNum = Math.max(dataItem.processStep, 1);
+      }
+      svg.append("circle")
+        .attr("class", "turn-circle")
+        .attr("cx", this.xScale(t_this.calculateTurnX(0, turn, cur_length)) + this.xScale.bandwidth() / 2)
+        .attr("cy", this.chart_height - 10)
+        .attr("r", 5)
+        .attr("fill", "red");
+
+      // Draw process circle
+      svg.append("circle")
+        .attr("class", "process-circle")
+        .attr("cx", this.xScale(t_this.calculateProcessX(0, processNum, cur_length)) + this.xScale.bandwidth() / 4)
+        .attr("cy", this.chart_height - 10)
+        .attr("r", 5)
+        .attr("fill", "green");
+
+      // Add legend
+      const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(20, 20)`);
+
+      const legendData = [
+        { color: "red", text: "轮数" },
+        { color: "green", text: "步数" }
+      ];
+
+      if (this.selectedButton == 'select') {
+        const minPos = dataItem.minPos;
         svg.append("circle")
-          .attr("class", "turn-circle")
-          .attr("cx", this.xScale(t_this.calculateTurnX(0,turn,cur_length)) + this.xScale.bandwidth() / 2)
+          .attr("class", "minpos-circle")
+          .attr("cx", this.xScale(minPos) + this.xScale.bandwidth() / 4 * 3)
           .attr("cy", this.chart_height - 10)
           .attr("r", 5)
-          .attr("fill", "red");
-     
-        // Draw process circle
-        svg.append("circle")
-          .attr("class", "process-circle")
-          .attr("cx", this.xScale(t_this.calculateProcessX(0,processNum,cur_length)) + this.xScale.bandwidth() / 4)
-          .attr("cy", this.chart_height - 10)
-          .attr("r", 5)
-          .attr("fill", "green");
-        
-        // Add legend
-        const legend = svg.append("g")
-          .attr("class", "legend")
-          .attr("transform", `translate(20, 20)`);
+          .attr("fill", "pink");
 
-        const legendData = [
-          { color: "red", text: "轮数" },
-          { color: "green", text: "步数" }
-        ];
+        legendData.push({ color: "pink", text: "最小点" });
+      }
 
-  if (this.selectedButton == 'select') {
-    const minPos = dataItem.minPos;
-    svg.append("circle")
-      .attr("class", "minpos-circle")
-      .attr("cx", this.xScale(minPos) + this.xScale.bandwidth() / 4 * 3)
-      .attr("cy", this.chart_height - 10)
-      .attr("r", 5)
-      .attr("fill", "pink");
+      const legendItem = legend.selectAll(".legend-item")
+        .data(legendData)
+        .enter().append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(0, ${i * 20})`)
+        .attr("font-size", "20px");
 
-    legendData.push({ color: "pink", text: "最小点" });
-  }
+      legendItem.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", 5)
+        .attr("fill", d => d.color);
 
-  const legendItem = legend.selectAll(".legend-item")
-    .data(legendData)
-    .enter().append("g")
-    .attr("class", "legend-item")
-    .attr("transform", (d, i) => `translate(0, ${i * 20})`)
-    .attr("font-size","20px");
-
-  legendItem.append("circle")
-    .attr("cx", 0)
-    .attr("cy", 0)
-    .attr("r", 5)
-    .attr("fill", d => d.color);
-
-  legendItem.append("text")
-    .attr("x", 10)
-    .attr("y", 5)
-    .text(d => d.text)
-    .attr("fill","#475569");
+      legendItem.append("text")
+        .attr("x", 10)
+        .attr("y", 5)
+        .text(d => d.text)
+        .attr("fill", "#475569");
 
 
     },
-    updateExchange(dataIndex){
+    updateExchange(dataIndex) {
       const t_this = this;
       const svg = d3.select("#sort_chart")
-      const currList_str = this.solution[dataIndex-1].currList;
+      const currList_str = this.solution[dataIndex - 1].currList;
       const currList = currList_str.split(',').map(Number);
       const cur_length = currList.length;
       const dataItem = this.solution[dataIndex];
-        // Remove existing circles
-        svg.selectAll(".turn-circle").remove();
-        svg.selectAll(".process-circle").remove();
-        svg.selectAll(".minpos-circle").remove();
+      // Remove existing circles
+      svg.selectAll(".turn-circle").remove();
+      svg.selectAll(".process-circle").remove();
+      svg.selectAll(".minpos-circle").remove();
 
-        // Draw turn circle
-        const turn = Math.max(dataItem.turn, 1);
-        let processNum = Math.max(dataItem.processNum, 1);
-        if(this.selectedButton == 'bubble') {
-          processNum = Math.max(dataItem.processNum, 1);
-        } else if(this.selectedButton == 'insert') {
-          processNum = Math.max(dataItem.processStep,1);
-        }else if(this.selectedButton == 'select') {
-          processNum = Math.max(dataItem.processStep,1);
-        }
+      // Draw turn circle
+      const turn = Math.max(dataItem.turn, 1);
+      let processNum = Math.max(dataItem.processNum, 1);
+      if (this.selectedButton == 'bubble') {
+        processNum = Math.max(dataItem.processNum, 1);
+      } else if (this.selectedButton == 'insert') {
+        processNum = Math.max(dataItem.processStep, 1);
+      } else if (this.selectedButton == 'select') {
+        processNum = Math.max(dataItem.processStep, 1);
+      }
+      svg.append("circle")
+        .attr("class", "turn-circle")
+        .attr("cx", this.xScale(t_this.calculateTurnX(dataIndex, turn, cur_length)) + this.xScale.bandwidth() / 2)
+        .attr("cy", this.chart_height - 10)
+        .attr("r", 5)
+        .attr("fill", "red");
+
+      // Draw process circle
+      svg.append("circle")
+        .attr("class", "process-circle")
+        .attr("cx", this.xScale(t_this.calculateProcessX(dataIndex, processNum, cur_length)) + this.xScale.bandwidth() / 4)
+        .attr("cy", this.chart_height - 10)
+        .attr("r", 5)
+        .attr("fill", "green");
+      if (this.selectedButton == 'select') {
+        const minPos = dataItem.minPos
         svg.append("circle")
-          .attr("class", "turn-circle")
-          .attr("cx", this.xScale(t_this.calculateTurnX(dataIndex,turn,cur_length)) + this.xScale.bandwidth() / 2)
+          .attr("class", "minpos-circle")
+          .attr("cx", this.xScale(minPos) + this.xScale.bandwidth() / 4 * 3)
           .attr("cy", this.chart_height - 10)
           .attr("r", 5)
-          .attr("fill", "red");
-     
-        // Draw process circle
-        svg.append("circle")
-          .attr("class", "process-circle")
-          .attr("cx", this.xScale(t_this.calculateProcessX(dataIndex,processNum,cur_length)) + this.xScale.bandwidth() / 4)
-          .attr("cy", this.chart_height - 10)
-          .attr("r", 5)
-          .attr("fill", "green");
-        if(this.selectedButton == 'select') {
-          const minPos = dataItem.minPos
-          svg.append("circle")
-            .attr("class", "minpos-circle")
-            .attr("cx", this.xScale(minPos) + this.xScale.bandwidth() / 4 * 3)
-            .attr("cy", this.chart_height - 10)
-            .attr("r", 5)
-            .attr("fill", "pink");
-        }
-        console.log(currList)
-        // Handle exchange animation
-        if (this.isExchange(dataItem)) {
-          const prePos = this.getPrePos(dataItem);
-          const postPos = this.getPostPos(dataItem);
+          .attr("fill", "pink");
+      }
+      console.log(currList)
+      // Handle exchange animation
+      if (this.isExchange(dataItem)) {
+        const prePos = this.getPrePos(dataItem);
+        const postPos = this.getPostPos(dataItem);
 
-          console.log("要交换啦",currList[prePos],currList[postPos],[prePos,postPos]);
+        console.log("要交换啦", currList[prePos], currList[postPos], [prePos, postPos]);
 
-          const preBar = svg.selectAll(".bar").filter(function(d, i) {
-            if (i === prePos) {
-              console.log(i, d)
-            }
-          return i === prePos});
-          const postBar = svg.selectAll(".bar").filter((d, i) => i === postPos);
-          console.log(preBar,postBar)
-          const preLabel = svg.selectAll(".label").filter((d, i) => i === prePos);
-          const postLabel = svg.selectAll(".label").filter((d, i) => i === postPos);
+        const preBar = svg.selectAll(".bar").filter(function (d, i) {
+          if (i === prePos) {
+            console.log(i, d)
+          }
+          return i === prePos
+        });
+        const postBar = svg.selectAll(".bar").filter((d, i) => i === postPos);
+        console.log(preBar, postBar)
+        const preLabel = svg.selectAll(".label").filter((d, i) => i === prePos);
+        const postLabel = svg.selectAll(".label").filter((d, i) => i === postPos);
 
 
-          preBar.transition().duration(300)
-            .attr("x", this.xScale(postPos));
-          
-          preLabel.transition().duration(300)
-            .attr("x",this.xScale(postPos) + this.xScale.bandwidth() / 2)
+        preBar.transition().duration(300)
+          .attr("x", this.xScale(postPos));
 
-          postBar.transition().duration(300)
-            .attr("x", this.xScale(prePos));
-          postLabel.transition().duration(300)
-            .attr("x",this.xScale(prePos) + this.xScale.bandwidth() / 2)
+        preLabel.transition().duration(300)
+          .attr("x", this.xScale(postPos) + this.xScale.bandwidth() / 2)
 
-          // Update data binding
-          const new_list = this.solution[dataIndex].currList.split(',').map(Number);
-          console.log(new_list);
-          svg.selectAll(".bar").remove();
-          svg.selectAll(".label").remove();
-          const bars = svg.selectAll(".bar")
-        .data(new_list, (d, i) => i);
-        
+        postBar.transition().duration(300)
+          .attr("x", this.xScale(prePos));
+        postLabel.transition().duration(300)
+          .attr("x", this.xScale(prePos) + this.xScale.bandwidth() / 2)
+
+        // Update data binding
+        const new_list = this.solution[dataIndex].currList.split(',').map(Number);
+        console.log(new_list);
+        svg.selectAll(".bar").remove();
+        svg.selectAll(".label").remove();
+        const bars = svg.selectAll(".bar")
+          .data(new_list, (d, i) => i);
+
         bars.enter().append("rect")
           .attr("class", "bar")
           .attr("x", (d, i) => this.xScale(i))
           .attr("y", d => this.yScale(d))
           .attr("width", this.xScale.bandwidth())
           .attr("height", d => this.chart_height - this.yScale(d) || 1)
-          .attr("transform","translate(0,-20)")
+          .attr("transform", "translate(0,-20)")
           .attr("fill", d => this.colorScale(d));
 
         bars.exit().remove();
 
         const labels = svg.selectAll(".label")
           .data(new_list, (d, i) => i);
-        
+
         labels.enter().append("text")
           .attr("class", "label")
           .attr("x", (d, i) => this.xScale(i) + this.xScale.bandwidth() / 2)
           .attr("y", d => this.yScale(d) - 5)
           .attr("text-anchor", "middle")
-          .attr("transform","translate(0,-20)")
+          .attr("transform", "translate(0,-20)")
           .text(d => d);
-          console.log(svg.selectAll(".bar"))
-        }
+        console.log(svg.selectAll(".bar"))
+      }
     },
-    startAnimation(){
+    startAnimation() {
       this.interval = setInterval(() => {
         // console.log(this.index)
         // console.log(this.solution)
@@ -390,7 +394,7 @@ mounted() {
     },
     stepBack() {
       this.pause();
-      if(this.index >= 2) {
+      if (this.index >= 2) {
         this.index--;
         const svg = d3.select("#sort_chart");
         svg.selectAll(".bar").remove();
@@ -404,8 +408,8 @@ mounted() {
     },
     stepForward() {
       this.pause();
-      console.log(this.index,this.solution.length);
-      if(this.index < this.solution.length) {
+      console.log(this.index, this.solution.length);
+      if (this.index < this.solution.length) {
         this.index++;
         const svg = d3.select("#sort_chart");
         svg.selectAll(".bar").remove();
@@ -414,7 +418,7 @@ mounted() {
         svg.selectAll(".process-circle").remove();
         this.drawChart();
         this.updateExchange(this.index);
-      } else{
+      } else {
         this.index = 1;
         const svg = d3.select("#sort_chart");
         svg.selectAll(".bar").remove();
@@ -453,70 +457,70 @@ mounted() {
       this.solution = this.solution_select;
       this.drawChart();
     },
-    calculateTurnX(index,turn, cur_length) {
-      console.log("turn",turn)
-      if(this.selectedButton == 'bubble') {
+    calculateTurnX(index, turn, cur_length) {
+      console.log("turn", turn)
+      if (this.selectedButton == 'bubble') {
         return cur_length - turn;
-      } else if(this.selectedButton == 'insert') {
+      } else if (this.selectedButton == 'insert') {
         return turn - 1;
-      } else if(this.selectedButton == 'select') {
-        return turn -1;
+      } else if (this.selectedButton == 'select') {
+        return turn - 1;
       } else {
-        return turn -1;
+        return turn - 1;
       }
     },
-    calculateProcessX(index,processNum, cur_length) {
-      processNum = processNum > cur_length? cur_length: processNum;
-      if(this.selectedButton == 'bubble') {
-        if(index == 0) {
+    calculateProcessX(index, processNum, cur_length) {
+      processNum = processNum > cur_length ? cur_length : processNum;
+      if (this.selectedButton == 'bubble') {
+        if (index == 0) {
           return processNum - 1;
-          
+
         }
         else {
           return processNum;
         }
-      } else if(this.selectedButton == 'insert') {
+      } else if (this.selectedButton == 'insert') {
         return processNum - 1;
-      } else if(this.selectedButton == 'select') {
-        if(index == 0) {
+      } else if (this.selectedButton == 'select') {
+        if (index == 0) {
           return 1;
         }
         else {
-          return processNum -1;
+          return processNum - 1;
         }
       } else {
-        return processNum -1;
+        return processNum - 1;
       }
     },
     isExchange(dataItem) {
-      if(this.selectedButton == 'bubble') {
+      if (this.selectedButton == 'bubble') {
         return dataItem.exchange == 1;
-      } else if(this.selectedButton == 'insert') {
+      } else if (this.selectedButton == 'insert') {
         return dataItem.turn != dataItem.processStep;
-      } else if(this.selectedButton == 'select') {
+      } else if (this.selectedButton == 'select') {
         return dataItem.exchange == 1;
       }
     },
     getPrePos(dataItem) {
-      if(this.selectedButton == 'bubble') {
+      if (this.selectedButton == 'bubble') {
         return dataItem.prePos;
-      } else if(this.selectedButton == 'insert') {
+      } else if (this.selectedButton == 'insert') {
         return dataItem.orderPos;
-      } else if(this.selectedButton == 'select') {
+      } else if (this.selectedButton == 'select') {
         return dataItem.turn - 1;
       }
     },
     getPostPos(dataItem) {
-      if(this.selectedButton == 'bubble') {
+      if (this.selectedButton == 'bubble') {
         return dataItem.postPos;
-      } else if(this.selectedButton == 'insert') {
+      } else if (this.selectedButton == 'insert') {
         return dataItem.processStep;
-      } else if(this.selectedButton == 'select') {
+      } else if (this.selectedButton == 'select') {
         return dataItem.minPos;
       }
     }
   }
-  
+
 }
 </script>
 
@@ -528,6 +532,7 @@ mounted() {
   align-items: center;
   margin-top: 20px;
 }
+
 .btn-container {
   bottom: 20px;
   display: flex;
@@ -539,6 +544,7 @@ mounted() {
   justify-content: center;
   align-items: center;
 }
+
 .btn-container1 {
   top: 20px;
   display: flex;
@@ -550,6 +556,7 @@ mounted() {
   justify-content: center;
   align-items: center;
 }
+
 .sort-container {
   width: 100%;
   /* padding: 20px 200px 100px 200px; */
@@ -557,11 +564,13 @@ mounted() {
   height: 500px;
   padding: 15px;
 }
-#sort_chart{ 
+
+#sort_chart {
   background-color: rgb(255, 244, 229);
 }
+
 .selected-button {
-  background-color: #c5c5c5; /* Example selected color */
+  background-color: #c5c5c5;
+  /* Example selected color */
   color: white;
-}
-</style>
+}</style>
