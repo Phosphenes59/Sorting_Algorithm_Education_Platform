@@ -29,6 +29,7 @@
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { ElMessage } from 'element-plus';
+  import { StudyHistory } from '@/api';
   
   const studyHistory = ref([]);
   
@@ -67,24 +68,24 @@
   });
   
   // 使用 Axios 发送 POST 请求获取学习历史
-  const fetchStudyHistory = async (userId) => {
-    try {
+  const fetchStudyHistory = (userId) => {
         const token = 'mock';
     //   const token = sessionStorage.getItem('token'); // 从 sessionStorage 获取 token
     //   console.log(token);
-      const response = await axios.post('/api/study-history/history', null, {
-        headers: { token },
-        params: { userId }
-      });
-      if (response.data.code === 1) {
-        studyHistory.value = response.data.data;
-        console.log(studyHistory)
-      } else {
-        ElMessage.error(response.data.msg);
-      }
-    } catch (error) {
-      ElMessage.error('获取学习记录失败: ' + error.message);
-    }
+      StudyHistory(token,userId)
+      .then(response => {
+        console.log("study history",response);
+        if (response.code === 1) {
+          studyHistory.value = response.data;
+          console.log(studyHistory)
+        } else {
+          ElMessage.error(response.msg);
+        }
+      })
+      .catch(error => {
+        ElMessage.error('获取学习记录失败: ' + error.message);
+      })
+
   };
   </script>
   

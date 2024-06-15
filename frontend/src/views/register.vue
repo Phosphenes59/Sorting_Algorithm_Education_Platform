@@ -44,6 +44,7 @@
     import router from "@/router";
     import axios from "axios";
     import {ElMessage} from "element-plus";
+    import { userRegister } from "@/api";
 
     export default {
         name: "RegisterPage",
@@ -99,14 +100,14 @@
                 params.append('password', this.register_data.password);
                 params.append('userName', this.register_data.userName);
                 params.append('phone', this.register_data.phone);
-                axios.post("/api/api/user/register",params).then(res => {
-                    if(res.data.code === 1){
-                        console.log('Response:', res.data);
-                        ElMessage.success(res.data.msg);
-                        sessionStorage.setItem("user", JSON.stringify(res.data.data));
+                userRegister(params).then(res => {
+                    console.log(' register Response:', res);
+                    if(res.code === 1) {
+                        ElMessage.success(res.msg);
+                        sessionStorage.setItem("user", JSON.stringify(res.data));
                          router.push("/login");
                     }else{
-                        ElMessage.error(res.data.msg);
+                        ElMessage.error(res.msg);
                     }
                 })
             },

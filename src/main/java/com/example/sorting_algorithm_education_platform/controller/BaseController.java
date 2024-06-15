@@ -226,7 +226,7 @@ public class BaseController {
                     bubbleSort.setPostPos(postPos);
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
-                    bubbleSort.setProcessStep(processStep + turn - 1);
+                    bubbleSort.setProcessStep(processStep);
                     System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
                 } else {
@@ -242,7 +242,7 @@ public class BaseController {
                     bubbleSort.setPostPos(postPos);
                     bubbleSort.setCurrList(currList);
                     bubbleSort.setProcessNum(processNum);
-                    bubbleSort.setProcessStep(processStep + turn - 1);
+                    bubbleSort.setProcessStep(processStep);
                     System.out.println(bubbleSort);
                     bubbleSortService.insertSort(bubbleSort);
                 }

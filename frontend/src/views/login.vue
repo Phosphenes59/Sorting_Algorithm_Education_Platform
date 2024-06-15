@@ -36,6 +36,7 @@
     import router from "@/router";
     import axios from "axios";
     import {ElMessage} from "element-plus";
+    import { userLogin } from "@/api";
 
     export default {
         name: "LoginPage",
@@ -61,16 +62,17 @@
                 const params = new URLSearchParams();
                 params.append('email', this.login_data.email);
                 params.append('password', this.login_data.password);
-                axios.post("/api/api/user/login",params).then(res => {
-                    if(res.data.code === 1){
-                        console.log('Response:', res.data);
-                        ElMessage.success(res.data.msg);
-                        sessionStorage.setItem("user", JSON.stringify(res.data.data));
+                console.log("param! login",params);
+                userLogin(params).then(res => {
+                    console.log("login success",res);
+                    if(res.code === 1){
+                        ElMessage.success(res.msg);
+                        sessionStorage.setItem("user", JSON.stringify(res.data));
                         //存一下userId
-                        storeUSER(res.data.data.id);
+                        storeUSER(res.data.id);
                         router.push("/personalCenter");
                     }else{
-                        ElMessage.error(res.data.msg);
+                        ElMessage.error(res.msg);
                     }
                 })
             },

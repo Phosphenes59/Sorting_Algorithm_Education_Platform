@@ -112,7 +112,7 @@
     params.append('password', password);
     params.append('userName', editFormData.value.name);
     params.append('phone', editFormData.value.phone);
-    axios.post('/api/api/user/modify', params).then(response => {
+    axios.post('/http://localhost:8888/api/user/modify', params).then(response => {
       if (response.data.code === 1) {
         ElMessage.success('信息修改成功');
         userInfo.value = {...editFormData.value}; // 更新本地的用户信息

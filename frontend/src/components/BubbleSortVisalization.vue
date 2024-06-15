@@ -94,6 +94,7 @@ export default {
         // userId: getUSER(),
         practiceId: this.$route.query.practiceId
       }).then((res) => {
+        console.log("get bubble solution",res);
         this.solution = res.data;
         this.solution_bubble = res.data; // 假设这是你需要的额外操作
         this.currList = res.data[0].currList.split(',').map(Number);
@@ -190,7 +191,7 @@ export default {
       const turn = Math.max(dataItem.turn, 1);
       let processNum = Math.max(dataItem.processNum, 1);
       if (this.selectedButton == 'bubble') {
-        processNum = Math.max(dataItem.processNum, 1);
+        processNum = Math.max(dataItem.processStep, 1);
       } else if (this.selectedButton == 'insert') {
         processNum = Math.max(dataItem.processStep, 1);
       } else if (this.selectedButton == 'select') {
@@ -270,7 +271,7 @@ export default {
       const turn = Math.max(dataItem.turn, 1);
       let processNum = Math.max(dataItem.processNum, 1);
       if (this.selectedButton == 'bubble') {
-        processNum = Math.max(dataItem.processNum, 1);
+        processNum = Math.max(dataItem.processStep, 1);
       } else if (this.selectedButton == 'insert') {
         processNum = Math.max(dataItem.processStep, 1);
       } else if (this.selectedButton == 'select') {

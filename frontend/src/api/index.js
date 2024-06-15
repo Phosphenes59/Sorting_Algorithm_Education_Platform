@@ -1,6 +1,32 @@
 import requests from "@/api/requests";
 
+const API_URL = 'http://localhost:8888/'
 
+export function userLogin(data) {
+  return requests({
+    url: '/api/user/login',
+    method: 'post',
+    data: data
+  })
+}
+
+export function userRegister(data) {
+  return requests({
+    url: '/api/user/register',
+    method: 'post',
+    data: data
+  })
+}
+
+// 查询历史记录
+export function StudyHistory(token, userId) {
+  return requests({
+    url: '/study-history/history',
+    method: 'post',
+    headers: { token: token },
+    params: { userId: userId }
+  })
+}
 // 查询所有题目
 export function listAllSorts(data) {
     return requests({

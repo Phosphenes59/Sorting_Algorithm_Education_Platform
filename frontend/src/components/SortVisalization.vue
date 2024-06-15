@@ -3177,7 +3177,7 @@ export default {
           practiceId: 21,
         }
       };
-      axios.post(`/api/${this.selectedButton}-sort/solution`, null, config)
+      axios.post(`/http://localhost:8888/${this.selectedButton}-sort/solution`, null, config)
         .then(response => {
           console.log(response.data)
           // todo ...
@@ -3198,7 +3198,7 @@ export default {
           userId: 3,
         }
       };
-      axios.post('/api/sort/add', null, config)
+      axios.post('/http://localhost:8888/sort/add', null, config)
         .then(response => {
           console.log(response.data)
           // todo ...
@@ -3272,7 +3272,7 @@ export default {
         const turn = Math.max(dataItem.turn, 1);
         let processNum = Math.max(dataItem.processNum, 1);
         if(this.selectedButton == 'bubble') {
-          processNum = Math.max(dataItem.processNum, 1);
+          processNum = Math.max(dataItem.processStep, 1);
         } else if(this.selectedButton == 'insert') {
           processNum = Math.max(dataItem.processStep,1);
         }else if(this.selectedButton == 'select') {
@@ -3351,12 +3351,13 @@ export default {
         const turn = Math.max(dataItem.turn, 1);
         let processNum = Math.max(dataItem.processNum, 1);
         if(this.selectedButton == 'bubble') {
-          processNum = Math.max(dataItem.processNum, 1);
+          processNum = Math.max(dataItem.processStep, 1);
         } else if(this.selectedButton == 'insert') {
           processNum = Math.max(dataItem.processStep,1);
         }else if(this.selectedButton == 'select') {
           processNum = Math.max(dataItem.processStep,1);
         }
+        console.log("!!!!!processnuum",processNum);
         svg.append("circle")
           .attr("class", "turn-circle")
           .attr("cx", this.xScale(t_this.calculateTurnX(dataIndex,turn,cur_length)) + this.xScale.bandwidth() / 2)
