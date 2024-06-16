@@ -57,11 +57,12 @@
                     }
                 };
                 StudyHistoryProgress("user1",userId).then(res=>{
-                    console.log(res);
-                    progress = res.data.data;
+                    console.log('studyHistory:',res);
+                    progress = res.data;
                     console.log('progress',progress)
                     for(let i = 0; i < progress.length; i++){
                         this.chapterProgress.push(progress[i]*10);
+
                     }
                 }).catch(err=>{
                     console.log(err);
@@ -82,10 +83,9 @@
                 };
                 StudyHistoryTime("user1",config.params).then(res => {
                     console.log(res);
-                    this.studyData = res.data.data.slice(-7);
-                    this.studyData.reverse();
+                    this.studyData = res.data.slice(-7);
                     console.log("study:",this.studyData);
-                    this.totalStudyData = res.data.data.slice(-1);
+                    this.totalStudyData = res.data.slice(-1);
                     this.barChart();
                 })
                     .catch(err => {
