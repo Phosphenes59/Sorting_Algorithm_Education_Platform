@@ -21,6 +21,7 @@
     import * as d3 from 'd3';
     import axios from 'axios';
     import dayjs from 'dayjs';
+    import { StudyHistoryProgress, StudyHistoryTime } from '@/api';
 
     export default {
         name: "LearningSituation",
@@ -55,7 +56,7 @@
                         userId: userId,
                     }
                 };
-                axios.post("api/study-history/allprogress",null,config).then(res=>{
+                StudyHistoryProgress("user1",userId).then(res=>{
                     console.log(res);
                     progress = res.data.data;
                     console.log('progress',progress)
@@ -79,7 +80,7 @@
                         currTime: dayjs().toISOString()
                     }
                 };
-                axios.post('api/study-history/studytime',null, config).then(res => {
+                StudyHistoryTime("user1",config.params).then(res => {
                     console.log(res);
                     this.studyData = res.data.data.slice(-7);
                     this.studyData.reverse();

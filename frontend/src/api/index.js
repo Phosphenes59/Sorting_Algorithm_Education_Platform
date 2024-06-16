@@ -27,6 +27,22 @@ export function StudyHistory(token, userId) {
     params: { userId: userId }
   })
 }
+export function StudyHistoryProgress(token, userId) {
+  return requests({
+    url: '/study-history/allprogress',
+    method: 'post',
+    headers: { token: token },
+    params: { userId: userId }
+  })
+}
+export function StudyHistoryTime(token, params) {
+  return requests({
+    url: '/study-history/studytime',
+    method: 'post',
+    headers: { token: token },
+    params: params
+  })
+}
 // 查询所有题目
 export function listAllSorts(data) {
     return requests({
