@@ -2,7 +2,7 @@
     <div class="info-manage">
       <el-card class="box-card">
         <div class="text item">
-          <el-avatar :src="userInfo.avatar"></el-avatar>
+          <el-avatar :style="{ backgroundColor: avatarColor }">{{ `${userInfo.name?.[0] || ''}`.toUpperCase() }}</el-avatar>
           <div v-if="!isEditing">
             <p>姓名：{{ userInfo.name }}</p>
             <p>邮箱：{{ userInfo.email }}</p>
@@ -19,18 +19,6 @@
               </el-form-item>
               <el-form-item label="电话">
                 <el-input v-model="editFormData.phone"></el-input>
-              </el-form-item>
-              <el-form-item label="头像">
-                <el-upload
-                  class="avatar-uploader"
-                  action="" 
-                  :show-file-list="false"
-                  :before-upload="beforeAvatarUpload"
-                  :on-success="handleAvatarSuccess"
-                >
-                  <img v-if="editFormData.avatar" :src="editFormData.avatar" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
               </el-form-item>
               <el-form-item>
                 <el-button @click="cancelEditing">取消</el-button>
@@ -54,6 +42,9 @@
     avatar: ''
   });
   
+  const AvatarColors = ['#67C23A', '#E6A23C', '#F56C6C', '#909399']
+  const avatarColor =  AvatarColors[Math.floor(Math.random() * AvatarColors.length)]
+
   const editFormData = ref({...userInfo.value});
   const isEditing = ref(false);
   
