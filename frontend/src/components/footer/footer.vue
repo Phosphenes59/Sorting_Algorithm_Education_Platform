@@ -6,6 +6,9 @@
     export default {
         name:"layoutFooter",
         data(){
+            return {
+                
+            }
         },
         computed: {
         },

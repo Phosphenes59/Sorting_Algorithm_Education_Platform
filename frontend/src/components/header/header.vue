@@ -1,7 +1,6 @@
 <template>
     <el-menu
             :default-active="activeIndex"
-            router
             class="el-menu-demo"
             mode="horizontal"
             :ellipsis="false"
@@ -43,9 +42,13 @@
         },
         methods:{
             handleSelect(index) {
-                this.$router.push({
-                    name: index,
-                });
+                if (index === 'postList') {
+                    this.$emit('intro')
+                } else {
+                        this.$router.push({
+                        name: index,  
+                    })
+                }
             },
             logout(){
                 sessionStorage.removeItem("user");
