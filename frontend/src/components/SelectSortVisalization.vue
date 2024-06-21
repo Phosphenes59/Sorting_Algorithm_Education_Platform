@@ -392,31 +392,27 @@ mounted() {
     },
     stepBack() {
       this.pause();
-      if(this.index >= 2) {
+      if (this.index >= 2) {
         this.index--;
+        this.updateExchange(this.index);
+      } else {
+        this.index = 1;
         const svg = d3.select("#sort_chart");
         svg.selectAll(".bar").remove();
         svg.selectAll(".label").remove();
         svg.selectAll(".turn-circle").remove();
         svg.selectAll(".process-circle").remove();
         this.drawChart();
-        this.updateExchange(this.index);
       }
       console.log(this.index);
     },
     stepForward() {
       this.pause();
-      console.log(this.index,this.solution.length);
-      if(this.index < this.solution.length) {
-        this.index++;
-        const svg = d3.select("#sort_chart");
-        svg.selectAll(".bar").remove();
-        svg.selectAll(".label").remove();
-        svg.selectAll(".turn-circle").remove();
-        svg.selectAll(".process-circle").remove();
-        this.drawChart();
+      console.log(this.index, this.solution.length);
+      if (this.index < this.solution.length) {
         this.updateExchange(this.index);
-      } else{
+        this.index++;
+      } else {
         this.index = 1;
         const svg = d3.select("#sort_chart");
         svg.selectAll(".bar").remove();
