@@ -34,7 +34,7 @@
   <script setup>
   import { ref, onMounted } from 'vue';
   import { ElMessage } from 'element-plus';
-  import axios from 'axios';
+  import { ModifyInformation  } from '@/api';
   const userInfo = ref({
     name: '',
     email: '',
@@ -103,14 +103,15 @@
     params.append('password', password);
     params.append('userName', editFormData.value.name);
     params.append('phone', editFormData.value.phone);
-    axios.post('/http://localhost:8888/api/user/modify', params).then(response => {
-      if (response.data.code === 1) {
+    ModifyInformation(params).then(response => {
+      console.log("user information modify",response);
+      if (response.code === 1) {
         ElMessage.success('信息修改成功');
         userInfo.value = {...editFormData.value}; // 更新本地的用户信息
         isEditing.value = false; // 关闭编辑模式
         sessionStorage.setItem('user', JSON.stringify(userInfo.value)); // 更新 sessionStorage
       } else {
-        ElMessage.error(response.data.msg);
+        ElMessage.error(response.msg);
       }
     }, error => {
       console.log(error)

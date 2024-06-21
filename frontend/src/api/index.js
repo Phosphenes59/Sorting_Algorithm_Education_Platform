@@ -1,6 +1,7 @@
 import requests from "@/api/requests";
 
-const API_URL = 'http://localhost:8888/'
+const API_URL = 'http://172.0.0.1:8888'
+// 'http://localhost:8888/'
 
 export function userLogin(data) {
   return requests({
@@ -13,6 +14,13 @@ export function userLogin(data) {
 export function userRegister(data) {
   return requests({
     url: '/api/user/register',
+    method: 'post',
+    data: data
+  })
+}
+export function ModifyInformation(data) {
+  return requests({
+    url: '/api/user/modify',
     method: 'post',
     data: data
   })
@@ -43,6 +51,7 @@ export function StudyHistoryTime(token, params) {
     params: params
   })
 }
+
 // 查询所有题目
 export function listAllSorts(data) {
     return requests({

@@ -6,7 +6,7 @@ import { getTOKEN } from "@/utils/loginInfo";
 //利用axios的create方法创建一个axios实例
 const requests=axios.create({
     //基础路径
-    baseURL: "http://localhost:8888", 
+    baseURL: 'http://127.0.0.1:8888', 
     //超时的设置
     timeout: 5000
 });
